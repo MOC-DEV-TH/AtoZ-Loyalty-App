@@ -6,11 +6,6 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
@@ -18,13 +13,37 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "splash": {
+        "image": "./assets/app_logo.png",
+        "resizeMode": "center",
+        "backgroundColor": "#ffffff"
+      },
+      "bundleIdentifier": "com.atoz.client",
+      "buildNumber" : "1.1.1",
+      "supportsTablet": false,
+      "googleServicesFile": "./GoogleService-Info.plist",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Allow a-to-z client app to use your location for better job assignment",
+        "NSLocationUsageDescription": "Allow a-to-z client app to use your location for better job assignment",
+        "NSLocationAlwaysUsageDescription": "Allow a-to-z client app to use your location for better job assignment",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Allow a-to-z client app to use your location for better job assignment"
+      }
     },
     "android": {
+      "splash": {
+        "image": "./assets/app_logo.png",
+        "resizeMode": "center",
+        "backgroundColor": "#ffffff"
+      },
+      "package" : "com.atoz.client",
+      "googleServicesFile": "./google-services.json",
+      "versionCode" : 1,
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
-      }
+        "foregroundImage": "./assets/favicon.png",
+        "backgroundColor": "#ffcc00"
+      },
+      "useNextNotificationsApi" : true,
+      "permissions": [ "ACCESS_FINE_LOCATION", "ACCESS_COARSE_LOCATION", "FOREGROUND_SERVICE"]
     },
     "web": {
       "favicon": "./assets/favicon.png"
