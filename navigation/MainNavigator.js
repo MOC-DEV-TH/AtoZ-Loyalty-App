@@ -142,7 +142,6 @@ const tabScreenConfig = {
       },
     },
   },
-
   Promotion: {
     screen: PromotionNavigator,
     navigationOptions: {

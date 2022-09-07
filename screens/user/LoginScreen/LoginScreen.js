@@ -19,9 +19,9 @@ export default LoginScreen = (props) => {
     if (phone == "" || password == "") {
       alert("Data must not empty!!");
     }
-    schedulePushNotification()
+    //schedulePushNotification()
     //sendPushNotification()
-    //props.navigation.navigate("Main");
+    props.navigation.navigate("Main");
   };
 
   const onRegisterPress = () => {

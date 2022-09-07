@@ -5,7 +5,16 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
     justifyContent: 'center',
   },
-});
+  placeholderStyles: {
+    color: "grey",
+  },
+  dropDownContainer : {
+    position : "absolute",
+    width:100,
+    height:30,
+    right:10,
+    top:10
+  },
+})
