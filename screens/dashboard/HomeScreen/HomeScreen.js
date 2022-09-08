@@ -1,37 +1,45 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableHighlight,
+} from "react-native";
 import React, { useState, useCallback, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import DropDownPicker from "react-native-dropdown-picker";
 import { storeData } from "../../../AsyncStorage/AsyncStorage";
 import { getStoreData } from "../../../AsyncStorage/AsyncStorage";
 import AsyncStorageKey from "../../../constants/AsyncStorageKey";
+import { ImageSlider } from "react-native-image-slider-banner";
+import i18n from "../../../I18n/i18n";
 import styles from "./styles";
 
 export default HomeScreen = (props) => {
   const { handleSubmit, control } = useForm();
-
   const [langOpen, setLanguageOpen] = useState(false);
-  const [langValue, setLanguageValue] = useState("eng");
+  const [langValue, setLanguageValue] = useState("en");
   const [language, setLanguage] = useState([
-    { label: "Eng", value: "eng" },
-    { label: "Myanmar", value: "mm" },
+    { label: "Eng", value: "en" },
+    { label: "Myanmar", value: "my" },
     { label: "Chinese", value: "chn" },
   ]);
 
   useEffect(() => {
     getStoreData().then((value) => {
       if (value == AsyncStorageKey.LANGUAGE_MM) {
-        setLanguageValue("mm");
+        setLanguageValue("my");
       } else if (value == AsyncStorageKey.LANGUAGE_ENG) {
-        setLanguageValue("eng");
+        setLanguageValue("en");
       } else {
         setLanguageValue("chn");
       }
     });
   }, []);
-
-  const onLanguageOpen = useCallback(() => {
+  const onLanguageOpen = useCallback(() => {}, []);
+  const onLanguageClose = useCallback(() => {
+    i18n.locale = langValue;
   }, []);
 
   return (
@@ -54,6 +62,7 @@ export default HomeScreen = (props) => {
               onOpen={onLanguageOpen}
               onChangeValue={(value) => {
                 storeData(value);
+                i18n.locale = value;
               }}
               zIndex={3000}
               zIndexInverse={1000}
@@ -62,7 +71,31 @@ export default HomeScreen = (props) => {
         )}
       />
       <StatusBar style="auto" />
-      <Text style={{ alignSelf: "center" }}>Home Screen</Text>
+      <View  style={{ position: "absolute", top: 70 }}>
+        <ImageSlider
+          data={[
+            {
+              img:
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5a5uCP-n4teeW2SApcIqUrcQApev8ZVCJkA&usqp=CAU",
+            },
+            {
+              img:
+                "https://thumbs.dreamstime.com/b/environment-earth-day-hands-trees-growing-seedlings-bokeh-green-background-female-hand-holding-tree-nature-field-gra-130247647.jpg",
+            },
+            {
+              img:
+                "https://cdn.pixabay.com/photo/2015/04/19/08/32/marguerite-729510__340.jpg",
+            },
+          ]}
+          caroselImageStyle={{ height: 180 }}
+          autoPlay={true}
+          onItemChanged={(item) => console.log("item", item)}
+          closeIconColor="#fff"
+        />
+      </View>
+
+      <Text style={{ alignSelf: "center" }}>{i18n.t("welcome")}</Text>
+      <Text style={{ alignSelf: "center" }}>Current locale: {i18n.locale}</Text>
     </View>
   );
 };
@@ -73,7 +106,7 @@ HomeScreen.navigationOptions = (props) => {
     headerTitleAlign: "center",
     headerStyle: {
       backgroundColor: "white",
-      height: 50,
+      height: 0,
     },
 
     headerLeft: () => (

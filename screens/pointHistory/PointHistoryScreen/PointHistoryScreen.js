@@ -1,12 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import i18n from '../../../I18n/i18n';
 import styles from './styles';
 
 
 export default function PointHistoryScreen() {
   return (
     <View style={styles.container}>
-      <Text>PointHistoryScreen</Text>
+      <Text>{i18n.t('welcome')}</Text>
       <StatusBar style="auto" />
     </View>
   );

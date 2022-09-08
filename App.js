@@ -15,6 +15,12 @@ import NavigationContainer from "./navigation/NavigationContainer";
 import * as SplashScreen from "expo-splash-screen";
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
+import { getStoreData } from "./AsyncStorage/AsyncStorage";
+import AsyncStorageKey from "./constants/AsyncStorageKey";
+
+import i18n from "./I18n/i18n";
+
+import * as Localization from 'expo-localization';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -30,6 +36,11 @@ export default function App() {
   const [notification, setNotification] = useState(false);
   const notificationListener = useRef();
   const responseListener = useRef();
+
+  //Set the locale once at the beginning of your app.
+  useEffect(()=>{
+    i18n.local = Localization.locale;
+  })
 
   //request permission
   useEffect(() => {
@@ -83,6 +94,18 @@ export default function App() {
     };
   }, []);
 
+  //check language
+  useEffect(()=>{
+    getStoreData().then((value) => {
+      if (value == AsyncStorageKey.LANGUAGE_MM) {
+        i18n.locale="my"
+      } else if (value == AsyncStorageKey.LANGUAGE_ENG) {
+        i18n.locale="en"
+      } else {
+        i18n.locale="chn"
+      }
+    });
+  },[]);
 
 
   if (isChecking) {
