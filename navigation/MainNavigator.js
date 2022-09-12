@@ -7,6 +7,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { Platform, Text, } from "react-native";
 import Colors from "../constants/Colors";
 
+import GetStartScreen from "../screens/user/GetStartScreen/GetStartScreen";
 import LoginScreen from "../screens/user/LoginScreen/LoginScreen";
 import SignUpScreen from "../screens/user/SignUpScreen/SignUpScreen";
 import ForgotPasswordScreen from "../screens/user/ForgotPasswordScreen/ForgotPasswordScreen";
@@ -78,6 +79,7 @@ const PromotionNavigator = createStackNavigator(
 
 const AuthNavigator = createStackNavigator(
   {
+    GetStart: GetStartScreen,
     SignIn: LoginScreen,
     SignUp: SignUpScreen,
     ForgotPassword: ForgotPasswordScreen,

@@ -3,7 +3,7 @@ export default {
     black: 'black',
     green: '#006700',
     theme: '#f1c232',
-    primary: '#e8c919',
+    primary: '#034ea1',
     dimGray: '#696969',
     lightGray: '#9b9b9b',
     dryBlack: '#464646',

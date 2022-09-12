@@ -9,18 +9,33 @@ import {
 } from "react-native";
 import "react-native-gesture-handler";
 import AppLoading from "expo-app-loading";
-import React, { useState, useEffect,useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { registerRootComponent } from "expo";
 import NavigationContainer from "./navigation/NavigationContainer";
 import * as SplashScreen from "expo-splash-screen";
-import * as Device from 'expo-device';
-import * as Notifications from 'expo-notifications';
+import * as Device from "expo-device";
+import * as Notifications from "expo-notifications";
 import { getStoreData } from "./AsyncStorage/AsyncStorage";
 import AsyncStorageKey from "./constants/AsyncStorageKey";
-
 import i18n from "./I18n/i18n";
+import * as Localization from "expo-localization";
+import { extendTheme, NativeBaseProvider } from "native-base";
+import Colors from "./constants/Colors";
 
-import * as Localization from 'expo-localization';
+const theme = extendTheme({
+  useSystemColorMode: true, 
+  components: {
+    Button: {
+      baseStyle: {
+        rounded: "full",
+      },
+    },
+  },
+  colors: {
+    primary: Colors.primary,
+    white: Colors.white,
+  },
+});
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -32,15 +47,15 @@ Notifications.setNotificationHandler({
 
 export default function App() {
   const [isChecking, setIsChecking] = useState(true);
-  const [expoPushToken, setExpoPushToken] = useState('');
+  const [expoPushToken, setExpoPushToken] = useState("");
   const [notification, setNotification] = useState(false);
   const notificationListener = useRef();
   const responseListener = useRef();
 
   //Set the locale once at the beginning of your app.
-  useEffect(()=>{
+  useEffect(() => {
     i18n.local = Localization.locale;
-  })
+  });
 
   //request permission
   useEffect(() => {
@@ -74,39 +89,44 @@ export default function App() {
 
   //init notification
   useEffect(() => {
-    registerForPushNotificationsAsync().then(token =>{
-      setExpoPushToken(token)
-    } );
+    registerForPushNotificationsAsync().then((token) => {
+      setExpoPushToken(token);
+    });
 
     // This listener is fired whenever a notification is received while the app is foregrounded
-    notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-      setNotification(notification);
-    });
+    notificationListener.current = Notifications.addNotificationReceivedListener(
+      (notification) => {
+        setNotification(notification);
+      }
+    );
 
     // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
-    responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-      console.log(response);
-    });
+    responseListener.current = Notifications.addNotificationResponseReceivedListener(
+      (response) => {
+        console.log(response);
+      }
+    );
 
     return () => {
-      Notifications.removeNotificationSubscription(notificationListener.current);
+      Notifications.removeNotificationSubscription(
+        notificationListener.current
+      );
       Notifications.removeNotificationSubscription(responseListener.current);
     };
   }, []);
 
   //check language
-  useEffect(()=>{
+  useEffect(() => {
     getStoreData().then((value) => {
       if (value == AsyncStorageKey.LANGUAGE_MM) {
-        i18n.locale="my"
+        i18n.locale = "my";
       } else if (value == AsyncStorageKey.LANGUAGE_ENG) {
-        i18n.locale="en"
+        i18n.locale = "en";
       } else {
-        i18n.locale="chn"
+        i18n.locale = "chn";
       }
     });
-  },[]);
-
+  }, []);
 
   if (isChecking) {
     return (
@@ -119,9 +139,11 @@ export default function App() {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <NavigationContainer />
-    </SafeAreaView>
+    <NativeBaseProvider theme={theme}>
+      <SafeAreaView style={{ flex: 1 }}>
+        <NavigationContainer />
+      </SafeAreaView>
+    </NativeBaseProvider>
   );
 }
 registerRootComponent(App);
@@ -129,18 +151,18 @@ registerRootComponent(App);
 async function sendPushNotification(expoPushToken) {
   const message = {
     to: expoPushToken,
-    sound: 'default',
-    title: 'Original Title',
-    body: 'And here is the body!',
-    data: { someData: 'goes here' },
+    sound: "default",
+    title: "Original Title",
+    body: "And here is the body!",
+    data: { someData: "goes here" },
   };
 
-  await fetch('https://exp.host/--/api/v2/push/send', {
-    method: 'POST',
+  await fetch("https://exp.host/--/api/v2/push/send", {
+    method: "POST",
     headers: {
-      Accept: 'application/json',
-      'Accept-encoding': 'gzip, deflate',
-      'Content-Type': 'application/json',
+      Accept: "application/json",
+      "Accept-encoding": "gzip, deflate",
+      "Content-Type": "application/json",
     },
     body: JSON.stringify(message),
   });
@@ -149,28 +171,30 @@ async function sendPushNotification(expoPushToken) {
 async function registerForPushNotificationsAsync() {
   let token;
   if (Device.isDevice) {
-    const { status: existingStatus } = await Notifications.getPermissionsAsync();
+    const {
+      status: existingStatus,
+    } = await Notifications.getPermissionsAsync();
     let finalStatus = existingStatus;
-    if (existingStatus !== 'granted') {
+    if (existingStatus !== "granted") {
       const { status } = await Notifications.requestPermissionsAsync();
       finalStatus = status;
     }
-    if (finalStatus !== 'granted') {
-      alert('Failed to get push token for push notification!');
+    if (finalStatus !== "granted") {
+      alert("Failed to get push token for push notification!");
       return;
     }
     token = (await Notifications.getExpoPushTokenAsync()).data;
     console.log(token);
   } else {
-    alert('Must use physical device for Push Notifications');
+    alert("Must use physical device for Push Notifications");
   }
 
-  if (Platform.OS === 'android') {
-    Notifications.setNotificationChannelAsync('default', {
-      name: 'default',
+  if (Platform.OS === "android") {
+    Notifications.setNotificationChannelAsync("default", {
+      name: "default",
       importance: Notifications.AndroidImportance.MAX,
       vibrationPattern: [0, 250, 250, 250],
-      lightColor: '#FF231F7C',
+      lightColor: "#FF231F7C",
     });
   }
 
