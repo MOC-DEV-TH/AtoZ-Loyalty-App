@@ -53,7 +53,7 @@ ForgotPasswordScreen.navigationOptions = (navData) => {
       <TouchableOpacity onPress={() => navData.navigation.goBack()}>
         <Image
           style={{ height: 15, width: 20, marginLeft: 10 }}
-          source={require("../../../../A2Z/assets/back_arrow.png")}
+          source={require("../../../assets/back_arrow.png")}
         />
       </TouchableOpacity>
     ),

@@ -16,6 +16,16 @@ export default StyleSheet.create({
     alignSelf: "center",
   },
 
+  SectionStyle: {
+    flexDirection: 'row',
+    backgroundColor: '#fff',
+    borderWidth: .5,
+    borderColor: Colors.primary,
+    height: 40,
+    borderRadius: 5 ,
+    padding:12,
+},
+
   input: {
     height: 48,
     borderRadius: 5,

@@ -8,8 +8,10 @@ import {
   SafeAreaView,
   View,
 } from "react-native";
-import * as Notifications from 'expo-notifications';
+import * as Notifications from "expo-notifications";
+import { Ionicons } from "@expo/vector-icons";
 import styles from "./styles";
+import { Center } from "native-base";
 
 export default LoginScreen = (props) => {
   const [phone, setPhone] = useState(0);
@@ -36,8 +38,8 @@ export default LoginScreen = (props) => {
     await Notifications.scheduleNotificationAsync({
       content: {
         title: "You've got mail! 📬",
-        body: 'Here is the notification body',
-        data: { data: 'goes here' },
+        body: "Here is the notification body",
+        data: { data: "goes here" },
       },
       trigger: { seconds: 2 },
     });
@@ -46,49 +48,67 @@ export default LoginScreen = (props) => {
   async function sendPushNotification() {
     const message = {
       to: "ExponentPushToken[IqB2CwC9AjsigcT_iqc78N]",
-      sound: 'default',
-      title: 'Original Title',
-      body: 'And here is the body!',
-      data: { someData: 'goes here' },
+      sound: "default",
+      title: "Original Title",
+      body: "And here is the body!",
+      data: { someData: "goes here" },
     };
-  
-    await fetch('https://exp.host/--/api/v2/push/send', {
-      method: 'POST',
+
+    await fetch("https://exp.host/--/api/v2/push/send", {
+      method: "POST",
       headers: {
-        Accept: 'application/json',
-        'Accept-encoding': 'gzip, deflate',
-        'Content-Type': 'application/json',
+        Accept: "application/json",
+        "Accept-encoding": "gzip, deflate",
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(message),
     });
   }
-  
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={{ fontWeight: "bold", fontSize: 24, alignSelf: "center" }}>
-        Welcome To A2Z
-      </Text>
-      <View style={{ margin: 30 }}>
-        <TextInput
-          style={styles.input}
-          placeholder="Phone"
-          placeholderTextColor="#aaaaaa"
-          onChangeText={(text) => setPhone(text)}
-          value={phone}
-          underlineColorAndroid="transparent"
-          autoCapitalize="none"
-        />
+      <Image resizeMode="cover" source={require("../../../assets/a_to_z.png")} style={{
+          width: '100%',
+          alignSelf:"center",
+          height: undefined,
+          aspectRatio: 512 / 212,
+          position:"absolute",
+          top:50
+        }}></Image>
 
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          placeholderTextColor="#aaaaaa"
-          onChangeText={(text) => setPassword(text)}
-          value={password}
-          underlineColorAndroid="transparent"
-          autoCapitalize="none"
-        />
+      <View style={{ margin: 30 }}>
+        <View style={styles.SectionStyle}>
+          <Ionicons name="person"></Ionicons>
+
+          <View style={{ flex: 1 }}>
+            <TextInput
+              style={{ alignSelf: "center" }}
+              placeholder="Phone"
+              placeholderTextColor="#aaaaaa"
+              onChangeText={(text) => setPhone(text)}
+              value={phone}
+              underlineColorAndroid="transparent"
+              autoCapitalize="none"
+            />
+          </View>
+        </View>
+
+        <View style={{height:20}}></View>
+
+        <View style={styles.SectionStyle}>
+          <Ionicons name="unlock"></Ionicons>
+          <View style={{ flex: 1 }}>
+            <TextInput
+              style={{ alignSelf: "center" }}
+              placeholder="Password"
+              placeholderTextColor="#aaaaaa"
+              onChangeText={(text) => setPassword(text)}
+              value={password}
+              underlineColorAndroid="transparent"
+              autoCapitalize="none"
+            />
+          </View>
+        </View>
 
         <View style={{ alignSelf: "flex-end", marginTop: 10 }}>
           <TouchableOpacity onPress={onForgotPasswordPress}>
@@ -109,7 +129,7 @@ export default LoginScreen = (props) => {
           position: "absolute",
           bottom: 0,
           alignSelf: "center",
-          marginBottom:20
+          marginBottom: 20,
         }}
       >
         <Text>You don't have account??</Text>
@@ -123,24 +143,8 @@ export default LoginScreen = (props) => {
   );
 };
 
-
 LoginScreen.navigationOptions = (props) => {
   return {
-    headerTitle: "Login",
-    headerTintColor: "black",
-    headerTitleAlign: 'center',
-    headerStyle: {
-      backgroundColor: "white",
-    },
-
-    headerLeft: () => (
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      ></View>
-    ),
+    headerShown: false,
   };
 };

@@ -16,17 +16,19 @@ import AccountScreen from "../screens/account/AccountScreen/AccountScreen";
 import NotificationScreen from "../screens/notification/NotificationScreen/NotificationScreen";
 import PromotionScreen from "../screens/promotion/PromotionScreen/PromotionScreen";
 import PointHistoryScreen from "../screens/pointHistory/PointHistoryScreen/PointHistoryScreen";
+import AccountDashboardScreen from "../screens/user/AccountDashboardScreen/AccountDashboardScreen";
 
 const defaultNavOptions = {
   headerStyle: {
     backgroundColor:
       Platform.OS === "android" ? Colors.primary : Colors.primary,
-    height: 65,
+    height: 100,
     shadowColor: "transparent", // this covers iOS
     elevation: 0,
   },
-  headerTitleStyle: {},
+  headerTitleStyle: {flex:1},
   headerBackTitleStyle: {},
+  headerTitleAlign: 'left | center',
   titleStyle: {},
   labelStyle: {},
   headerTintColor: Platform.OS === "android" ? Colors.primary : Colors.primary,
@@ -83,6 +85,7 @@ const AuthNavigator = createStackNavigator(
     SignIn: LoginScreen,
     SignUp: SignUpScreen,
     ForgotPassword: ForgotPasswordScreen,
+    AccountDashboard : AccountDashboardScreen
   },
   {
     defaultNavigationOptions: defaultNavOptions,

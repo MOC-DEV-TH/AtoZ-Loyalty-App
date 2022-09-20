@@ -9,12 +9,18 @@ import {
   SafeAreaView,
   TextInput,
 } from "react-native";
+import Colors from "../../../constants/Colors";
+import { Ionicons } from "@expo/vector-icons";
+import Checkbox from "expo-checkbox";
 import styles from "./styles";
 export default SignUpScreen = (props) => {
   const [phone, setPhone] = useState(0);
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [isSelected, setSelection] = useState(false);
+  const [isChecked, setChecked] = useState(false);
 
+ 
   const onSignUpPress = () => {
     if (phone == "" || password == "") {
       alert("Data must not empty!!");
@@ -25,69 +31,199 @@ export default SignUpScreen = (props) => {
   };
   return (
     <SafeAreaView style={styles.container}>
-    <Text style={{fontWeight:"bold",fontSize:24,alignSelf:"center"}}>Create Your Free Account</Text>
-      <View style={{ margin: 30 }}>
-      <TextInput
-          style={styles.input}
-          placeholder="Email"
-          placeholderTextColor="#aaaaaa"
-          onChangeText={(text) => setEmail(text)}
-          value={email}
-          underlineColorAndroid="transparent"
-          autoCapitalize="none"
-        />
+      <View>
+        <Image
+          resizeMode="stretch"
+          source={require("../../../assets/top_image.png")}
+          style={{
+            width: "100%",
+            alignSelf: "center",
+            height: undefined,
+            aspectRatio: 512 / 212,
+          }}
+        ></Image>
+        <View style={{ height: 20 }} />
+        <Text
+          style={{
+            fontWeight: "bold",
+            fontSize: 20,
+            alignSelf: "center",
+            color: Colors.primary,
+          }}
+        >
+          Account Registration
+        </Text>
+        <View style={{ margin: 30 }}>
+          <View style={styles.SectionStyle}>
+            <Ionicons name="person"></Ionicons>
 
-        <TextInput
-          style={styles.input}
-          placeholder="Phone"
-          placeholderTextColor="#aaaaaa"
-          onChangeText={(text) => setPhone(text)}
-          value={phone}
-          underlineColorAndroid="transparent"
-          autoCapitalize="none"
-        />
+            <View style={{ flex: 1 }}>
+              <TextInput
+                style={{ alignSelf: "center" }}
+                placeholder="Name"
+                placeholderTextColor="#aaaaaa"
+                onChangeText={(text) => setPhone(text)}
+                value={phone}
+                underlineColorAndroid="transparent"
+                autoCapitalize="none"
+              />
+            </View>
+          </View>
 
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          placeholderTextColor="#aaaaaa"
-          onChangeText={(text) => setPassword(text)}
-          value={password}
-          underlineColorAndroid="transparent"
-          autoCapitalize="none"
-        />
+          <View style={{ height: 10 }}></View>
 
-        <TouchableOpacity style={styles.button} onPress={() => onSignUpPress()}>
-          <Text style={styles.buttonTitle}>Sign Up</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={{ flexDirection: "row", position: "absolute", bottom: 0,alignSelf:"center",marginBottom:20}}>
-        <Text>I am already member</Text>
-        <TouchableOpacity onPress={onSignInPress}>
-          <Text style={{ color: "red", textDecorationLine: "underline" }}>
-            Sign in
-          </Text>
-        </TouchableOpacity>
+          <View style={styles.SectionStyle}>
+            <Ionicons name="person"></Ionicons>
+
+            <View style={{ flex: 1 }}>
+              <TextInput
+                style={{ alignSelf: "center" }}
+                placeholder="Date of Birth"
+                placeholderTextColor="#aaaaaa"
+                onChangeText={(text) => setPhone(text)}
+                value={phone}
+                underlineColorAndroid="transparent"
+                autoCapitalize="none"
+              />
+            </View>
+          </View>
+
+          <View style={{ height: 10 }}></View>
+
+          <View style={styles.SectionStyle}>
+            <Ionicons name="person"></Ionicons>
+
+            <View style={{ flex: 1 }}>
+              <TextInput
+                style={{ alignSelf: "center" }}
+                placeholder="NRC No."
+                placeholderTextColor="#aaaaaa"
+                onChangeText={(text) => setPhone(text)}
+                value={phone}
+                underlineColorAndroid="transparent"
+                autoCapitalize="none"
+              />
+            </View>
+          </View>
+
+          <View style={{ height: 10 }}></View>
+
+          <View style={styles.SectionStyle}>
+            <Ionicons name="person"></Ionicons>
+
+            <View style={{ flex: 1 }}>
+              <TextInput
+                style={{ alignSelf: "center" }}
+                placeholder="Address"
+                placeholderTextColor="#aaaaaa"
+                onChangeText={(text) => setPhone(text)}
+                value={phone}
+                underlineColorAndroid="transparent"
+                autoCapitalize="none"
+              />
+            </View>
+          </View>
+
+          <View style={{ height: 10 }}></View>
+
+          <View style={styles.SectionStyle}>
+            <Ionicons name="person"></Ionicons>
+
+            <View style={{ flex: 1 }}>
+              <TextInput
+                style={{ alignSelf: "center" }}
+                placeholder="City"
+                placeholderTextColor="#aaaaaa"
+                onChangeText={(text) => setPhone(text)}
+                value={phone}
+                underlineColorAndroid="transparent"
+                autoCapitalize="none"
+              />
+            </View>
+          </View>
+
+          <View style={{ height: 10 }}></View>
+
+          <View style={styles.SectionStyle}>
+            <Ionicons name="person"></Ionicons>
+
+            <View style={{ flex: 1 }}>
+              <TextInput
+                style={{ alignSelf: "center" }}
+                placeholder="Phone Number"
+                placeholderTextColor="#aaaaaa"
+                onChangeText={(text) => setPhone(text)}
+                value={phone}
+                underlineColorAndroid="transparent"
+                autoCapitalize="none"
+              />
+            </View>
+          </View>
+          <View style={{ height: 10 }}></View>
+
+          <View style={styles.SectionStyle}>
+            <Ionicons name="person"></Ionicons>
+
+            <View style={{ flex: 1 }}>
+              <TextInput
+                style={{ alignSelf: "center" }}
+                placeholder="Type Password"
+                placeholderTextColor="#aaaaaa"
+                onChangeText={(text) => setPhone(text)}
+                value={phone}
+                underlineColorAndroid="transparent"
+                autoCapitalize="none"
+              />
+            </View>
+          </View>
+          <View style={{ height: 10 }}></View>
+
+          <View style={styles.SectionStyle}>
+            <Ionicons name="person"></Ionicons>
+
+            <View style={{ flex: 1 }}>
+              <TextInput
+                style={{ alignSelf: "center" }}
+                placeholder="Confirm Password"
+                placeholderTextColor="#aaaaaa"
+                onChangeText={(text) => setPhone(text)}
+                value={phone}
+                underlineColorAndroid="transparent"
+                autoCapitalize="none"
+              />
+            </View>
+          </View>
+
+          <View
+            style={{ flexDirection: "row", alignSelf: "center", marginTop: 20 }}
+          >
+            <Checkbox
+              style={styles.checkbox}
+              value={isChecked}
+              onValueChange={setChecked}
+            />
+            <Text style={{marginLeft:10}}>I've read and agree on</Text>
+            <TouchableOpacity onPress={onSignInPress}>
+              <Text style={{ color: "red", textDecorationLine: "underline" }}>
+                Terms & Conditions
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => onSignUpPress()}
+          >
+            <Text style={styles.buttonTitle}>Register</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </SafeAreaView>
   );
 };
 
-SignUpScreen.navigationOptions = (navData) => {
+SignUpScreen.navigationOptions = (props) => {
   return {
-    headerTitle: "Sign Up",
-    headerTintColor: "black",
-    headerTitleAlign: 'center',
-    headerStyle: {
-      backgroundColor: "white",
-    },
-    headerLeft: () => (
-      <TouchableOpacity onPress={() => navData.navigation.goBack()}>
-        <Image
-          style={{ height: 15, width: 20, marginLeft: 10 }}
-          source={require("../../../../A2Z/assets/back_arrow.png")}
-        />
-      </TouchableOpacity>
-    ),
+    headerShown: false,
   };
 };

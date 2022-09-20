@@ -8,4 +8,11 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  headerIcon: {
+    width: 100,
+    height: 120,
+    resizeMode: "contain",
+    marginLeft: 10,
+    marginRight: 10,
+  },
 });

@@ -6,7 +6,7 @@ import styles from "./styles";
 export default GetStartScreen = (props) => {
 
   const getStart = () => {
-    props.navigation.navigate("SignIn");
+    props.navigation.navigate("AccountDashboard");
   }
 
   return (

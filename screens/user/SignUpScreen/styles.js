@@ -4,8 +4,6 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "white",
-    justifyContent:"center",
-    alignContent:"center",
   },
 
   logo: {
@@ -16,6 +14,16 @@ export default StyleSheet.create({
     alignItems: "center",
     alignSelf: "center",
   },
+
+  SectionStyle: {
+    flexDirection: 'row',
+    backgroundColor: '#fff',
+    borderWidth: .5,
+    borderColor: Colors.primary,
+    height: 40,
+    borderRadius: 5 ,
+    padding:12,
+},
 
   input: {
     height: 48,

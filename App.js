@@ -140,9 +140,9 @@ export default function App() {
 
   return (
     <NativeBaseProvider theme={theme}>
-      <SafeAreaView style={{ flex: 1 }}>
+      <View style={{ flex: 1 }}>
         <NavigationContainer />
-      </SafeAreaView>
+      </View>
     </NativeBaseProvider>
   );
 }
