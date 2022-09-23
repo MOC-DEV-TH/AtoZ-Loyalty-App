@@ -11,7 +11,7 @@ import i18n from "../../../I18n/i18n";
 import { Ionicons } from "@expo/vector-icons";
 import styles from "./styles";
 import Colors from "../../../constants/Colors";
-import { Center } from "native-base";
+import { Menu, Pressable, Box } from "native-base";
 
 export default NotificationScreen = (props) => {
   return (
@@ -44,21 +44,28 @@ NotificationScreen.navigationOptions = (props) => {
     ),
 
     headerRight: () => (
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <TouchableOpacity >
-          <Ionicons
-            size={38}
-            style={{ color: Colors.white }}
-            name="menu"
-          ></Ionicons>
-        </TouchableOpacity>
-      </View>
+      <Box w="90%" alignItems="center">
+        <Menu
+          w="140"
+          trigger={(triggerProps) => {
+            return (
+              <Pressable
+                accessibilityLabel="More options menu"
+                {...triggerProps}
+              >
+                <Ionicons
+                  size={38}
+                  style={{ color: Colors.white }}
+                  name="menu"
+                ></Ionicons>
+              </Pressable>
+            );
+          }}
+        >
+          <Menu.Item onPress={()=>props.navigation.navigate("MyAccount")}>My Account</Menu.Item>
+          <Menu.Item>About us</Menu.Item>
+        </Menu>
+      </Box>
     ),
   };
 };

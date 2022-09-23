@@ -1,33 +1,277 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import styles from './styles';
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
+import styles from "./styles";
+import { MaterialIcons } from "@expo/vector-icons";
+import { SafeAreaView } from "react-native-safe-area-context";
+import {
+  Box,
+  Text,
+  HStack,
+  VStack,
+  Input,
+  Stack,
+  FormControl,
+  Pressable,
+  Heading,
+  Image,
+  Icon,
+  KeyboardAvoidingView,
+  ScrollView,
+  Button,
+} from "native-base";
+import Img from "../../../components/Img";
+import { FontAwesome } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
+import ContainerFluid from "../../../components/ContainerFluid";
+import { useState, useEffect, useCallback } from "react";
+import Colors from "../../../constants/Colors";
+import { color } from "react-native-reanimated";
+import { useDispatch, useSelector,shallowEqual } from "react-redux";
+import * as myAccountActions from "../../../store/actions/myAccount";
 
-export default  AccountScreen = (props) => {
+export default AccountScreen = (props) => {
+  const [currentPwshow, setcurrentPwShow] = useState(false);
+  const [confirmPwshow, setconfirmPwShow] = useState(false);
+  const dispatch = useDispatch();
+
+  const loadMemberInfo = useCallback(async () => {
+    try {
+      await dispatch(myAccountActions.getMemberInfo());
+    } catch (error) {
+      setError(error.message);
+    }
+  });
+
+  useEffect(()=>{
+    loadMemberInfo()
+  })
+  const memberInfo = useSelector(
+    (state) => state.myAccount.memberInfo,shallowEqual
+  );
+  console.log("UserName"+memberInfo.name)
+  
   return (
-    <View style={styles.container}>
-      <Text>Account Screen</Text>
-      <StatusBar style="auto" />
+    <View>
+      <ScrollView>
+        <Box bg="primary" alignItems={"center"} pt={30} pb={45}>
+          <FontAwesome name="user-circle-o" size={40} color="white" />
+          <Box maxW="250" w="100%" mt={25}>
+            <VStack space={2}>
+              <HStack alignItems="center">
+                <Text color="white" w={"50%"}>
+                  User ID
+                </Text>
+                <Text color="white" w={"50%"}>
+                  {memberInfo.user_id}
+                </Text>
+              </HStack>
+              <HStack alignItems="center">
+                <Text color="white" w={"50%"}>
+                  Point Collected
+                </Text>
+                <Text color="white" w={"50%"}>
+                  {memberInfo.current_point}
+                </Text>
+              </HStack>
+              <HStack alignItems="center">
+                <Text color="white" w={"50%"}>
+                  Member Type
+                </Text>
+                <Text color="white" w={"50%"}>
+                  Gold
+                </Text>
+              </HStack>
+            </VStack>
+          </Box>
+        </Box>
+
+        <Img
+          source={require("../../../assets/wave.png")}
+          intWidth={1712}
+          intHeight={237}
+        ></Img>
+
+        <ContainerFluid pt={5} pb={8}>
+          <VStack space={2}>
+            <HStack alignItems={"center"}>
+              <Text w={"40%"} color="primary">
+                Name
+              </Text>
+              <Text w={"60%"} color="primary" pl={5}>
+              {memberInfo.name}
+              </Text>
+            </HStack>
+
+            <HStack alignItems={"center"}>
+              <Text w={"40%"} color="primary">
+                Business Name
+              </Text>
+              <Text w={"60%"} color="primary" pl={5}>
+                William
+              </Text>
+            </HStack>
+
+            <HStack alignItems={"center"}>
+              <Text w={"40%"} color="primary">
+                Date of Birth
+              </Text>
+              <Text w={"60%"} color="primary" pl={5}>
+              {memberInfo.dob}
+              </Text>
+            </HStack>
+
+            <HStack alignItems={"center"}>
+              <Text w={"40%"} color="primary">
+                NRC No
+              </Text>
+              <Text w={"60%"} color="primary" pl={5}>
+              {memberInfo.nrc}
+              </Text>
+            </HStack>
+
+            <HStack alignItems={"center"}>
+              <Text w={"40%"} color="primary">
+                Address
+              </Text>
+              <Text w={"60%"} color="primary" pl={5}>
+              {memberInfo.address}
+              </Text>
+            </HStack>
+
+            <HStack alignItems={"center"}>
+              <Text w={"40%"} color="primary">
+                City
+              </Text>
+              <Text w={"60%"} color="primary" pl={5}>
+              {memberInfo.city}
+              </Text>
+            </HStack>
+
+            <HStack alignItems={"center"}>
+              <Text w={"40%"} color="primary">
+                Member Since
+              </Text>
+              <Text w={"60%"} color="primary" pl={5}>
+                2019
+              </Text>
+            </HStack>
+          </VStack>
+
+          <KeyboardAvoidingView>
+            <Box mt={5}>
+              <Heading size="sm" mb={3} color="primary">
+                Change password
+              </Heading>
+
+              <VStack space={4}>
+                <HStack alignItems={"center"}>
+                  <Text w={"40%"} color="primary" fontWeight={"bold"}>
+                    Current Password
+                  </Text>
+                  <Box w={"60%"} pl={5} color="primary">
+                    <Input
+                      size="md"
+                      type={currentPwshow ? "text" : "password"}
+                      InputRightElement={
+                        <Pressable
+                          onPress={() => setcurrentPwShow(!currentPwshow)}
+                        >
+                          <Icon
+                            as={
+                              <MaterialIcons
+                                name={
+                                  currentPwshow
+                                    ? "visibility"
+                                    : "visibility-off"
+                                }
+                                size={24}
+                                color="black"
+                              />
+                            }
+                            mr={3}
+                          ></Icon>
+                        </Pressable>
+                      }
+                    />
+                  </Box>
+                </HStack>
+
+                <HStack alignItems={"center"}>
+                  <Text w={"40%"} color="primary" fontWeight={"bold"}>
+                    Confirm Password
+                  </Text>
+                  <Box w={"60%"} pl={5} color="primary">
+                    <Input
+                      size="md"
+                      type={confirmPwshow ? "text" : "password"}
+                      InputRightElement={
+                        <Pressable
+                          onPress={() => setconfirmPwShow(!confirmPwshow)}
+                        >
+                          <Icon
+                            as={
+                              <MaterialIcons
+                                name={
+                                  confirmPwshow
+                                    ? "visibility"
+                                    : "visibility-off"
+                                }
+                                size={24}
+                                color="black"
+                              />
+                            }
+                            mr={3}
+                          ></Icon>
+                        </Pressable>
+                      }
+                    />
+                  </Box>
+                </HStack>
+
+                <HStack alignItems={"center"}>
+                  <Text w={"40%"} color="primary" fontWeight={"bold"}>
+                    Change Language
+                  </Text>
+                  <Text w={"60%"} pl={5} color="primary">
+                    မြန်မာ / Eng
+                  </Text>
+                </HStack>
+              </VStack>
+            </Box>
+          </KeyboardAvoidingView>
+
+          <HStack justifyContent={"space-between"} mt={8}>
+            <VStack>
+              <Text>Logout</Text>
+            </VStack>
+            <VStack>
+              <Button bg="primary" px={10} fontWeight="bold">
+                Save
+              </Button>
+            </VStack>
+          </HStack>
+        </ContainerFluid>
+      </ScrollView>
     </View>
   );
-}
-AccountScreen.navigationOptions = (props) => {
-    return {
-      headerTitle: "",
-      headerTintColor: "black",
-      headerTitleAlign: 'center',
-      headerStyle: {
-        backgroundColor: "white",
-        height:0
-      },
-  
-      headerLeft: () => (
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        ></View>
-      ),
-    };
+};
+
+AccountScreen.navigationOptions = (navData) => {
+  return {
+    headerTitle: "",
+    headerTintColor: "black",
+    headerTitleAlign: "center",
+    headerStyle: {
+      backgroundColor: Colors.primary,
+    },
+
+    headerLeft: () => (
+      <TouchableOpacity onPress={() => navData.navigation.navigate("Home")}>
+        <Image
+          style={{ height: 15, width: 20, marginLeft: 10 }}
+          source={require("../../../assets/back_arrow.png")}
+        />
+      </TouchableOpacity>
+    ),
   };
+};

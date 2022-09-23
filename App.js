@@ -9,6 +9,9 @@ import {
 } from "react-native";
 import "react-native-gesture-handler";
 import AppLoading from "expo-app-loading";
+import { Provider } from "react-redux";
+import ReduxThunk from "redux-thunk";
+import { applyMiddleware, combineReducers, createStore } from "redux";
 import React, { useState, useEffect, useRef } from "react";
 import { registerRootComponent } from "expo";
 import NavigationContainer from "./navigation/NavigationContainer";
@@ -19,11 +22,21 @@ import { getStoreData } from "./AsyncStorage/AsyncStorage";
 import AsyncStorageKey from "./constants/AsyncStorageKey";
 import i18n from "./I18n/i18n";
 import * as Localization from "expo-localization";
+import authReducer from "./store/reducers/auth";
+import homeReducer from "./store/reducers/home";
+import myAccountReducer from "./store/reducers/myAccount";
 import { extendTheme, NativeBaseProvider } from "native-base";
 import Colors from "./constants/Colors";
 
+const rootReducer = combineReducers({
+  auth: authReducer,
+  home: homeReducer,
+  myAccount : myAccountReducer
+});
+const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
+
 const theme = extendTheme({
-  useSystemColorMode: true, 
+  useSystemColorMode: true,
   components: {
     Button: {
       baseStyle: {
@@ -80,8 +93,6 @@ export default function App() {
   //delay splash screen
   useEffect(() => {});
   const asyncDoThings = async () => {
-    SplashScreen.preventAutoHide();
-    setTimeout(SplashScreen.hide, 3000);
     return () => {
       clearTimeout(timeout);
     };
@@ -139,11 +150,13 @@ export default function App() {
   }
 
   return (
-    <NativeBaseProvider theme={theme}>
-      <View style={{ flex: 1 }}>
-        <NavigationContainer />
-      </View>
-    </NativeBaseProvider>
+    <Provider store={store}>
+      <NativeBaseProvider theme={theme}>
+        <View style={{ flex: 1 }}>
+          <NavigationContainer />
+        </View>
+      </NativeBaseProvider>
+    </Provider>
   );
 }
 registerRootComponent(App);

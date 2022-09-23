@@ -1,3 +1,4 @@
+import { Center } from "native-base";
 import { StyleSheet } from "react-native";
 import Colors from "../../../constants/Colors";
 export default StyleSheet.create({
@@ -5,7 +6,14 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: "white",
   },
-
+  dropdown: {
+    height: 45,
+    borderColor: Colors.primary,
+    borderWidth: 0.5,
+    borderRadius: 8,
+    paddingHorizontal: 8,
+   
+  },
   logo: {
     height: 50,
     width: 160,
@@ -13,6 +21,25 @@ export default StyleSheet.create({
     resizeMode: "cover",
     alignItems: "center",
     alignSelf: "center",
+  },
+  placeholderStyle: {
+    fontSize: 16,
+    color:Colors.placeHolderTextColor,
+  },
+  selectedTextStyle: {
+    fontSize: 16,
+    color:Colors.black,
+  },
+
+  PasswordSectionStyle: {
+    flexDirection: 'row',
+    backgroundColor: '#fff',
+    justifyContent:"space-between",
+    borderWidth: .5,
+    borderColor: Colors.primary,
+    height: 40,
+    borderRadius: 5 ,
+    padding:12,
   },
 
   SectionStyle: {

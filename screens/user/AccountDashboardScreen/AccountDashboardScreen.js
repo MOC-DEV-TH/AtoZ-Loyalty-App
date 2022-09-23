@@ -1,9 +1,25 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
-import { AspectRatio, Image, Button } from "native-base";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
 import styles from "./styles";
 import Colors from "../../../constants/Colors";
-import { color } from "react-native-reanimated";
+import { MaterialIcons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
+import {
+  Box,
+  Text,
+  HStack,
+  VStack,
+  Input,
+  Stack,
+  FormControl,
+  Pressable,
+  Heading,
+  Image,
+  Icon,
+  KeyboardAvoidingView,
+  ScrollView,
+  Button,
+} from "native-base";
 
 export default AccountDashboardScreen = (props) => {
   const onLoginPress = () => {
@@ -13,6 +29,10 @@ export default AccountDashboardScreen = (props) => {
   const onRegisterPress = () => {
     props.navigation.navigate("SignUp");
   };
+
+  const onHelpPress = () => {
+    props.navigation.navigate("Help");
+  }
 
   return (
     <View style={styles.container}>
@@ -30,9 +50,11 @@ export default AccountDashboardScreen = (props) => {
       ></Image>
 
       <View>
-      <Text style={{color:Colors.primary,alignSelf:"center"}}>Already have an account?</Text>
+        <Text style={{ color: Colors.primary, alignSelf: "center" }}>
+          Already have an account?
+        </Text>
         <Button
-        mt={2}
+          mt={2}
           width="250"
           backgroundColor={Colors.primary}
           _text={{ color: "white" }}
@@ -43,16 +65,16 @@ export default AccountDashboardScreen = (props) => {
         </Button>
       </View>
 
-      <View style={{margin:30}}>
-        <Text style={{color:Colors.primary}}>
-          OR
-        </Text>
+      <View style={{ margin: 30 }}>
+        <Text style={{ color: Colors.primary }}>OR</Text>
       </View>
 
       <View>
-      <Text style={{color:Colors.primary,alignSelf:"center"}}>Create New Account</Text>
+        <Text style={{ color: Colors.primary, alignSelf: "center" }}>
+          Create New Account
+        </Text>
         <Button
-         mt={2}
+          mt={2}
           width="250"
           backgroundColor={Colors.primary}
           _text={{ color: "white" }}
@@ -61,6 +83,36 @@ export default AccountDashboardScreen = (props) => {
         >
           Register Now
         </Button>
+      </View>
+
+      <View
+        style={{
+          position: "absolute",
+          bottom: 20,
+          left: 20,
+          alignItems: "center",
+        }}
+      >
+        <TouchableOpacity onPress={()=>onHelpPress()}>
+          <HStack>
+            <AntDesign name="questioncircle" size={24} color={Colors.primary} />
+
+            <Text style={{ marginLeft: 5, color: Colors.primary }}>Help</Text>
+          </HStack>
+        </TouchableOpacity>
+      </View>
+
+      <View
+        style={{
+          position: "absolute",
+          bottom: 20,
+          right: 20,
+          alignItems: "center",
+        }}
+      >
+        <TouchableOpacity>
+          <Text color={Colors.primary}>မြန်မာ / Eng</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );

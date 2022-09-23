@@ -25,6 +25,16 @@ export default StyleSheet.create({
     borderRadius: 5 ,
     padding:12,
 },
+PasswordSectionStyle: {
+  flexDirection: 'row',
+  backgroundColor: '#fff',
+  justifyContent:"space-between",
+  borderWidth: .5,
+  borderColor: Colors.primary,
+  height: 40,
+  borderRadius: 5 ,
+  padding:12,
+},
 
   input: {
     height: 48,

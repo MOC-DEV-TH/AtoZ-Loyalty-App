@@ -1,5 +1,8 @@
 import { StyleSheet } from "react-native";
 import Colors from "../../../constants/Colors";
+import {Dimensions} from 'react-native';
+
+const windowWidth = Dimensions.get('window').width;
 
 export default StyleSheet.create({
   container: {
@@ -28,5 +31,31 @@ export default StyleSheet.create({
     color: Colors.white,
     fontWeight: "bold",
     fontSize: 18,
+  },  
+  image:{
+    width:100,
+    height:100,
+    padding:10,
   },
+  title:{
+    fontWeight: "bold",
+    color:Colors.primary,    
+  },
+  description:{
+    textAlign:"justify",
+    color:Colors.primary,
+  },
+
+  vContainer:{
+    width:windowWidth - 150,
+    padding:10,
+  },
+
+  flatList:{
+    paddingHorizontal:10,
+    marginTop:10,
+    justifyContent:'space-between',
+    alignItems:'flex-start',
+  }
+
 });

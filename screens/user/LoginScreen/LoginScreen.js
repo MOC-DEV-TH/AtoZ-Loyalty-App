@@ -8,22 +8,36 @@ import {
   SafeAreaView,
   View,
 } from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
+import { Center, Icon,Pressable } from "native-base";
 import * as Notifications from "expo-notifications";
+import { useDispatch } from "react-redux";
+import * as authActions from "../../../store/actions/auth";
 import { Ionicons } from "@expo/vector-icons";
 import styles from "./styles";
-import { Center } from "native-base";
+import Colors from "../../../constants/Colors";
 
 export default LoginScreen = (props) => {
-  const [phone, setPhone] = useState(0);
-  const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
 
-  const onSignInPress = () => {
-    if (phone == "" || password == "") {
+  const [userId, setUserId] = useState(0);
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
+
+  const onSignInPress = async () => {
+    if (userId == "" || password == "") {
       alert("Data must not empty!!");
+    } else {
+      try {
+        await dispatch(authActions.login(userId, password));
+        props.navigation.navigate("Main");
+      } catch (error) {
+        console.log("error : " + error.message);
+      }
     }
     //schedulePushNotification()
     //sendPushNotification()
-    props.navigation.navigate("Main");
   };
 
   const onRegisterPress = () => {
@@ -67,63 +81,98 @@ export default LoginScreen = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Image resizeMode="cover" source={require("../../../assets/a_to_z.png")} style={{
-          width: '100%',
-          alignSelf:"center",
+      <Image
+        resizeMode="cover"
+        source={require("../../../assets/a_to_z.png")}
+        style={{
+          width: "100%",
+          alignSelf: "center",
           height: undefined,
           aspectRatio: 512 / 212,
-          position:"absolute",
-          top:50
-        }}></Image>
+          position: "absolute",
+          top: 50,
+        }}
+      ></Image>
 
       <View style={{ margin: 30 }}>
         <View style={styles.SectionStyle}>
-          <Ionicons name="person"></Ionicons>
+        <Icon style={{color:Colors.primary}}
+              as={
+                <MaterialIcons
+                  name={"person"}
+                  size={24}
+                  color="black"
+                />
+              }
+            
+            ></Icon>
 
           <View style={{ flex: 1 }}>
             <TextInput
               style={{ alignSelf: "center" }}
-              placeholder="Phone"
+              placeholder="UserID"
               placeholderTextColor="#aaaaaa"
-              onChangeText={(text) => setPhone(text)}
-              value={phone}
+              onChangeText={(text) => setUserId(text)}
+              value={userId}
               underlineColorAndroid="transparent"
               autoCapitalize="none"
             />
           </View>
         </View>
 
-        <View style={{height:20}}></View>
+        <View style={{ height: 20 }}></View>
 
-        <View style={styles.SectionStyle}>
-          <Ionicons name="unlock"></Ionicons>
-          <View style={{ flex: 1 }}>
+        <View style={styles.PasswordSectionStyle}>
+        <Icon style={{color:Colors.primary}}
+              as={
+                <MaterialIcons
+                  name={"lock"}
+                  size={24}
+                  color="black"
+                />
+              }
+              mr={3}
+            ></Icon>
+          <View>
             <TextInput
               style={{ alignSelf: "center" }}
               placeholder="Password"
               placeholderTextColor="#aaaaaa"
               onChangeText={(text) => setPassword(text)}
               value={password}
+              secureTextEntry={!showPassword}
               underlineColorAndroid="transparent"
               autoCapitalize="none"
             />
           </View>
+          <Pressable onPress={() => setShowPassword(!showPassword)}>
+          <Icon style={{color:Colors.primary}}
+              as={
+                <MaterialIcons
+                  name={showPassword ? "visibility" : "visibility-off"}
+                  size={24}
+                  color="black"
+                />
+              }
+              mr={3}
+            ></Icon>
+             </Pressable>
         </View>
 
-        <View style={{ alignSelf: "flex-end", marginTop: 10 }}>
+        {/* <View style={{ alignSelf: "flex-end", marginTop: 10 }}>
           <TouchableOpacity onPress={onForgotPasswordPress}>
             <Text style={{ color: "black", textDecorationLine: "underline" }}>
               Forgot Password?
             </Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
 
         <TouchableOpacity style={styles.button} onPress={() => onSignInPress()}>
-          <Text style={styles.buttonTitle}>Sign in</Text>
+          <Text style={styles.buttonTitle}>Login</Text>
         </TouchableOpacity>
       </View>
 
-      <View
+      {/* <View
         style={{
           flexDirection: "row",
           position: "absolute",
@@ -138,7 +187,7 @@ export default LoginScreen = (props) => {
             Register here
           </Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
     </SafeAreaView>
   );
 };

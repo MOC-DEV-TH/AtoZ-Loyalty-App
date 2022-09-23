@@ -17,12 +17,16 @@ import NotificationScreen from "../screens/notification/NotificationScreen/Notif
 import PromotionScreen from "../screens/promotion/PromotionScreen/PromotionScreen";
 import PointHistoryScreen from "../screens/pointHistory/PointHistoryScreen/PointHistoryScreen";
 import AccountDashboardScreen from "../screens/user/AccountDashboardScreen/AccountDashboardScreen";
+import HelpScreen from "../screens/user/HelpScreen/HelpScreen";
+import FaqScreen from "../screens/dashboard/FaqScreen/FaqScreen";
+import AboutScreen from "../screens/dashboard/AboutScreen/AboutScreen";
+import TermsAndConditionsScreen from "../screens/dashboard/TermsAndConditionsScreen/TermsAndConditionsScreen";
 
 const defaultNavOptions = {
   headerStyle: {
     backgroundColor:
       Platform.OS === "android" ? Colors.primary : Colors.primary,
-    height: 100,
+    height: 120,
     shadowColor: "transparent", // this covers iOS
     elevation: 0,
   },
@@ -46,6 +50,9 @@ const DashboardNavigator = createStackNavigator(
 const AccountNavigator = createStackNavigator(
   {
     MyAccount: AccountScreen,
+    Faq : FaqScreen,
+    AboutUs : AboutScreen,
+    TermAndCondition :TermsAndConditionsScreen
   },
   {
     defaultNavigationOptions: defaultNavOptions,
@@ -85,7 +92,8 @@ const AuthNavigator = createStackNavigator(
     SignIn: LoginScreen,
     SignUp: SignUpScreen,
     ForgotPassword: ForgotPasswordScreen,
-    AccountDashboard : AccountDashboardScreen
+    AccountDashboard : AccountDashboardScreen,
+    Help : HelpScreen
   },
   {
     defaultNavigationOptions: defaultNavOptions,
@@ -232,6 +240,7 @@ const Navigator = createSwitchNavigator(
     Startup : SignUpScreen,
     Auth: AuthNavigator,
     Main: MainTabNavigator,
+    MyAccount : AccountNavigator
   },
   {
     initialRouteName: "Auth",

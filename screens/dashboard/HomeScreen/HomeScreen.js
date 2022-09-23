@@ -8,6 +8,8 @@ import {
   SafeAreaView,
   TouchableHighlight,
 } from "react-native";
+import { useDispatch } from "react-redux";
+import * as homeActions from "../../../store/actions/home";
 import React, { useState, useCallback, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import DropDownPicker from "react-native-dropdown-picker";
@@ -15,24 +17,14 @@ import { storeData } from "../../../AsyncStorage/AsyncStorage";
 import { getStoreData } from "../../../AsyncStorage/AsyncStorage";
 import AsyncStorageKey from "../../../constants/AsyncStorageKey";
 import { ImageSlider } from "react-native-image-slider-banner";
-import { Menu } from 'native-base';
 import { Ionicons } from "@expo/vector-icons";
 import i18n from "../../../I18n/i18n";
 import styles from "./styles";
 import Colors from "../../../constants/Colors";
-
-import { Center } from "native-base";
+import { Menu, Pressable, Box } from "native-base";
 
 export default HomeScreen = (props) => {
-  const { handleSubmit, control } = useForm();
-  const [langOpen, setLanguageOpen] = useState(false);
-  const [langValue, setLanguageValue] = useState("en");
-  const [language, setLanguage] = useState([
-    { label: "Eng", value: "en" },
-    { label: "Myanmar", value: "my" },
-    { label: "Chinese", value: "chn" },
-  ]);
-
+  const dispatch = useDispatch();
   useEffect(() => {
     getStoreData().then((value) => {
       if (value == AsyncStorageKey.LANGUAGE_MM) {
@@ -44,39 +36,13 @@ export default HomeScreen = (props) => {
       }
     });
   }, []);
-  const onLanguageOpen = useCallback(() => {}, []);
-  const onLanguageClose = useCallback(() => {
-    i18n.locale = langValue;
-  }, []);
+
+  useEffect(()=>{
+    dispatch(homeActions.getPromotions())
+  })
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* <Controller
-        name=""
-        defaultValue=""
-        control={control}
-        render={({ field: { onChange, value } }) => (
-          <View style={styles.dropDownContainer}>
-            <DropDownPicker
-              textStyle={{ fontSize: 10 }}
-              defaultValue={langValue}
-              open={langOpen}
-              value={langValue} //genderValue
-              items={language}
-              setOpen={setLanguageOpen}
-              setValue={setLanguageValue}
-              setItems={setLanguage}
-              onOpen={onLanguageOpen}
-              onChangeValue={(value) => {
-                storeData(value);
-                i18n.locale = value;
-              }}
-              zIndex={3000}
-              zIndexInverse={1000}
-            />
-          </View>
-        )}
-      /> */}
       <View>
         <ImageSlider
           data={[
@@ -95,7 +61,7 @@ export default HomeScreen = (props) => {
           ]}
           caroselImageStyle={{ height: 180 }}
           autoPlay={true}
-          onItemChanged={(item) => console.log("item", item)}
+          onItemChanged={(item) => console.log()}
           closeIconColor="#fff"
         />
       </View>
@@ -119,7 +85,9 @@ export default HomeScreen = (props) => {
           margin: 10,
         }}
       >
-        <TouchableOpacity style={styles.image}>
+        <TouchableOpacity
+          style={styles.image}
+        >
           <Image
             style={styles.image}
             source={require("../../../assets/image_one.png")}
@@ -180,20 +148,32 @@ HomeScreen.navigationOptions = (props) => {
     ),
 
     headerRight: () => (
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <TouchableOpacity>
-        <Ionicons size={38} style={{color:Colors.white}} name="menu"></Ionicons>
-        </TouchableOpacity>
-      </View>
+      <Box w="90%" alignItems="center">
+        <Menu
+          w="140"
+          trigger={(triggerProps) => {
+            return (
+              <Pressable
+                accessibilityLabel="More options menu"
+                {...triggerProps}
+              >
+                <Ionicons
+                  size={38}
+                  style={{ color: Colors.white }}
+                  name="menu"
+                ></Ionicons>
+              </Pressable>
+            );
+          }}
+        >
+          <Menu.Item onPress={() => props.navigation.navigate("MyAccount",{screenName:"Home"})}>
+            My Account
+          </Menu.Item>
+          <Menu.Item onPress={() => props.navigation.navigate("AboutUs")}>About us</Menu.Item>
+          <Menu.Item onPress={() => props.navigation.navigate("TermAndCondition")}>TermsAndConditions</Menu.Item>
+          <Menu.Item onPress={() => props.navigation.navigate("Faq")}>FAQ</Menu.Item>
+        </Menu>
+      </Box>
     ),
-
-
-
   };
 };
