@@ -37,6 +37,7 @@
     "react-native-image-slider": "^2.0.3",
     "react-native-image-slider-banner": "^1.0.2",
     "react-native-image-slider-box": "^2.0.5",
+    "react-native-image-slider-show": "^1.0.3",
     "react-native-ionicons": "^4.6.5",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-reanimated": "~2.9.1",

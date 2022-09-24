@@ -10,5 +10,6 @@ export default {
     lightCreamBackground : '#cfe0f0',
     skyBlue: '#0080ff',
     blueMark: '#3232ff',
-    placeHolderTextColor:"#aaaaaa"
+    placeHolderTextColor:"#aaaaaa",
+    yellow : "#ffcd00"
 }

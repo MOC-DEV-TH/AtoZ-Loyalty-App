@@ -8,6 +8,7 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+    padding:10
   },
   headerIcon: {
     width: 100,
@@ -18,9 +19,9 @@ export default StyleSheet.create({
   },
   button: {
     backgroundColor: Colors.primary,
-    marginTop: 20,
     height: 40,
     width: 120,
+    marginTop:10,
     borderRadius: 20,
     alignSelf: "center",
     alignItems: "center",
@@ -35,7 +36,6 @@ export default StyleSheet.create({
   image:{
     width:100,
     height:100,
-    padding:10,
   },
   title:{
     fontWeight: "bold",
@@ -48,11 +48,9 @@ export default StyleSheet.create({
 
   vContainer:{
     width:windowWidth - 150,
-    padding:10,
   },
 
   flatList:{
-    paddingHorizontal:10,
     marginTop:10,
     justifyContent:'space-between',
     alignItems:'flex-start',

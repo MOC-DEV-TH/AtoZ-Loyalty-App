@@ -1,5 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import {
+  FlatList,
   StyleSheet,
   Text,
   View,
@@ -8,11 +9,9 @@ import {
   SafeAreaView,
   TouchableHighlight,
 } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import * as homeActions from "../../../store/actions/home";
 import React, { useState, useCallback, useEffect } from "react";
-import { useForm, Controller } from "react-hook-form";
-import DropDownPicker from "react-native-dropdown-picker";
 import { storeData } from "../../../AsyncStorage/AsyncStorage";
 import { getStoreData } from "../../../AsyncStorage/AsyncStorage";
 import AsyncStorageKey from "../../../constants/AsyncStorageKey";
@@ -20,50 +19,86 @@ import { ImageSlider } from "react-native-image-slider-banner";
 import { Ionicons } from "@expo/vector-icons";
 import i18n from "../../../I18n/i18n";
 import styles from "./styles";
+import { HStack, VStack, Pressable, Menu, Box } from "native-base";
 import Colors from "../../../constants/Colors";
-import { Menu, Pressable, Box } from "native-base";
+import Slideshow from "react-native-image-slider-show";
+import Slider from "../../../model/slider";
+import Global from "../../../constants/Global";
 
 export default HomeScreen = (props) => {
-  const dispatch = useDispatch();
+  const sliderList = [];
+  const renderItem = ({ item }) => {
+    return (
+      <View style={{ width: "48%" }}>
+        <VStack style={{ flex: 1 }}>
+          <Image
+            resizeMode="stretch"
+            style={{ height: 120 }}
+            source={{ uri: Global.baseImageUrl + item.image_en }}
+            alt="ads image"
+          />
+          <HStack
+            style={{
+              justifyContent: "space-between",
+              height: 30,
+              backgroundColor: Colors.yellow,
+              alignItems: "center",
+              paddingLeft: 10,
+              paddingRight: 10,
+            }}
+          >
+            <Text style={{ color: Colors.white }}>{item.name}</Text>
+            <Text style={{ color: Colors.white }}>6000 ks</Text>
+          </HStack>
+        </VStack>
+      </View>
+    );
+  };
   useEffect(() => {
-    getStoreData().then((value) => {
-      if (value == AsyncStorageKey.LANGUAGE_MM) {
-        setLanguageValue("my");
-      } else if (value == AsyncStorageKey.LANGUAGE_ENG) {
-        setLanguageValue("en");
-      } else {
-        setLanguageValue("chn");
-      }
-    });
-  }, []);
+    loadPromotionData();
+  });
 
-  useEffect(()=>{
-    dispatch(homeActions.getPromotions())
-  })
+  // useEffect(() => {
+  //   getStoreData().then((value) => {
+  //     if (value == AsyncStorageKey.LANGUAGE_MM) {
+  //       setLanguageValue("my");
+  //     } else if (value == AsyncStorageKey.LANGUAGE_ENG) {
+  //       setLanguageValue("en");
+  //     } else {
+  //       setLanguageValue("chn");
+  //     }
+  //   });
+  // });
+
+  const dispatch = useDispatch();
+  const loadPromotionData = useCallback(async () => {
+    try {
+      await dispatch(homeActions.getHomePromotions());
+    } catch (error) {
+      setError(error.message);
+    }
+  });
+  const promotionData = useSelector(
+    (state) => state.homeScreen.home_promotions,
+    shallowEqual
+  );
+  promotionData.map((data) => {});
+  const promotionSlider = promotionData.filter(
+    (item) => item.ads_type == "Slider"
+  );
+
+  const ads_data = promotionData.filter(
+    (item) => item.ads_type == "Display Ads"
+  );
+
+  for (const item of promotionSlider) {
+    sliderList.push(new Slider(Global.baseImageUrl + item.image_en));
+  }
 
   return (
     <SafeAreaView style={styles.container}>
       <View>
-        <ImageSlider
-          data={[
-            {
-              img:
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5a5uCP-n4teeW2SApcIqUrcQApev8ZVCJkA&usqp=CAU",
-            },
-            {
-              img:
-                "https://thumbs.dreamstime.com/b/environment-earth-day-hands-trees-growing-seedlings-bokeh-green-background-female-hand-holding-tree-nature-field-gra-130247647.jpg",
-            },
-            {
-              img:
-                "https://cdn.pixabay.com/photo/2015/04/19/08/32/marguerite-729510__340.jpg",
-            },
-          ]}
-          caroselImageStyle={{ height: 180 }}
-          autoPlay={true}
-          onItemChanged={(item) => console.log()}
-          closeIconColor="#fff"
-        />
+        <Slideshow dataSource={sliderList} />
       </View>
 
       <Text
@@ -76,54 +111,18 @@ export default HomeScreen = (props) => {
       >
         Points Collected XXXX Points
       </Text>
-
-      <View
-        style={{
-          flex: 1,
-          flexDirection: "row",
-          justifyContent: "space-between",
-          margin: 10,
+      <FlatList
+        data={ads_data}
+        numColumns={2}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id}
+        contentContainerStyle={{
+          paddingLeft: 10,
+          paddingRight: 10,
+          paddingTop: 20,
         }}
-      >
-        <TouchableOpacity
-          style={styles.image}
-        >
-          <Image
-            style={styles.image}
-            source={require("../../../assets/image_one.png")}
-          ></Image>
-        </TouchableOpacity>
-        <View style={{ width: 10 }} />
-        <TouchableOpacity style={styles.image}>
-          <Image
-            style={styles.image}
-            source={require("../../../assets/image_two.png")}
-          ></Image>
-        </TouchableOpacity>
-      </View>
-
-      <View
-        style={{
-          flex: 1,
-          flexDirection: "row",
-          justifyContent: "space-between",
-          margin: 10,
-        }}
-      >
-        <TouchableOpacity style={styles.image}>
-          <Image
-            style={styles.image}
-            source={require("../../../assets/image_three.png")}
-          ></Image>
-        </TouchableOpacity>
-        <View style={{ width: 10 }} />
-        <TouchableOpacity style={styles.image}>
-          <Image
-            style={styles.image}
-            source={require("../../../assets/image_four.png")}
-          ></Image>
-        </TouchableOpacity>
-      </View>
+        columnWrapperStyle={{ justifyContent: "space-between" }}
+      />
     </SafeAreaView>
   );
 };
@@ -166,12 +165,24 @@ HomeScreen.navigationOptions = (props) => {
             );
           }}
         >
-          <Menu.Item onPress={() => props.navigation.navigate("MyAccount",{screenName:"Home"})}>
+          <Menu.Item
+            onPress={() =>
+              props.navigation.navigate("MyAccount", { screenName: "Home" })
+            }
+          >
             My Account
           </Menu.Item>
-          <Menu.Item onPress={() => props.navigation.navigate("AboutUs")}>About us</Menu.Item>
-          <Menu.Item onPress={() => props.navigation.navigate("TermAndCondition")}>TermsAndConditions</Menu.Item>
-          <Menu.Item onPress={() => props.navigation.navigate("Faq")}>FAQ</Menu.Item>
+          <Menu.Item onPress={() => props.navigation.navigate("AboutUs")}>
+            About us
+          </Menu.Item>
+          <Menu.Item
+            onPress={() => props.navigation.navigate("TermAndCondition")}
+          >
+            TermsAndConditions
+          </Menu.Item>
+          <Menu.Item onPress={() => props.navigation.navigate("Faq")}>
+            FAQ
+          </Menu.Item>
         </Menu>
       </Box>
     ),

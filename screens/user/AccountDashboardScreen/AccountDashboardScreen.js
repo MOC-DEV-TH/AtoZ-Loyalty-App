@@ -4,6 +4,9 @@ import styles from "./styles";
 import Colors from "../../../constants/Colors";
 import { MaterialIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
+import * as authActions from "../../../store/actions/auth";
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import {
   Box,
   Text,
@@ -22,6 +25,12 @@ import {
 } from "native-base";
 
 export default AccountDashboardScreen = (props) => {
+  const dispatch = useDispatch();
+
+  useEffect(()=>{
+      dispatch(authActions.getAllDDL());
+  })
+
   const onLoginPress = () => {
     props.navigation.navigate("SignIn");
   };
@@ -38,11 +47,11 @@ export default AccountDashboardScreen = (props) => {
     <View style={styles.container}>
       <Image
         resizeMode="stretch"
-        source={require("../../../assets/top_image.png")}
+        source={require("../../../assets/a_to_z_new_bg.png")}
         style={{
           width: "100%",
           alignSelf: "center",
-          height: undefined,
+          height: 270,
           aspectRatio: 512 / 212,
           position: "absolute",
           top: 0,
@@ -56,12 +65,12 @@ export default AccountDashboardScreen = (props) => {
         <Button
           mt={2}
           width="250"
-          backgroundColor={Colors.primary}
-          _text={{ color: "white" }}
+          backgroundColor={Colors.yellow}
+          _text={{ color: Colors.primary,fontSize:18,fontWeight:"bold" }}
           onPress={() => onLoginPress()}
           fontWeight="bold"
         >
-          Login
+          Get Start
         </Button>
       </View>
 
@@ -76,12 +85,13 @@ export default AccountDashboardScreen = (props) => {
         <Button
           mt={2}
           width="250"
-          backgroundColor={Colors.primary}
-          _text={{ color: "white" }}
+          backgroundColor={Colors.yellow}
+          _text={{ color: Colors.primary,fontSize:18,fontWeight:"bold" }}
           onPress={() => onRegisterPress()}
           fontWeight="bold"
+          
         >
-          Register Now
+          Get Start
         </Button>
       </View>
 

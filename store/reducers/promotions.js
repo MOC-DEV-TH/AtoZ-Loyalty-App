@@ -1,15 +1,15 @@
-import { SET_POINT_HISTORY } from "../actions/point_history";
+import { SET_PROMOTION } from "../actions/promotions";
 
 const initialState = {
-    pointHistoryData: [],
+    promotions: [],
 
   };
   
   export default (state = initialState, action) => {
     switch (action.type) {
-        case SET_POINT_HISTORY:
+        case SET_PROMOTION:
           return {
-            pointHistoryData: action.point_history,
+            promotions: action.promotions,
           };
         default:
           return state;

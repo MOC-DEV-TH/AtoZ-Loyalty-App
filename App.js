@@ -24,14 +24,18 @@ import i18n from "./I18n/i18n";
 import * as Localization from "expo-localization";
 import authReducer from "./store/reducers/auth";
 import homeReducer from "./store/reducers/home";
+import promotionReducer from "./store/reducers/promotions";
 import myAccountReducer from "./store/reducers/myAccount";
+import pointHistoryReducer from "./store/reducers/point_history";
 import { extendTheme, NativeBaseProvider } from "native-base";
 import Colors from "./constants/Colors";
 
 const rootReducer = combineReducers({
   auth: authReducer,
-  home: homeReducer,
-  myAccount : myAccountReducer
+  myAccount : myAccountReducer,
+  promotion : promotionReducer,
+  homeScreen : homeReducer,
+  pointHistory : pointHistoryReducer
 });
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 

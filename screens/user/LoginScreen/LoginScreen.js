@@ -11,7 +11,7 @@ import {
 import { MaterialIcons } from "@expo/vector-icons";
 import { Center, Icon,Pressable } from "native-base";
 import * as Notifications from "expo-notifications";
-import { useDispatch } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
 import * as authActions from "../../../store/actions/auth";
 import { Ionicons } from "@expo/vector-icons";
 import styles from "./styles";
@@ -24,6 +24,9 @@ export default LoginScreen = (props) => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
+  const onPressCreateNewAccount = () => {
+    props.navigation.navigate("SignUp");
+  }
 
   const onSignInPress = async () => {
     if (userId == "" || password == "") {
@@ -38,14 +41,6 @@ export default LoginScreen = (props) => {
     }
     //schedulePushNotification()
     //sendPushNotification()
-  };
-
-  const onRegisterPress = () => {
-    props.navigation.navigate("SignUp");
-  };
-
-  const onForgotPasswordPress = () => {
-    props.navigation.navigate("ForgotPassword");
   };
 
   async function schedulePushNotification() {
@@ -80,17 +75,17 @@ export default LoginScreen = (props) => {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <Image
-        resizeMode="cover"
-        source={require("../../../assets/a_to_z.png")}
+        resizeMode="stretch"
+        source={require("../../../assets/a_to_z_new_bg.png")}
         style={{
           width: "100%",
           alignSelf: "center",
-          height: undefined,
+          height: 270,
           aspectRatio: 512 / 212,
           position: "absolute",
-          top: 50,
+          top: 0,
         }}
       ></Image>
 
@@ -167,6 +162,10 @@ export default LoginScreen = (props) => {
           </TouchableOpacity>
         </View> */}
 
+        <TouchableOpacity onPress={()=> onPressCreateNewAccount()}>
+        <Text style={{color:Colors.primary,alignSelf:"center",marginTop:60}}>Create new account?</Text>
+        </TouchableOpacity>
+
         <TouchableOpacity style={styles.button} onPress={() => onSignInPress()}>
           <Text style={styles.buttonTitle}>Login</Text>
         </TouchableOpacity>
@@ -188,12 +187,19 @@ export default LoginScreen = (props) => {
           </Text>
         </TouchableOpacity>
       </View> */}
-    </SafeAreaView>
+    </View>
   );
 };
 
 LoginScreen.navigationOptions = (props) => {
   return {
     headerShown: false,
+    headerTitle: "",
+    headerTintColor: "black",
+    headerTitleAlign: "center",
+    headerStyle: {
+      backgroundColor: Colors.primary,
+      height:80
+    },
   };
 };

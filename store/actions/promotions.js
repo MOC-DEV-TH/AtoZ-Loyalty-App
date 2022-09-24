@@ -1,14 +1,14 @@
 import AppVersion from "../../constants/AppVersion";
 import Global from "../../constants/Global";
-import HomePromotion from "../../model/home_promotion";
-export const SET_HOME_PROMOTION = "SET_HOME_PROMOTION";
+import Promotion from "../../model/promotion";
+export const SET_PROMOTION = "SET_PROMOTION";
 
-export const getHomePromotions = () => {
+export const getPromotions = () => {
   return async (dispatch, getState) => {
     const token = getState().auth.token;
     console.log("token", token);
     const response = await fetch(
-      Global.baseUrl + "/get_home?app_version=" + AppVersion.app_version,
+      Global.baseUrl + "/get_promotions?app_version=" + AppVersion.app_version,
       {
         method: "GET",
         headers: {
@@ -26,11 +26,13 @@ export const getHomePromotions = () => {
     }
 
     const respData = await response.json();
-    const loadHomePromotions = [];
+    console.log(respData);
+
+    const loadPromotions = [];
 
     for (const item of respData.details) {
-      loadHomePromotions.push(
-        new HomePromotion(
+      loadPromotions.push(
+        new Promotion(
           item.id,
           item.promo_id,
           item.name,
@@ -41,13 +43,17 @@ export const getHomePromotions = () => {
           item.created_date,
           item.created_by,
           item.modified_date,
-          item.modified_by
+          item.modified_by,
+          this.description,
+          this.descriptionmm,
+          this.namemm
         )
       );
     }
+
     dispatch({
-      type: SET_HOME_PROMOTION,
-      home_promotions: loadHomePromotions,
+      type: SET_PROMOTION,
+      promotions: loadPromotions,
     });
   };
 };

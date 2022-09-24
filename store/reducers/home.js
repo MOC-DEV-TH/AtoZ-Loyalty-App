@@ -1,14 +1,15 @@
 import { SET_HOME_PROMOTION } from "../actions/home";
 
 const initialState = {
-    promotions: [],
+    home_promotions: [],
   };
   
   export default (state = initialState, action) => {
     switch (action.type) {
         case SET_HOME_PROMOTION:
           return {
-            promotions: action.promotions,
+            ...state,
+            home_promotions: action.home_promotions,
           };
         default:
           return state;

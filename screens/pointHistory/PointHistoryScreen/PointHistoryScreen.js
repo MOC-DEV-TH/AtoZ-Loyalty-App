@@ -7,115 +7,89 @@ import {
   Image,
   SafeAreaView,
   SectionList,
+  FlatList,
 } from "react-native";
 import i18n from "../../../I18n/i18n";
 import { Ionicons } from "@expo/vector-icons";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import * as pointHistoryActions from "../../../store/actions/point_history";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import styles from "./styles";
 import Colors from "../../../constants/Colors";
 import { Menu, Pressable, Box } from "native-base";
 
 export default function PointHistoryScreen() {
   const dispatch = useDispatch();
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  const loadPointHistoryData = useCallback(async () => {
+    setIsRefreshing(true);
+    try {
+      dispatch(pointHistoryActions.getPointHistory());
+    } catch (error) {}
+    setIsRefreshing(false);
+  }, [dispatch, setIsRefreshing]);
 
   useEffect(() => {
-    dispatch(pointHistoryActions.getPointHistory());
-  }, []);
+    loadPointHistoryData();
+  }, [loadPointHistoryData]);
 
-  const DATA_POINT = [
-    {
-      title: "Sep",
-      data: [
-        {
-          desc: "-500 points Redeemed at 1st Outlet - 22-Sep-22",
-          created_date: "2022-09-22 14:12:02",
-        },
-        {
-          desc: "1000 points Collected at 1st Outlet - 22-Sep-22",
-          created_date: "2022-09-22 14:11:27",
-        },
-        {
-          desc: "-500 points Redeemed at 1st Outlet - 22-Sep-22",
-          created_date: "2022-09-22 14:01:24",
-        },
-        {
-          desc: "1000 points Collected at 1st Outlet - 22-Sep-22",
-          created_date: "2022-09-22 13:57:46",
-        },
-      ],
-    },
-    {
-      title: "Oct",
-      data: [
-        {
-          desc: "-500 points Redeemed at 1st Outlet - 22-Sep-22",
-          created_date: "2022-09-22 14:12:02",
-        },
-        {
-          desc: "1000 points Collected at 1st Outlet - 22-Sep-22",
-          created_date: "2022-09-22 14:11:27",
-        },
-        {
-          desc: "-500 points Redeemed at 1st Outlet - 22-Sep-22",
-          created_date: "2022-09-22 14:01:24",
-        },
-        {
-          desc: "1000 points Collected at 1st Outlet - 22-Sep-22",
-          created_date: "2022-09-22 13:57:46",
-        },
-      ],
-    },
-  ];
-  const DATA = [
-    {
-      title: "Main dishes",
-      data: ["Pizza", "Burger", "Risotto"],
-    },
-    {
-      title: "Sides",
-      data: ["French Fries", "Onion Rings", "Fried Shrimps"],
-    },
-    {
-      title: "Drinks",
-      data: ["Water", "Coke", "Beer"],
-    },
-    {
-      title: "Desserts",
-      data: ["Cheese Cake", "Ice Cream"],
-    },
-  ];
-
-  const Item = ({ title }) => (
-    <View style={styles.item}>
-      <Text style={styles.title}>{title}</Text>
-    </View>
+  const extractKey = ({ rows }) => rows;
+  const pointHistoryData = useSelector(
+    (state) => state.pointHistory.pointHistoryData,
+    shallowEqual
   );
+
+  const renderItem = ({ item }) => {
+    let items = [];
+    if (item.rows) {
+      items = item.rows.map((row) => {
+        return (
+          <Text style={{ padding: 12, alignSelf: "center" }}>{row.desc}</Text>
+        );
+      });
+    }
+
+    return (
+      <View>
+        <View style={styles.sectionTitleContainer}>
+          <Text
+            style={{
+              color: Colors.primary,
+              fontSize: 18,
+              alignItems: "center",
+              fontWeight: "bold",
+            }}
+          >
+            {item.month}
+          </Text>
+        </View>
+        {items}
+      </View>
+    );
+  };
 
   return (
     <SafeAreaView style={styles.container}>
       <Text
         style={{
           marginTop: 12,
-          marginBottom:12,
+          marginBottom: 12,
           color: Colors.primary,
           fontSize: 24,
           fontWeight: "bold",
-          alignSelf:"center"
+          alignSelf: "center",
         }}
       >
         1000 Points Available
       </Text>
-      <SectionList
-        renderItem={({ item, index, section }) => (
-          <Text style={{padding:10}} key={index}>{item.desc}</Text>
-        )}
-        renderSectionHeader={({ section: { title } }) => (
-          <View style={styles.sectionTitleContainer}><Text style={styles.title}>{title}</Text></View>
-        )}
-        sections={DATA_POINT}
-        keyExtractor={(item, index) => item + index}
+      <FlatList
+        onRefresh={loadPointHistoryData}
+        refreshing={isRefreshing}
+        style={styles.container}
+        data={pointHistoryData}
+        renderItem={renderItem}
+        keyExtractor={extractKey}
       />
     </SafeAreaView>
   );
@@ -159,7 +133,11 @@ PointHistoryScreen.navigationOptions = (props) => {
             );
           }}
         >
-          <Menu.Item onPress={() => props.navigation.navigate("MyAccount",{name:"PointHistory"})}>
+          <Menu.Item
+            onPress={() =>
+              props.navigation.navigate("MyAccount", { name: "PointHistory" })
+            }
+          >
             My Account
           </Menu.Item>
           <Menu.Item>About us</Menu.Item>

@@ -7,7 +7,7 @@ export const registerUser = (userObj) => {
     return async (dispatch) => {
       try {
         const response = await fetch(
-          Global.baseUrl+"signup",
+          Global.baseUrl+"/signup",
           {
             method: "POST",
             headers: {

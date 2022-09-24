@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View, TouchableOpacity } from "react-native";
+import { StyleSheet, View,Alert, TouchableOpacity } from "react-native";
 import styles from "./styles";
 import { MaterialIcons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -26,12 +26,18 @@ import ContainerFluid from "../../../components/ContainerFluid";
 import { useState, useEffect, useCallback } from "react";
 import Colors from "../../../constants/Colors";
 import { color } from "react-native-reanimated";
-import { useDispatch, useSelector,shallowEqual } from "react-redux";
+import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import * as myAccountActions from "../../../store/actions/myAccount";
 
 export default AccountScreen = (props) => {
   const [currentPwshow, setcurrentPwShow] = useState(false);
   const [confirmPwshow, setconfirmPwShow] = useState(false);
+  const [newPwshow, setNewPwShow] = useState(false);
+
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
   const dispatch = useDispatch();
 
   const loadMemberInfo = useCallback(async () => {
@@ -41,15 +47,43 @@ export default AccountScreen = (props) => {
       setError(error.message);
     }
   });
-
-  useEffect(()=>{
-    loadMemberInfo()
-  })
+  useEffect(() => {
+    loadMemberInfo();
+  });
   const memberInfo = useSelector(
-    (state) => state.myAccount.memberInfo,shallowEqual
+    (state) => state.myAccount.memberInfo,
+    shallowEqual
   );
-  console.log("UserName"+memberInfo.name)
-  
+  console.log("UserName" + memberInfo.name);
+
+  const onPressSave = () => {
+    if (currentPassword != "" || newPassword != "" || confirmPassword != "") {
+      dispatch(
+        myAccountActions.updateAccount(
+          currentPassword,
+          newPassword,
+          confirmPassword
+        )
+      );
+    }
+  };
+  const logoutAlert = () =>
+    Alert.alert(
+      "Logout!",
+      "Are you sure to logout!",
+      [
+        {
+          text: "Yes",
+          onPress: () => console.log("Ask me later pressed")
+        },
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+      ]
+    );
+
   return (
     <View>
       <ScrollView>
@@ -98,7 +132,7 @@ export default AccountScreen = (props) => {
                 Name
               </Text>
               <Text w={"60%"} color="primary" pl={5}>
-              {memberInfo.name}
+                {memberInfo.name}
               </Text>
             </HStack>
 
@@ -116,7 +150,7 @@ export default AccountScreen = (props) => {
                 Date of Birth
               </Text>
               <Text w={"60%"} color="primary" pl={5}>
-              {memberInfo.dob}
+                {memberInfo.dob}
               </Text>
             </HStack>
 
@@ -125,7 +159,7 @@ export default AccountScreen = (props) => {
                 NRC No
               </Text>
               <Text w={"60%"} color="primary" pl={5}>
-              {memberInfo.nrc}
+                {memberInfo.nrc}
               </Text>
             </HStack>
 
@@ -134,7 +168,7 @@ export default AccountScreen = (props) => {
                 Address
               </Text>
               <Text w={"60%"} color="primary" pl={5}>
-              {memberInfo.address}
+                {memberInfo.address}
               </Text>
             </HStack>
 
@@ -143,7 +177,7 @@ export default AccountScreen = (props) => {
                 City
               </Text>
               <Text w={"60%"} color="primary" pl={5}>
-              {memberInfo.city}
+                {memberInfo.current_point}
               </Text>
             </HStack>
 
@@ -172,6 +206,8 @@ export default AccountScreen = (props) => {
                     <Input
                       size="md"
                       type={currentPwshow ? "text" : "password"}
+                      onChangeText={(text) => setCurrentPassword(text)}
+                      value={currentPassword}
                       InputRightElement={
                         <Pressable
                           onPress={() => setcurrentPwShow(!currentPwshow)}
@@ -198,12 +234,44 @@ export default AccountScreen = (props) => {
 
                 <HStack alignItems={"center"}>
                   <Text w={"40%"} color="primary" fontWeight={"bold"}>
+                    New Password
+                  </Text>
+                  <Box w={"60%"} pl={5} color="primary">
+                    <Input
+                      size="md"
+                      type={newPwshow ? "text" : "password"}
+                      onChangeText={(text) => setNewPassword(text)}
+                      value={newPassword}
+                      InputRightElement={
+                        <Pressable onPress={() => setNewPwShow(!newPwshow)}>
+                          <Icon
+                            as={
+                              <MaterialIcons
+                                name={
+                                  newPwshow ? "visibility" : "visibility-off"
+                                }
+                                size={24}
+                                color="black"
+                              />
+                            }
+                            mr={3}
+                          ></Icon>
+                        </Pressable>
+                      }
+                    />
+                  </Box>
+                </HStack>
+
+                <HStack alignItems={"center"}>
+                  <Text w={"40%"} color="primary" fontWeight={"bold"}>
                     Confirm Password
                   </Text>
                   <Box w={"60%"} pl={5} color="primary">
                     <Input
                       size="md"
                       type={confirmPwshow ? "text" : "password"}
+                      onChangeText={(text) => setConfirmPassword(text)}
+                      value={confirmPassword}
                       InputRightElement={
                         <Pressable
                           onPress={() => setconfirmPwShow(!confirmPwshow)}
@@ -242,10 +310,20 @@ export default AccountScreen = (props) => {
 
           <HStack justifyContent={"space-between"} mt={8}>
             <VStack>
-              <Text>Logout</Text>
+              <TouchableOpacity onPress={()=>logoutAlert()}><Text>Logout</Text></TouchableOpacity>
             </VStack>
             <VStack>
-              <Button bg="primary" px={10} fontWeight="bold">
+              <Button
+                bg={Colors.yellow}
+                _text={{
+                  color: Colors.primary,
+                  fontSize: 16,
+                  fontWeight: "bold",
+                }}
+                px={10}
+                fontWeight="bold"
+                onPress={() => onPressSave()}
+              >
                 Save
               </Button>
             </VStack>

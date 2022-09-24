@@ -11,14 +11,13 @@ import {
   Platform,
   KeyboardAvoidingView
 } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch,useSelector,shallowEqual } from "react-redux";
 import Colors from "../../../constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import * as userActions from "../../../store/actions/users";
 import Checkbox from "expo-checkbox";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Center, Icon, Pressable,HStack,Box } from "native-base";
-import { useForm, Controller } from "react-hook-form";
 import { Dropdown } from 'react-native-element-dropdown';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
@@ -40,6 +39,12 @@ export default SignUpScreen = (props) => {
   const [city, setCity] = useState(null);
   const dispatch = useDispatch();
 
+  const allDDLData = useSelector(
+    (state) => state.auth.allDropDownData,
+    shallowEqual
+  );
+  const cityDDLData = allDDLData.city;
+  
   const onLanguageOpen = useCallback(() => {}, []);
   const createUserObj = () => {
     const userObj = {
@@ -55,16 +60,6 @@ export default SignUpScreen = (props) => {
     };
     return userObj;
   };
-  const data = [
-    { label: 'Item 1', value: '1' },
-    { label: 'Item 2', value: '2' },
-    { label: 'Item 3', value: '3' },
-    { label: 'Item 4', value: '4' },
-    { label: 'Item 5', value: '5' },
-    { label: 'Item 6', value: '6' },
-    { label: 'Item 7', value: '7' },
-    { label: 'Item 8', value: '8' },
-  ];
   const onSignUpPress = async () => {
     try {
       const userObj = createUserObj();
@@ -82,11 +77,11 @@ export default SignUpScreen = (props) => {
       <View>
         <Image
           resizeMode="stretch"
-          source={require("../../../assets/top_image.png")}
+          source={require("../../../assets/a_to_z_new_bg.png")}
           style={{
             width: "100%",
             alignSelf: "center",
-            height: undefined,
+            height: 270,
             aspectRatio: 512 / 212,
           }}
         ></Image>
@@ -204,9 +199,9 @@ export default SignUpScreen = (props) => {
           placeholderStyle={styles.placeholderStyle}
           selectedTextStyle={styles.selectedTextStyle}
           iconStyle={styles.iconStyle}
-          data={data}
+          data={cityDDLData}
           maxHeight={300}
-          labelField="label"
+          labelField="value"
           valueField="value"
           placeholder={!isFocus ? 'City' : '...'}
           value={city}
@@ -348,15 +343,20 @@ export default SignUpScreen = (props) => {
 
 SignUpScreen.navigationOptions = (props) => {
   return {
-    
-    headerLeft: () => (
-      <TouchableOpacity onPress={() => props.navigation.goBack()}>
-      <Image
-        style={{ height: 15, width: 20, marginLeft: 10 }}
-        source={require("../../../assets/back_arrow.png")}
-      />
-    </TouchableOpacity>
-  ),
+    headerTitle: "",
+      headerTitleAlign: "center",
+      headerStyle: {
+        backgroundColor: "white",
+        height: 0,
+      },
+  //   headerLeft: () => (
+  //     <TouchableOpacity onPress={() => props.navigation.goBack()}>
+  //     <Image
+  //       style={{ height: 15, width: 20, marginLeft: 10 }}
+  //       source={require("../../../assets/back_arrow.png")}
+  //     />
+  //   </TouchableOpacity>
+  // ),
   };
   
 };

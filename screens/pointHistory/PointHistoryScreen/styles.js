@@ -1,3 +1,4 @@
+import { Center } from "native-base";
 import { StyleSheet } from "react-native";
 import Colors from "../../../constants/Colors";
 
@@ -28,7 +29,10 @@ export default StyleSheet.create({
   },
   sectionTitleContainer : {
     padding:8,
-    backgroundColor:Colors.primary,
-    alignItems:"center"
+    backgroundColor:Colors.yellow,
+    alignItems:"center",
+    alignSelf:"center",
+    width:"100%",
+    justifyContent:"center"
   }
 });
