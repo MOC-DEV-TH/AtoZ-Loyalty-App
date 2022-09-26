@@ -6,17 +6,16 @@ import {
   View,
   TouchableOpacity,
   FlatList,
+  ActivityIndicator,
 } from "react-native";
 import i18n from "../../../I18n/i18n";
 import { Ionicons } from "@expo/vector-icons";
 import styles from "./styles";
 import Colors from "../../../constants/Colors";
-import PROMOTIONS from "../../../data/dummy-promotiondata";
 import { HStack, VStack, Menu, Pressable, Box } from "native-base";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import * as promotionActions from "../../../store/actions/promotions";
-import { useEffect,useCallback,useState } from "react";
+import { useEffect, useCallback, useState } from "react";
 import Global from "../../../constants/Global";
 
 export default PromotionScreen = (props) => {
@@ -26,20 +25,20 @@ export default PromotionScreen = (props) => {
   const loadPromotionData = useCallback(async () => {
     setIsRefreshing(true);
     try {
-      dispatch(promotionActions.getPromotions());
+      await dispatch(promotionActions.getPromotions());
     } catch (error) {}
     setIsRefreshing(false);
   }, [dispatch, setIsRefreshing]);
 
   useEffect(() => {
-   loadPromotionData();
-  },[loadPromotionData]);
+    loadPromotionData();
+  }, [loadPromotionData]);
 
   const promotionData = useSelector(
     (state) => state.promotion.promotions,
     shallowEqual
   );
-  console.log("HomePromotion");
+
   const renderItem = ({ item }) => {
     return (
       <HStack style={styles.flatList}>
@@ -71,14 +70,18 @@ export default PromotionScreen = (props) => {
       <View style={styles.button}>
         <Text style={styles.text}>Hot Deals</Text>
       </View>
-      <FlatList
-        onRefresh={loadPromotionData}
-        refreshing={isRefreshing}
-        data={promotionData}
-        renderItem={renderItem}
-        ListEmptyComponent={renderListEmptyComponent}
-        keyExtractor={(item) => item.id}
-      />
+      {isRefreshing ? (
+        <ActivityIndicator size="large" />
+      ) : (
+        <FlatList
+          onRefresh={loadPromotionData}
+          refreshing={isRefreshing}
+          data={promotionData}
+          renderItem={renderItem}
+          ListEmptyComponent={renderListEmptyComponent}
+          keyExtractor={(item) => item.id}
+        />
+      )}
     </View>
   );
 };
@@ -122,10 +125,24 @@ PromotionScreen.navigationOptions = (props) => {
             );
           }}
         >
-          <Menu.Item onPress={() => props.navigation.navigate("MyAccount")}>
+          <Menu.Item
+            onPress={() =>
+              props.navigation.navigate("MyAccount")
+            }
+          >
             My Account
           </Menu.Item>
-          <Menu.Item>About us</Menu.Item>
+          <Menu.Item onPress={() => props.navigation.navigate("AboutUs")}>
+            About us
+          </Menu.Item>
+          <Menu.Item
+            onPress={() => props.navigation.navigate("TermAndCondition")}
+          >
+            Terms And Conditions
+          </Menu.Item>
+          <Menu.Item onPress={() => props.navigation.navigate("Faq")}>
+            FAQ
+          </Menu.Item>
         </Menu>
       </Box>
     ),

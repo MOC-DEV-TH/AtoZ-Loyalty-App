@@ -16,6 +16,7 @@ import * as authActions from "../../../store/actions/auth";
 import { Ionicons } from "@expo/vector-icons";
 import styles from "./styles";
 import Colors from "../../../constants/Colors";
+import { getStoreData } from "../../../AsyncStorage/AsyncStorage";
 
 export default LoginScreen = (props) => {
   const dispatch = useDispatch();
@@ -78,7 +79,7 @@ export default LoginScreen = (props) => {
     <View style={styles.container}>
       <Image
         resizeMode="stretch"
-        source={require("../../../assets/a_to_z_new_bg.png")}
+        source={require("../../../assets/new_wave.png")}
         style={{
           width: "100%",
           alignSelf: "center",
@@ -87,6 +88,18 @@ export default LoginScreen = (props) => {
           position: "absolute",
           top: 0,
         }}
+        alt="new wave"
+      ></Image>
+       <Image
+        resizeMode="contain"
+        source={require("../../../assets/app_logo_blue.png")}
+        style={{
+          alignSelf: "center",
+          height: 100,
+          position: "absolute",
+          top: 70,
+        }}
+        alt="logo"
       ></Image>
 
       <View style={{ margin: 30 }}>

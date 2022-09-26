@@ -11,7 +11,10 @@ import {
   import { SafeAreaView } from "react-native-safe-area-context";
   import ContainerFluid from "../../../components/ContainerFluid";
   import EntryBaner from "../../../components/EntryBaner";
+  import { getStoreData } from "../../../AsyncStorage/AsyncStorage";
   import { StyleSheet, TouchableOpacity,Image } from "react-native";
+  import React, { useState, useEffect, useCallback } from "react";
+  import { setLocalization,translate } from 'react-native-translate';
   import {
     Collapse,
     CollapseHeader,
@@ -20,7 +23,7 @@ import {
   } from "accordion-collapse-react-native";
   import i18n from "../../../I18n/i18n";
   import { MaterialIcons } from "@expo/vector-icons";
-  
+
   const CollapseHeaderInner = ({ title, hasDivider }) => {
     return (
       <>
@@ -83,12 +86,12 @@ import {
           <OverlapContentBox>
             <Box borderWidth={1} p={5} borderRadius={10} borderColor={"#e2edfb"}>
               <Heading size={"md"} mb={4} color="primary">
-                  {i18n.t("signupAndaccount")}
+                  {translate("signupAndaccount")}
               </Heading>
               <VStack space={2}>
                 <Collapse>
                   <CollapseHeader>
-                    <CollapseHeaderInner title={i18n.t("howdosignup")} />
+                    <CollapseHeaderInner title={translate("howdosignup")} />
                   </CollapseHeader>
                   <CollapseBody>
                     <CollapseBodyInner>
@@ -101,7 +104,7 @@ import {
   
                 <Collapse>
                   <CollapseHeader>
-                    <CollapseHeaderInner title={i18n.t("whatareadv")} />
+                    <CollapseHeaderInner title={translate("whatareadv")} />
                   </CollapseHeader>
                   <CollapseBody>
                     <CollapseBodyInner>
@@ -114,7 +117,7 @@ import {
   
                 <Collapse>
                   <CollapseHeader>
-                    <CollapseHeaderInner title={i18n.t("needocreatenewone")} />
+                    <CollapseHeaderInner title={translate("needocreatenewone")} />
                   </CollapseHeader>
                   <CollapseBody>
                     <CollapseBodyInner>
@@ -127,7 +130,7 @@ import {
   
                 <Collapse>
                   <CollapseHeader>
-                    <CollapseHeaderInner title={i18n.t("whereisreward")} />
+                    <CollapseHeaderInner title={translate("whereisreward")} />
                   </CollapseHeader>
                   <CollapseBody>
                     <CollapseBodyInner>
@@ -140,7 +143,7 @@ import {
   
                 <Collapse>
                   <CollapseHeader>
-                    <CollapseHeaderInner title={i18n.t("willrecievepoints")} />
+                    <CollapseHeaderInner title={translate("willrecievepoints")} />
                   </CollapseHeader>
                   <CollapseBody>
                     <CollapseBodyInner>
@@ -153,7 +156,7 @@ import {
   
                 <Collapse>
                   <CollapseHeader>
-                    <CollapseHeaderInner title={i18n.t("cancombinemail")} />
+                    <CollapseHeaderInner title={translate("cancombinemail")} />
                   </CollapseHeader>
                   <CollapseBody>
                     <CollapseBodyInner>
@@ -167,7 +170,7 @@ import {
                 <Collapse>
                   <CollapseHeader>
                     <CollapseHeaderInner
-                      title={i18n.t("anycost")}
+                      title={translate("anycost")}
                       hasDivider={false}
                     />
                   </CollapseHeader>
@@ -191,12 +194,12 @@ import {
               borderColor={"#e2edfb"}
             >
               <Heading size={"md"} mb={4} color="primary">
-                {i18n.t("eariningandredeeming")}
+                {translate("eariningandredeeming")}
               </Heading>
               <VStack space={2}>
                 <Collapse>
                   <CollapseHeader>
-                    <CollapseHeaderInner title={i18n.t("howdoredeempoint")} />
+                    <CollapseHeaderInner title={translate("howdoredeempoint")} />
                   </CollapseHeader>
                   <CollapseBody>
                     <CollapseBodyInner>
@@ -209,7 +212,7 @@ import {
   
                 <Collapse>
                   <CollapseHeader>
-                    <CollapseHeaderInner title={i18n.t("howdoredeempoint")} />
+                    <CollapseHeaderInner title={translate("howdoredeempoint")} />
                   </CollapseHeader>
                   <CollapseBody>
                     <CollapseBodyInner>
@@ -222,7 +225,7 @@ import {
   
                 <Collapse>
                   <CollapseHeader>
-                    <CollapseHeaderInner title={i18n.t("howdoconvert")} />
+                    <CollapseHeaderInner title={translate("howdoconvert")} />
                   </CollapseHeader>
                   <CollapseBody>
                     <CollapseBodyInner>
@@ -236,7 +239,7 @@ import {
                 <Collapse>
                   <CollapseHeader>
                     <CollapseHeaderInner
-                      title={i18n.t("wherecanuse")}
+                      title={translate("wherecanuse")}
                       hasDivider={false}
                     />
                   </CollapseHeader>
@@ -260,13 +263,13 @@ import {
               borderColor={"#e2edfb"}
             >
               <Heading size={"md"} mb={4} color="primary">
-                {i18n.t("programLimit")}
+                {translate("programLimit")}
               </Heading>
               <VStack space={2}>
                 <Collapse>
                   <CollapseHeader>
                     <CollapseHeaderInner
-                      title={i18n.t("howmanypointcanearn")}
+                      title={translate("howmanypointcanearn")}
                       hasDivider={false}
                     />
                   </CollapseHeader>
@@ -290,76 +293,13 @@ import {
               borderColor={"#e2edfb"}
             >
               <Heading size={"md"} mb={4} color="primary">
-                {i18n.t("returns")}
+                {translate("returns")}
               </Heading>
               <VStack space={2}>
                 <Collapse>
                   <CollapseHeader>
                     <CollapseHeaderInner
-                      title={i18n.t("canretrunorder")}
-                      hasDivider={false}
-                    />
-                  </CollapseHeader>
-                  <CollapseBody>
-                    <CollapseBodyInner>
-                      <Para>
-                        Consequatur dolores ratione quaerat quisquam similique.
-                      </Para>
-                    </CollapseBodyInner>
-                  </CollapseBody>
-                </Collapse>
-              </VStack>
-            </Box>
-            {/* end of Block */}
-  
-  
-  
-            <Box
-              mt={30}
-              borderWidth={1}
-              p={5}
-              borderRadius={10}
-              borderColor={"#e2edfb"}
-            >
-              <Heading size={"md"} mb={4} color="primary">
-                {i18n.t("rewardExpection")}
-              </Heading>
-              <VStack space={2}>
-                <Collapse>
-                  <CollapseHeader>
-                    <CollapseHeaderInner
-                      title={i18n.t("dependonpointexp")}
-                      hasDivider={false}
-                    />
-                  </CollapseHeader>
-                  <CollapseBody>
-                    <CollapseBodyInner>
-                      <Para>
-                        Consequatur dolores ratione quaerat quisquam similique.
-                      </Para>
-                    </CollapseBodyInner>
-                  </CollapseBody>
-                </Collapse>
-              </VStack>
-            </Box>
-            {/* end of Block */}
-  
-  
-            <Box
-              mt={30}
-              borderWidth={1}
-              p={5}
-              borderRadius={10}
-              borderColor={"#e2edfb"}
-            >
-              <Heading size={"md"} mb={4} color="primary">
-                {i18n.t("doPointExpired")}
-              </Heading>
-              <VStack space={2}>
-                <Collapse>
-                  <CollapseHeader>
-                    <CollapseHeaderInner
-                      title={i18n.t("vipProgramQts")}
+                      title={translate("canretrunorder")}
                       hasDivider={false}
                     />
                   </CollapseHeader>
@@ -385,13 +325,76 @@ import {
               borderColor={"#e2edfb"}
             >
               <Heading size={"md"} mb={4} color="primary">
-                {i18n.t("doPointExpired")}
+                {translate("rewardExpection")}
               </Heading>
               <VStack space={2}>
                 <Collapse>
                   <CollapseHeader>
                     <CollapseHeaderInner
-                      title={i18n.t("vipProgramQts")}
+                      title={translate("dependonpointexp")}
+                      hasDivider={false}
+                    />
+                  </CollapseHeader>
+                  <CollapseBody>
+                    <CollapseBodyInner>
+                      <Para>
+                        Consequatur dolores ratione quaerat quisquam similique.
+                      </Para>
+                    </CollapseBodyInner>
+                  </CollapseBody>
+                </Collapse>
+              </VStack>
+            </Box>
+            {/* end of Block */}
+  
+  
+            <Box
+              mt={30}
+              borderWidth={1}
+              p={5}
+              borderRadius={10}
+              borderColor={"#e2edfb"}
+            >
+              <Heading size={"md"} mb={4} color="primary">
+                {translate("doPointExpired")}
+              </Heading>
+              <VStack space={2}>
+                <Collapse>
+                  <CollapseHeader>
+                    <CollapseHeaderInner
+                      title={translate("vipProgramQts")}
+                      hasDivider={false}
+                    />
+                  </CollapseHeader>
+                  <CollapseBody>
+                    <CollapseBodyInner>
+                      <Para>
+                        Consequatur dolores ratione quaerat quisquam similique.
+                      </Para>
+                    </CollapseBodyInner>
+                  </CollapseBody>
+                </Collapse>
+              </VStack>
+            </Box>
+            {/* end of Block */}
+  
+  
+  
+            <Box
+              mt={30}
+              borderWidth={1}
+              p={5}
+              borderRadius={10}
+              borderColor={"#e2edfb"}
+            >
+              <Heading size={"md"} mb={4} color="primary">
+                {translate("doPointExpired")}
+              </Heading>
+              <VStack space={2}>
+                <Collapse>
+                  <CollapseHeader>
+                    <CollapseHeaderInner
+                      title={translate("vipProgramQts")}
                       hasDivider={false}
                     />
                   </CollapseHeader>
@@ -418,13 +421,13 @@ import {
               borderColor={"#e2edfb"}
             >
               <Heading size={"md"} mb={4} color="primary">
-                {i18n.t("whatisvip")}
+                {translate("whatisvip")}
               </Heading>
               <VStack space={2}>
                 <Collapse>
                   <CollapseHeader>
                     <CollapseHeaderInner
-                      title={i18n.t("howknowreward")}
+                      title={translate("howknowreward")}
                     />
                   </CollapseHeader>
                   <CollapseBody>
@@ -439,7 +442,7 @@ import {
                 <Collapse>
                   <CollapseHeader>
                     <CollapseHeaderInner
-                      title={i18n.t("howknownewtier")}
+                      title={translate("howknownewtier")}
                       hasDivider={false}
                     />
                   </CollapseHeader>
@@ -466,13 +469,13 @@ import {
               borderColor={"#e2edfb"}
             >
               <Heading size={"md"} mb={4} color="primary">
-                {i18n.t("tierExp")}
+                {translate("tierExp")}
               </Heading>
               <VStack space={2}>
                 <Collapse>
                   <CollapseHeader>
                     <CollapseHeaderInner
-                      title={i18n.t("tierrule")}
+                      title={translate("tierrule")}
                       hasDivider={false}
                     />
                   </CollapseHeader>
@@ -498,13 +501,13 @@ import {
               borderColor={"#e2edfb"}
             >
               <Heading size={"md"} mb={4} color="primary">
-                {i18n.t("troubleshooting")}
+                {translate("troubleshooting")}
               </Heading>
               <VStack space={2}>
                 <Collapse>
                   <CollapseHeader>
                     <CollapseHeaderInner
-                      title={i18n.t("whynotearnpoint")}
+                      title={translate("whynotearnpoint")}
                     />
                   </CollapseHeader>
                   <CollapseBody>
@@ -519,23 +522,7 @@ import {
                 <Collapse>
                   <CollapseHeader>
                     <CollapseHeaderInner
-                      title={i18n.t("getcredit")}
-                    />
-                  </CollapseHeader>
-                  <CollapseBody>
-                    <CollapseBodyInner>
-                      <Para>
-                        Consequatur dolores ratione quaerat quisquam similique.
-                      </Para>
-                    </CollapseBodyInner>
-                  </CollapseBody>
-                </Collapse>
-  
-  
-                <Collapse>
-                  <CollapseHeader>
-                    <CollapseHeaderInner
-                      title={i18n.t("whatwrong")}
+                      title={translate("getcredit")}
                     />
                   </CollapseHeader>
                   <CollapseBody>
@@ -551,7 +538,23 @@ import {
                 <Collapse>
                   <CollapseHeader>
                     <CollapseHeaderInner
-                      title={i18n.t("whatneedtogetpoint")}
+                      title={translate("whatwrong")}
+                    />
+                  </CollapseHeader>
+                  <CollapseBody>
+                    <CollapseBodyInner>
+                      <Para>
+                        Consequatur dolores ratione quaerat quisquam similique.
+                      </Para>
+                    </CollapseBodyInner>
+                  </CollapseBody>
+                </Collapse>
+  
+  
+                <Collapse>
+                  <CollapseHeader>
+                    <CollapseHeaderInner
+                      title={translate("whatneedtogetpoint")}
                       hasDivider={false}
                     />
                   </CollapseHeader>
@@ -577,14 +580,14 @@ import {
               borderColor={"#e2edfb"}
             >
               <Heading size={"md"} mb={4} color="primary">
-                {i18n.t("birthdayreward")}
+                {translate("birthdayreward")}
               </Heading>
               <VStack space={2}>
   
                 <Collapse>
                   <CollapseHeader>
                     <CollapseHeaderInner
-                      title={i18n.t("howgetbdreward")}
+                      title={translate("howgetbdreward")}
                     />
                   </CollapseHeader>
                   <CollapseBody>
@@ -599,7 +602,7 @@ import {
                 <Collapse>
                   <CollapseHeader>
                     <CollapseHeaderInner
-                      title={i18n.t("bdrewardnotrecieve")}
+                      title={translate("bdrewardnotrecieve")}
                       hasDivider={false}
                     />
                   </CollapseHeader>
@@ -626,14 +629,14 @@ import {
               borderColor={"#e2edfb"}
             >
               <Heading size={"md"} mb={4} color="primary">
-                {i18n.t("checkout")}
+                {translate("checkout")}
               </Heading>
               <VStack space={2}>
   
                 <Collapse>
                   <CollapseHeader>
                     <CollapseHeaderInner
-                      title={i18n.t("applyfreeshipping")}
+                      title={translate("applyfreeshipping")}
                     />
                   </CollapseHeader>
                   <CollapseBody>
@@ -648,7 +651,7 @@ import {
                 <Collapse>
                   <CollapseHeader>
                     <CollapseHeaderInner
-                      title={i18n.t("howdoredeemreward")}
+                      title={translate("howdoredeemreward")}
                     />
                   </CollapseHeader>
                   <CollapseBody>
@@ -663,7 +666,7 @@ import {
                 <Collapse>
                   <CollapseHeader>
                     <CollapseHeaderInner
-                      title={i18n.t("howdoredeemrewardpoint")}
+                      title={translate("howdoredeemrewardpoint")}
                       hasDivider={false}
                     />
                   </CollapseHeader>

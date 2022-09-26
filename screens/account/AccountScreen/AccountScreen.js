@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View,Alert, TouchableOpacity } from "react-native";
+import { StyleSheet, View, Alert, TouchableOpacity } from "react-native";
 import styles from "./styles";
 import { MaterialIcons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -25,9 +25,14 @@ import { Ionicons } from "@expo/vector-icons";
 import ContainerFluid from "../../../components/ContainerFluid";
 import { useState, useEffect, useCallback } from "react";
 import Colors from "../../../constants/Colors";
-import { color } from "react-native-reanimated";
+import i18n from "../../../I18n/i18n";
+import * as Localization from "expo-localization";
+import { storeData,getStoreData } from "../../../AsyncStorage/AsyncStorage";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import * as myAccountActions from "../../../store/actions/myAccount";
+import { setLocalization,translate } from 'react-native-translate';
+import my from "../../../locales/my";
+import en from "../../../locales/en";
 
 export default AccountScreen = (props) => {
   const [currentPwshow, setcurrentPwShow] = useState(false);
@@ -37,9 +42,31 @@ export default AccountScreen = (props) => {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
+  let [locale, setLocale] = useState("");
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    getStoreData().then((value) => {
+      setLocale(value)
+    });
+   
+  }, []);
+
+  const onPressChangeLanguage = () => {
+    console.log("LanguageValue"+locale)
+    if(locale=="en"){
+      setLocalization(my)
+      setLocale("my")
+      storeData("my")
+    }
+    else if(locale=="my") {
+      setLocalization(en)
+      setLocale("en")
+      storeData("en")
+    }
+    
+};
+ const setLocalValue = useCallback(()=>{i18n.locale = local})
   const loadMemberInfo = useCallback(async () => {
     try {
       await dispatch(myAccountActions.getMemberInfo());
@@ -68,21 +95,17 @@ export default AccountScreen = (props) => {
     }
   };
   const logoutAlert = () =>
-    Alert.alert(
-      "Logout!",
-      "Are you sure to logout!",
-      [
-        {
-          text: "Yes",
-          onPress: () => console.log("Ask me later pressed")
-        },
-        {
-          text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
-        },
-      ]
-    );
+    Alert.alert("Logout!", "Are you sure to logout!", [
+      {
+        text: "Yes",
+        onPress: () => console.log("Ask me later pressed"),
+      },
+      {
+        text: "Cancel",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel",
+      },
+    ]);
 
   return (
     <View>
@@ -300,9 +323,11 @@ export default AccountScreen = (props) => {
                   <Text w={"40%"} color="primary" fontWeight={"bold"}>
                     Change Language
                   </Text>
-                  <Text w={"60%"} pl={5} color="primary">
-                    မြန်မာ / Eng
-                  </Text>
+                  <TouchableOpacity onPress={() => onPressChangeLanguage()}>
+                    <Text style={{fontSize:11}} w={"100%"} pl={5} mt={3} color="primary">
+                      မြန်မာ / Eng
+                    </Text>
+                  </TouchableOpacity>
                 </HStack>
               </VStack>
             </Box>
@@ -310,7 +335,9 @@ export default AccountScreen = (props) => {
 
           <HStack justifyContent={"space-between"} mt={8}>
             <VStack>
-              <TouchableOpacity onPress={()=>logoutAlert()}><Text>Logout</Text></TouchableOpacity>
+              <TouchableOpacity onPress={() => logoutAlert()}>
+                <Text>Logout</Text>
+              </TouchableOpacity>
             </VStack>
             <VStack>
               <Button
@@ -348,6 +375,7 @@ AccountScreen.navigationOptions = (navData) => {
         <Image
           style={{ height: 15, width: 20, marginLeft: 10 }}
           source={require("../../../assets/back_arrow.png")}
+          alt="back arrow"
         />
       </TouchableOpacity>
     ),

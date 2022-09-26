@@ -8,6 +8,7 @@ import {
   SafeAreaView,
   SectionList,
   FlatList,
+  ActivityIndicator,
 } from "react-native";
 import i18n from "../../../I18n/i18n";
 import { Ionicons } from "@expo/vector-icons";
@@ -25,10 +26,10 @@ export default function PointHistoryScreen() {
   const loadPointHistoryData = useCallback(async () => {
     setIsRefreshing(true);
     try {
-      dispatch(pointHistoryActions.getPointHistory());
+      await dispatch(pointHistoryActions.getPointHistory());
     } catch (error) {}
     setIsRefreshing(false);
-  }, [dispatch, setIsRefreshing]);
+  }, [dispatch]);
 
   useEffect(() => {
     loadPointHistoryData();
@@ -83,14 +84,18 @@ export default function PointHistoryScreen() {
       >
         1000 Points Available
       </Text>
-      <FlatList
-        onRefresh={loadPointHistoryData}
-        refreshing={isRefreshing}
-        style={styles.container}
-        data={pointHistoryData}
-        renderItem={renderItem}
-        keyExtractor={extractKey}
-      />
+      {isRefreshing ? (
+        <ActivityIndicator size="large" />
+      ) : (
+        <FlatList
+          onRefresh={loadPointHistoryData}
+          refreshing={isRefreshing}
+          style={styles.container}
+          data={pointHistoryData}
+          renderItem={renderItem}
+          keyExtractor={extractKey}
+        />
+      )}
     </SafeAreaView>
   );
 }
@@ -135,12 +140,22 @@ PointHistoryScreen.navigationOptions = (props) => {
         >
           <Menu.Item
             onPress={() =>
-              props.navigation.navigate("MyAccount", { name: "PointHistory" })
+              props.navigation.navigate("MyAccount")
             }
           >
             My Account
           </Menu.Item>
-          <Menu.Item>About us</Menu.Item>
+          <Menu.Item onPress={() => props.navigation.navigate("AboutUs")}>
+            About us
+          </Menu.Item>
+          <Menu.Item
+            onPress={() => props.navigation.navigate("TermAndCondition")}
+          >
+            Terms And Conditions
+          </Menu.Item>
+          <Menu.Item onPress={() => props.navigation.navigate("Faq")}>
+            FAQ
+          </Menu.Item>
         </Menu>
       </Box>
     ),

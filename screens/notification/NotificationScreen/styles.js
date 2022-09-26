@@ -6,6 +6,8 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
+    alignItems : "center",
+    justifyContent:"center"
   },
   headerIcon: {
     width: 100,
@@ -15,18 +17,19 @@ export default StyleSheet.create({
     marginRight: 10,
   },
   button: {
-    backgroundColor: Colors.primary,
-    marginTop: 20,
+    backgroundColor: Colors.yellow,
+    top:20,
     height: 40,
     width: 120,
     borderRadius: 20,
     alignSelf: "center",
     alignItems: "center",
     justifyContent: "center",
+    position : 'absolute',
   },
   text: {
     alignSelf: "center",
-    color: Colors.white,
+    color: Colors.primary,
     fontWeight: "bold",
     fontSize: 18,
   },

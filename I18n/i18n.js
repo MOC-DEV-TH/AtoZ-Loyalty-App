@@ -11,10 +11,4 @@ i18n.translations = {
   chn: chn
 };
 
-export const changeLanguage = lang => {
-  if (lang) {
-    I18n.locale = lang;
-  }
-}
-
 export default i18n;  

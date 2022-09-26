@@ -6,7 +6,6 @@ export const SET_POINT_HISTORY = "SET_POINT_HISTORY";
 export const getPointHistory = () => {
   return async (dispatch, getState) => {
     const token = getState().auth.token;
-    console.log("token", token);
     const response = await fetch(
       Global.baseUrl +
         "/get_point_history?app_version=" +

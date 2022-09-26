@@ -4,7 +4,7 @@ import { createStackNavigator } from "react-navigation-stack";
 import { createMaterialBottomTabNavigator } from "react-navigation-material-bottom-tabs";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 import { Ionicons } from "@expo/vector-icons";
-import { Platform, Text, } from "react-native";
+import { Platform, Text } from "react-native";
 import Colors from "../constants/Colors";
 
 import GetStartScreen from "../screens/user/GetStartScreen/GetStartScreen";
@@ -30,9 +30,9 @@ const defaultNavOptions = {
     shadowColor: "transparent", // this covers iOS
     elevation: 0,
   },
-  headerTitleStyle: {flex:1},
+  headerTitleStyle: { flex: 1 },
   headerBackTitleStyle: {},
-  headerTitleAlign: 'left | center',
+  headerTitleAlign: "left | center",
   titleStyle: {},
   labelStyle: {},
   headerTintColor: Platform.OS === "android" ? Colors.primary : Colors.primary,
@@ -50,9 +50,6 @@ const DashboardNavigator = createStackNavigator(
 const AccountNavigator = createStackNavigator(
   {
     MyAccount: AccountScreen,
-    Faq : FaqScreen,
-    AboutUs : AboutScreen,
-    TermAndCondition :TermsAndConditionsScreen
   },
   {
     defaultNavigationOptions: defaultNavOptions,
@@ -62,6 +59,31 @@ const AccountNavigator = createStackNavigator(
 const PointHistoryNavigator = createStackNavigator(
   {
     PointHistory: PointHistoryScreen,
+  },
+  {
+    defaultNavigationOptions: defaultNavOptions,
+  }
+);
+const AboutNavigator = createStackNavigator(
+  {
+    AboutUs: AboutScreen,
+  },
+  {
+    defaultNavigationOptions: defaultNavOptions,
+  }
+);
+const FaqNavigator = createStackNavigator(
+  {
+    Faq: FaqScreen,
+  },
+  {
+    defaultNavigationOptions: defaultNavOptions,
+  }
+);
+
+const TermAndConditionNavigator = createStackNavigator(
+  {
+    TermAndCondition: TermsAndConditionsScreen,
   },
   {
     defaultNavigationOptions: defaultNavOptions,
@@ -92,8 +114,8 @@ const AuthNavigator = createStackNavigator(
     SignIn: LoginScreen,
     SignUp: SignUpScreen,
     ForgotPassword: ForgotPasswordScreen,
-    AccountDashboard : AccountDashboardScreen,
-    Help : HelpScreen
+    AccountDashboard: AccountDashboardScreen,
+    Help: HelpScreen,
   },
   {
     defaultNavigationOptions: defaultNavOptions,
@@ -237,10 +259,13 @@ const MainTabNavigator =
 
 const Navigator = createSwitchNavigator(
   {
-    Startup : SignUpScreen,
+    Startup: SignUpScreen,
     Auth: AuthNavigator,
     Main: MainTabNavigator,
-    MyAccount : AccountNavigator
+    MyAccount: AccountNavigator,
+    AboutUs: AboutNavigator,
+    Faq: FaqNavigator,
+    TermAndCondition: TermAndConditionNavigator,
   },
   {
     initialRouteName: "Auth",

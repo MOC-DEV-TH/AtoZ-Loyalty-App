@@ -6,7 +6,6 @@ export const SET_HOME_PROMOTION = "SET_HOME_PROMOTION";
 export const getHomePromotions = () => {
   return async (dispatch, getState) => {
     const token = getState().auth.token;
-    console.log("token", token);
     const response = await fetch(
       Global.baseUrl + "/get_home?app_version=" + AppVersion.app_version,
       {

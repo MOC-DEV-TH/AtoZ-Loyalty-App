@@ -16,7 +16,9 @@ export default GetStartScreen = (props) => {
           width: '60%',
           height: undefined,
           aspectRatio: 512 / 212,
-        }}></Image>
+        }}
+        alt="logo"
+        ></Image>
         <Button mt={40} colorScheme="dark" _text={{color:"primary"}} onPress={()=>getStart()} fontWeight="bold">Get Start</Button>
       </View>
     </SafeAreaView>

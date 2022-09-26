@@ -4,6 +4,7 @@ import ContainerFluid from "../../../components/ContainerFluid";
 import EntryBaner from "../../../components/EntryBaner";
 import i18n from "../../../I18n/i18n";
 import { StyleSheet, TouchableOpacity,Image } from "react-native";
+import { setLocalization,translate } from 'react-native-translate';
 
 const OverlapContentBox = (props) => {
     return (
@@ -29,7 +30,7 @@ export default AboutScreen = (props) => {
     return (
         <View style={{flex: 1}}>
             <EntryBanner
-            title = {i18n.t("aboutcompany")}
+            title = {translate("aboutcompany")}
             ></EntryBanner>
             <OverlapContentBox>
                 <Para>Royal A to Z Co., Ltd provides a one stop solution for Home Decoration, Electronic appliances, construction, renovation and home improvement. A to Z is a place where you can have comprehensive range of construction materials and home decoration materials</Para>

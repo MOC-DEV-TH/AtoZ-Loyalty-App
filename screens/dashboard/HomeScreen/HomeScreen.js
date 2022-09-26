@@ -8,14 +8,11 @@ import {
   TouchableOpacity,
   SafeAreaView,
   TouchableHighlight,
+  ActivityIndicator,
 } from "react-native";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import * as homeActions from "../../../store/actions/home";
 import React, { useState, useCallback, useEffect } from "react";
-import { storeData } from "../../../AsyncStorage/AsyncStorage";
-import { getStoreData } from "../../../AsyncStorage/AsyncStorage";
-import AsyncStorageKey from "../../../constants/AsyncStorageKey";
-import { ImageSlider } from "react-native-image-slider-banner";
 import { Ionicons } from "@expo/vector-icons";
 import i18n from "../../../I18n/i18n";
 import styles from "./styles";
@@ -27,6 +24,7 @@ import Global from "../../../constants/Global";
 
 export default HomeScreen = (props) => {
   const sliderList = [];
+  const [isLoading, setIsLoading] = useState(false);
   const renderItem = ({ item }) => {
     return (
       <View style={{ width: "48%" }}>
@@ -58,26 +56,16 @@ export default HomeScreen = (props) => {
     loadPromotionData();
   });
 
-  // useEffect(() => {
-  //   getStoreData().then((value) => {
-  //     if (value == AsyncStorageKey.LANGUAGE_MM) {
-  //       setLanguageValue("my");
-  //     } else if (value == AsyncStorageKey.LANGUAGE_ENG) {
-  //       setLanguageValue("en");
-  //     } else {
-  //       setLanguageValue("chn");
-  //     }
-  //   });
-  // });
-
   const dispatch = useDispatch();
   const loadPromotionData = useCallback(async () => {
+    setIsLoading(true);
     try {
-      await dispatch(homeActions.getHomePromotions());
+      dispatch(homeActions.getHomePromotions());
     } catch (error) {
       setError(error.message);
     }
-  });
+    setIsLoading(false);
+  }, [setIsLoading]);
   const promotionData = useSelector(
     (state) => state.homeScreen.home_promotions,
     shallowEqual
@@ -178,7 +166,7 @@ HomeScreen.navigationOptions = (props) => {
           <Menu.Item
             onPress={() => props.navigation.navigate("TermAndCondition")}
           >
-            TermsAndConditions
+            Terms And Conditions
           </Menu.Item>
           <Menu.Item onPress={() => props.navigation.navigate("Faq")}>
             FAQ

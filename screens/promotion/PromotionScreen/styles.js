@@ -18,7 +18,7 @@ export default StyleSheet.create({
     marginRight: 10,
   },
   button: {
-    backgroundColor: Colors.primary,
+    backgroundColor: Colors.yellow,
     height: 40,
     width: 120,
     marginTop:10,
@@ -29,7 +29,7 @@ export default StyleSheet.create({
   },
   text: {
     alignSelf: "center",
-    color: Colors.white,
+    color: Colors.primary,
     fontWeight: "bold",
     fontSize: 18,
   },  

@@ -6,12 +6,13 @@ import {
   View,
   TouchableOpacity,
   SafeAreaView,
+  ActivityIndicator
 } from "react-native";
 import i18n from "../../../I18n/i18n";
 import { Ionicons } from "@expo/vector-icons";
 import styles from "./styles";
 import Colors from "../../../constants/Colors";
-import { Menu, Pressable, Box } from "native-base";
+import { Menu, Pressable, Box, Center } from "native-base";
 
 export default NotificationScreen = (props) => {
   return (
@@ -62,8 +63,24 @@ NotificationScreen.navigationOptions = (props) => {
             );
           }}
         >
-          <Menu.Item onPress={()=>props.navigation.navigate("MyAccount")}>My Account</Menu.Item>
-          <Menu.Item>About us</Menu.Item>
+          <Menu.Item
+            onPress={() =>
+              props.navigation.navigate("MyAccount")
+            }
+          >
+            My Account
+          </Menu.Item>
+          <Menu.Item onPress={() => props.navigation.navigate("AboutUs")}>
+            About us
+          </Menu.Item>
+          <Menu.Item
+            onPress={() => props.navigation.navigate("TermAndCondition")}
+          >
+            Terms And Conditions
+          </Menu.Item>
+          <Menu.Item onPress={() => props.navigation.navigate("Faq")}>
+            FAQ
+          </Menu.Item>
         </Menu>
       </Box>
     ),
