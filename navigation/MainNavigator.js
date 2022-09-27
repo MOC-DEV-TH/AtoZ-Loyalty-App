@@ -21,6 +21,7 @@ import HelpScreen from "../screens/user/HelpScreen/HelpScreen";
 import FaqScreen from "../screens/dashboard/FaqScreen/FaqScreen";
 import AboutScreen from "../screens/dashboard/AboutScreen/AboutScreen";
 import TermsAndConditionsScreen from "../screens/dashboard/TermsAndConditionsScreen/TermsAndConditionsScreen";
+import {translate} from "react-native-translate";
 
 const defaultNavOptions = {
   headerStyle: {
@@ -132,7 +133,7 @@ const tabScreenConfig = {
             color: Colors.primary,
           }}
         >
-          Home
+          {translate("home")}
         </Text>
       ),
       tabBarOptions: {
@@ -156,7 +157,7 @@ const tabScreenConfig = {
             color: Colors.primary,
           }}
         >
-          PointHistory
+          {translate("pointhistory")}
         </Text>
       ),
       tabBarOptions: {
@@ -186,7 +187,7 @@ const tabScreenConfig = {
             color: Colors.primary,
           }}
         >
-          Promotion
+          {translate("promotions")}
         </Text>
       ),
       tabBarOptions: {
@@ -216,7 +217,7 @@ const tabScreenConfig = {
             color: Colors.primary,
           }}
         >
-          Notification
+          {translate("notification")}
         </Text>
       ),
       tabBarOptions: {

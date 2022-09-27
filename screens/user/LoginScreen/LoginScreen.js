@@ -16,6 +16,7 @@ import * as authActions from "../../../store/actions/auth";
 import { Ionicons } from "@expo/vector-icons";
 import styles from "./styles";
 import Colors from "../../../constants/Colors";
+import { translate } from "react-native-translate";
 
 
 export default LoginScreen = (props) => {
@@ -119,8 +120,8 @@ export default LoginScreen = (props) => {
 
           <View style={{ flex: 1 }}>
             <TextInput
-              style={{ alignSelf: "center" }}
-              placeholder="UserID"
+              style={{ alignSelf: "center" ,height:20}}
+              placeholder={translate("userid")}
               placeholderTextColor="#aaaaaa"
               onChangeText={(text) => setUserId(text)}
               value={userId}
@@ -145,8 +146,8 @@ export default LoginScreen = (props) => {
             ></Icon>
           <View>
             <TextInput
-              style={{ alignSelf: "center" }}
-              placeholder="Password"
+              style={{ alignSelf: "center" ,height:20 }}
+              placeholder={translate("password")}
               placeholderTextColor="#aaaaaa"
               onChangeText={(text) => setPassword(text)}
               value={password}
@@ -178,11 +179,11 @@ export default LoginScreen = (props) => {
         </View> */}
 
         <TouchableOpacity onPress={()=> onPressCreateNewAccount()}>
-        <Text style={{color:Colors.primary,alignSelf:"center",marginTop:60}}>Create new account?</Text>
+        <Text style={{color:Colors.primary,alignSelf:"center",marginTop:60}}>{translate("createnewaccount")}</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.button} onPress={() => onSignInPress()}>
-          <Text style={styles.buttonTitle}>Login</Text>
+          <Text style={styles.buttonTitle}>{translate("login")}</Text>
         </TouchableOpacity>
       </View>
 

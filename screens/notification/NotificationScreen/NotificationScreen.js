@@ -13,12 +13,13 @@ import { Ionicons } from "@expo/vector-icons";
 import styles from "./styles";
 import Colors from "../../../constants/Colors";
 import { Menu, Pressable, Box, Center } from "native-base";
+import { translate } from "react-native-translate";
 
 export default NotificationScreen = (props) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.button}>
-        <Text style={styles.text}>Inbox</Text>
+        <Text style={styles.text}>{translate("inbox")}</Text>
       </View>
     </SafeAreaView>
   );
@@ -68,18 +69,18 @@ NotificationScreen.navigationOptions = (props) => {
               props.navigation.navigate("MyAccount")
             }
           >
-            My Account
+            {translate("myaccount")}
           </Menu.Item>
           <Menu.Item onPress={() => props.navigation.navigate("AboutUs")}>
-            About us
+            {translate("aboutus")}
           </Menu.Item>
           <Menu.Item
             onPress={() => props.navigation.navigate("TermAndCondition")}
           >
-            Terms And Conditions
+            {translate("termandcondition")}
           </Menu.Item>
           <Menu.Item onPress={() => props.navigation.navigate("Faq")}>
-            FAQ
+            {translate("faq")}
           </Menu.Item>
         </Menu>
       </Box>

@@ -2,6 +2,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { AspectRatio, Image, Button } from "native-base";
 import { View, Text, TouchableOpacity } from "react-native";
 import styles from "./styles";
+import { translate } from "react-native-translate";
 
 export default GetStartScreen = (props) => {
 
@@ -19,7 +20,7 @@ export default GetStartScreen = (props) => {
         }}
         alt="logo"
         ></Image>
-        <Button mt={40} colorScheme="dark" _text={{color:"primary"}} onPress={()=>getStart()} fontWeight="bold">Get Start</Button>
+        <Button mt={40} colorScheme="dark" _text={{color:"primary"}} onPress={()=>getStart()} fontWeight="bold">{translate("getstart")}</Button>
       </View>
     </SafeAreaView>
   );

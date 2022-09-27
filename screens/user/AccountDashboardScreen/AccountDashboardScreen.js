@@ -93,7 +93,7 @@ export default AccountDashboardScreen = (props) => {
 
       <View>
         <Text style={{ color: Colors.primary, alignSelf: "center" }}>
-         Already have an account?
+          {translate("alreadyAccount")}
         </Text>
         <Button
           mt={2}
@@ -103,17 +103,17 @@ export default AccountDashboardScreen = (props) => {
           onPress={() => onLoginPress()}
           fontWeight="bold"
         >
-          Login
+          {translate("login")}
         </Button>
       </View>
 
       <View style={{ margin: 30 }}>
-        <Text style={{ color: Colors.primary }}>OR</Text>
+        <Text style={{ color: Colors.primary }}>{translate("or")}</Text>
       </View>
 
       <View>
         <Text style={{ color: Colors.primary, alignSelf: "center" }}>
-          Create New Account
+          {translate("createnewaccount")}
         </Text>
         <Button
           mt={2}
@@ -123,7 +123,7 @@ export default AccountDashboardScreen = (props) => {
           onPress={() => onRegisterPress()}
           fontWeight="bold"
         >
-          Sign up
+          {translate("register")}
         </Button>
       </View>
 
@@ -139,7 +139,7 @@ export default AccountDashboardScreen = (props) => {
           <HStack>
             <AntDesign name="questioncircle" size={24} color={Colors.primary} />
 
-            <Text style={{ marginLeft: 5, color: Colors.primary }}>Help</Text>
+            <Text style={{ marginLeft: 5, color: Colors.primary }}>{translate("help")}</Text>
           </HStack>
         </TouchableOpacity>
       </View>

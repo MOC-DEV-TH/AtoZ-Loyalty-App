@@ -702,7 +702,7 @@ import {
   
       headerLeft: () => (
         <TouchableOpacity onPress={() => props.navigation.navigate("Home")}>
-          <Text style={{marginLeft:20,color:Colors.white}}>Back To Home</Text>
+          <Text style={{marginLeft:20,color:Colors.white}}>{translate("backtohome")}</Text>
         </TouchableOpacity>
       ),
     };

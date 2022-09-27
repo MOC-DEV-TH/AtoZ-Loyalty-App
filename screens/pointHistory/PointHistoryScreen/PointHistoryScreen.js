@@ -18,6 +18,7 @@ import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import styles from "./styles";
 import Colors from "../../../constants/Colors";
 import { Menu, Pressable, Box } from "native-base";
+import { translate } from "react-native-translate";
 
 export default function PointHistoryScreen() {
   const dispatch = useDispatch();
@@ -82,7 +83,7 @@ export default function PointHistoryScreen() {
           alignSelf: "center",
         }}
       >
-        1000 Points Available
+        1000 {translate("pointavailable")}
       </Text>
       {isRefreshing ? (
         <ActivityIndicator size="large" />
@@ -143,18 +144,18 @@ PointHistoryScreen.navigationOptions = (props) => {
               props.navigation.navigate("MyAccount")
             }
           >
-            My Account
+            {translate("myaccount")}
           </Menu.Item>
           <Menu.Item onPress={() => props.navigation.navigate("AboutUs")}>
-            About us
+          {translate("aboutus")}
           </Menu.Item>
           <Menu.Item
             onPress={() => props.navigation.navigate("TermAndCondition")}
           >
-            Terms And Conditions
+            {translate("termandcondition")}
           </Menu.Item>
           <Menu.Item onPress={() => props.navigation.navigate("Faq")}>
-            FAQ
+            {translate("faq")}
           </Menu.Item>
         </Menu>
       </Box>

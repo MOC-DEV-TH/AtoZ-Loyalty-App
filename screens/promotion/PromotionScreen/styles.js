@@ -20,7 +20,7 @@ export default StyleSheet.create({
   button: {
     backgroundColor: Colors.yellow,
     height: 40,
-    width: 120,
+    width: 150,
     marginTop:10,
     borderRadius: 20,
     alignSelf: "center",
@@ -31,7 +31,6 @@ export default StyleSheet.create({
     alignSelf: "center",
     color: Colors.primary,
     fontWeight: "bold",
-    fontSize: 18,
   },  
   image:{
     width:100,

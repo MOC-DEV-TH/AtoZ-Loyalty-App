@@ -97,11 +97,11 @@ export default AccountScreen = (props) => {
   const logoutAlert = () =>
     Alert.alert("Logout!", "Are you sure to logout!", [
       {
-        text: "Yes",
+        text: translate("yes"),
         onPress: () => console.log("Ask me later pressed"),
       },
       {
-        text: "Cancel",
+        text: translate("Cancel"),
         onPress: () => console.log("Cancel Pressed"),
         style: "cancel",
       },
@@ -116,7 +116,7 @@ export default AccountScreen = (props) => {
             <VStack space={2}>
               <HStack alignItems="center">
                 <Text color="white" w={"50%"}>
-                  User ID
+                  {translate("userid")}
                 </Text>
                 <Text color="white" w={"50%"}>
                   {memberInfo.user_id}
@@ -124,7 +124,7 @@ export default AccountScreen = (props) => {
               </HStack>
               <HStack alignItems="center">
                 <Text color="white" w={"50%"}>
-                  Point Collected
+                  {translate("pointcollected")}
                 </Text>
                 <Text color="white" w={"50%"}>
                   {memberInfo.current_point}
@@ -132,7 +132,7 @@ export default AccountScreen = (props) => {
               </HStack>
               <HStack alignItems="center">
                 <Text color="white" w={"50%"}>
-                  Member Type
+                  {translate("membertype")}
                 </Text>
                 <Text color="white" w={"50%"}>
                 {memberInfo.member_level}
@@ -152,7 +152,7 @@ export default AccountScreen = (props) => {
           <VStack space={2}>
             <HStack alignItems={"center"}>
               <Text w={"40%"} color="primary">
-                Name
+                {translate("name")}
               </Text>
               <Text w={"60%"} color="primary" pl={5}>
                 {memberInfo.name}
@@ -162,7 +162,7 @@ export default AccountScreen = (props) => {
 
             <HStack alignItems={"center"}>
               <Text w={"40%"} color="primary">
-                Date of Birth
+                {translate("dob")}
               </Text>
               <Text w={"60%"} color="primary" pl={5}>
                 {memberInfo.dob}
@@ -171,7 +171,7 @@ export default AccountScreen = (props) => {
 
             <HStack alignItems={"center"}>
               <Text w={"40%"} color="primary">
-                NRC No
+                {translate("nrc")}
               </Text>
               <Text w={"60%"} color="primary" pl={5}>
                 {memberInfo.nrc}
@@ -180,7 +180,7 @@ export default AccountScreen = (props) => {
 
             <HStack alignItems={"center"}>
               <Text w={"40%"} color="primary">
-                Address
+                {translate("address")}
               </Text>
               <Text w={"60%"} color="primary" pl={5}>
                 {memberInfo.address}
@@ -189,7 +189,7 @@ export default AccountScreen = (props) => {
 
             <HStack alignItems={"center"}>
               <Text w={"40%"} color="primary">
-                City
+                {translate("city")}
               </Text>
               <Text w={"60%"} color="primary" pl={5}>
                 {memberInfo.city}
@@ -198,7 +198,7 @@ export default AccountScreen = (props) => {
 
             <HStack alignItems={"center"}>
               <Text w={"40%"} color="primary">
-                Member Since
+                {translate("membersince")}
               </Text>
               <Text w={"60%"} color="primary" pl={5}>
                 {memberInfo.created_date}
@@ -209,13 +209,13 @@ export default AccountScreen = (props) => {
           <KeyboardAvoidingView>
             <Box mt={5}>
               <Heading size="sm" mb={3} color="primary">
-                Change password
+                {translate("changepwd")}
               </Heading>
 
               <VStack space={4}>
                 <HStack alignItems={"center"}>
                   <Text w={"40%"} color="primary" fontWeight={"bold"}>
-                    Current Password
+                    {translate("currentpwd")}
                   </Text>
                   <Box w={"60%"} pl={5} color="primary">
                     <Input
@@ -249,7 +249,7 @@ export default AccountScreen = (props) => {
 
                 <HStack alignItems={"center"}>
                   <Text w={"40%"} color="primary" fontWeight={"bold"}>
-                    New Password
+                    {translate("newpwd")}
                   </Text>
                   <Box w={"60%"} pl={5} color="primary">
                     <Input
@@ -279,7 +279,7 @@ export default AccountScreen = (props) => {
 
                 <HStack alignItems={"center"}>
                   <Text w={"40%"} color="primary" fontWeight={"bold"}>
-                    Confirm Password
+                    {translate("confirmpwd")}
                   </Text>
                   <Box w={"60%"} pl={5} color="primary">
                     <Input
@@ -313,7 +313,7 @@ export default AccountScreen = (props) => {
 
                 <HStack alignItems={"center"}>
                   <Text w={"40%"} color="primary" fontWeight={"bold"}>
-                    Change Language
+                    {translate("changeLanguage")}                    
                   </Text>
                   <TouchableOpacity onPress={() => onPressChangeLanguage()}>
                     <Text style={{fontSize:11}} w={"100%"} pl={5} mt={3} color="primary">
@@ -328,7 +328,7 @@ export default AccountScreen = (props) => {
           <HStack justifyContent={"space-between"} mt={8}>
             <VStack>
               <TouchableOpacity onPress={() => logoutAlert()}>
-                <Text>Logout</Text>
+                <Text>{translate("logout")}</Text>
               </TouchableOpacity>
             </VStack>
             <VStack>
@@ -343,7 +343,7 @@ export default AccountScreen = (props) => {
                 fontWeight="bold"
                 onPress={() => onPressSave()}
               >
-                Save
+                {translate("save")}
               </Button>
             </VStack>
           </HStack>
@@ -364,7 +364,7 @@ AccountScreen.navigationOptions = (navData) => {
 
     headerLeft: () => (
       <TouchableOpacity onPress={() => navData.navigation.navigate("Home")}>
-        <Text style={{marginLeft:20,color:Colors.white}}>Back To Home</Text>
+        <Text style={{marginLeft:20,color:Colors.white}}>{translate("backtohome")}</Text>
       </TouchableOpacity>
     ),
   };

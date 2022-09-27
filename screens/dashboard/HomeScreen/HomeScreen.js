@@ -21,6 +21,7 @@ import Colors from "../../../constants/Colors";
 import Slideshow from "react-native-image-slider-show";
 import Slider from "../../../model/slider";
 import Global from "../../../constants/Global";
+import { translate } from "react-native-translate";
 
 export default HomeScreen = (props) => {
   const sliderList = [];
@@ -97,7 +98,7 @@ export default HomeScreen = (props) => {
           fontWeight: "bold",
         }}
       >
-        Points Collected XXXX Points
+        {translate("pointcollected")} XXXX {translate("point")}
       </Text>
       <FlatList
         data={ads_data}
@@ -158,18 +159,18 @@ HomeScreen.navigationOptions = (props) => {
               props.navigation.navigate("MyAccount", { screenName: "Home" })
             }
           >
-            My Account
+          {translate("myaccount")}
           </Menu.Item>
           <Menu.Item onPress={() => props.navigation.navigate("AboutUs")}>
-            About us
+          {translate("aboutus")}
           </Menu.Item>
           <Menu.Item
             onPress={() => props.navigation.navigate("TermAndCondition")}
           >
-            Terms And Conditions
+           {translate("termandcondition")}
           </Menu.Item>
           <Menu.Item onPress={() => props.navigation.navigate("Faq")}>
-            FAQ
+            {translate("faq")}
           </Menu.Item>
         </Menu>
       </Box>

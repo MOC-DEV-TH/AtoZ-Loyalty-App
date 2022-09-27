@@ -17,6 +17,7 @@ import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import * as promotionActions from "../../../store/actions/promotions";
 import { useEffect, useCallback, useState } from "react";
 import Global from "../../../constants/Global";
+import { translate } from "react-native-translate";
 
 export default PromotionScreen = (props) => {
   const dispatch = useDispatch();
@@ -68,7 +69,7 @@ export default PromotionScreen = (props) => {
   return (
     <View style={styles.container}>
       <View style={styles.button}>
-        <Text style={styles.text}>Hot Deals</Text>
+        <Text style={styles.text}>{translate("hotdeal")}</Text>
       </View>
       {isRefreshing ? (
         <ActivityIndicator size="large" />
@@ -130,18 +131,18 @@ PromotionScreen.navigationOptions = (props) => {
               props.navigation.navigate("MyAccount")
             }
           >
-            My Account
+            {translate("myaccount")}
           </Menu.Item>
           <Menu.Item onPress={() => props.navigation.navigate("AboutUs")}>
-            About us
+            {translate("aboutus")}
           </Menu.Item>
           <Menu.Item
             onPress={() => props.navigation.navigate("TermAndCondition")}
           >
-            Terms And Conditions
+            {translate("termandcondition")}
           </Menu.Item>
           <Menu.Item onPress={() => props.navigation.navigate("Faq")}>
-            FAQ
+            {translate("faq")}
           </Menu.Item>
         </Menu>
       </Box>

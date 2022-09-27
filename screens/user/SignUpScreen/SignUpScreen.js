@@ -24,8 +24,9 @@ import AntDesign from "react-native-vector-icons/AntDesign";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from 'moment';
-
 import styles from "./styles";
+import { translate } from "react-native-translate";
+
 export default SignUpScreen = (props) => {
   const [phone, setPhone] = useState(0);
   const [name, setName] = useState("");
@@ -134,7 +135,7 @@ export default SignUpScreen = (props) => {
                 color: Colors.primary,
               }}
             >
-              Account Registration
+              {translate("accountregistration")}
             </Text>
             <View style={{ margin: 30 }}>
               <View style={styles.SectionStyle}>
@@ -145,8 +146,8 @@ export default SignUpScreen = (props) => {
 
                 <View style={{ flex: 1 }}>
                   <TextInput
-                    style={{ alignSelf: "center"}}
-                    placeholder="Name"
+                    style={{ alignSelf: "center",height:20}}
+                    placeholder={translate("name")}
                     placeholderTextColor="#aaaaaa"
                     onChangeText={(text) => setName(text)}
                     value={name}
@@ -173,9 +174,9 @@ export default SignUpScreen = (props) => {
                 <View style={{ flex: 1 }}>
                 <TouchableOpacity onPress={()=>showDatePicker()}>
                 <TextInput
-                    style={{ alignSelf: "center",color:'black' }}
+                    style={{ alignSelf: "center",height:20,color:'black' }}
                     editable={false}
-                    placeholder="Date of Birth"
+                    placeholder={translate("dob")}
                     placeholderTextColor="#aaaaaa"
                     value={dateValue}
                     underlineColorAndroid="transparent"
@@ -202,8 +203,8 @@ export default SignUpScreen = (props) => {
 
                 <View style={{ flex: 1 }}>
                   <TextInput
-                    style={{ alignSelf: "center" }}
-                    placeholder="NRC No."
+                    style={{ alignSelf: "center",height:20 }}
+                    placeholder={translate("nrc")}
                     placeholderTextColor="#aaaaaa"
                     onChangeText={(text) => setNrc(text)}
                     value={nrc}
@@ -225,8 +226,8 @@ export default SignUpScreen = (props) => {
 
                 <View style={{ flex: 1 }}>
                   <TextInput
-                    style={{ alignSelf: "center" }}
-                    placeholder="Address"
+                    style={{ alignSelf: "center",height:20 }}
+                    placeholder={translate("address")}
                     placeholderTextColor="#aaaaaa"
                     onChangeText={(text) => setAddress(text)}
                     value={address}
@@ -250,7 +251,7 @@ export default SignUpScreen = (props) => {
                 maxHeight={300}
                 labelField="value"
                 valueField="value"
-                placeholder={!isFocus ? "City" : "..."}
+                placeholder={!isFocus ? translate("city") : "..."}
                 value={city}
                 onFocus={() => setIsFocus(true)}
                 onBlur={() => setIsFocus(false)}
@@ -276,7 +277,7 @@ export default SignUpScreen = (props) => {
                 maxHeight={300}
                 labelField="value"
                 valueField="value"
-                placeholder={!isTownshipFocus ? "Township" : "..."}
+                placeholder={!isTownshipFocus ? translate("township") : "..."}
                 value={township}
                 onFocus={() => setIsTownshipFocus(true)}
                 onBlur={() => setIsTownshipFocus(false)}
@@ -299,8 +300,8 @@ export default SignUpScreen = (props) => {
 
                 <View style={{ flex: 1 }}>
                   <TextInput
-                    style={{ alignSelf: "center" }}
-                    placeholder="Phone Number"
+                    style={{ alignSelf: "center",height:20 }}
+                    placeholder= {translate("ph")}
                     placeholderTextColor="#aaaaaa"
                     onChangeText={(text) => setPhone(text)}
                     value={phone}
@@ -320,8 +321,8 @@ export default SignUpScreen = (props) => {
 
                 <View>
                   <TextInput
-                    style={{ alignSelf:"flex-start" }}
-                    placeholder="Type Password"
+                    style={{ alignSelf:"flex-start",height:20 }}
+                    placeholder= {translate("typepwd")}
                     placeholderTextColor="#aaaaaa"
                     onChangeText={(text) => setTypePassword(text)}
                     value={typePassword}
@@ -359,8 +360,8 @@ export default SignUpScreen = (props) => {
 
                 <View>
                   <TextInput
-                    style={{ alignSelf: "flex-start" }}
-                    placeholder="Confirm Password"
+                    style={{ alignSelf: "center" ,height:20,textAlign:"left" }}
+                    placeholder={translate("confirmpwd")}
                     placeholderTextColor="#aaaaaa"
                     onChangeText={(text) => setConfirmPassword(text)}
                     value={confirmPassword}
@@ -391,7 +392,7 @@ export default SignUpScreen = (props) => {
               <View
                 style={{
                   flexDirection: "row",
-                  alignSelf: "center",
+                  alignSelf: "flex-start",
                   marginTop: 20,
                 }}
               >
@@ -400,12 +401,12 @@ export default SignUpScreen = (props) => {
                   value={isChecked}
                   onValueChange={setChecked}
                 />
-                <Text style={{ marginLeft: 10 }}>I've read and agree on</Text>
+                <Text style={{ marginLeft: 10 }}>{translate("agreeon")}</Text>
                 <TouchableOpacity onPress={onSignInPress}>
                   <Text
                     style={{ color: "red", textDecorationLine: "underline" }}
                   >
-                    Terms & Conditions
+                    {translate("termandcondition")}
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -414,7 +415,7 @@ export default SignUpScreen = (props) => {
                 style={styles.button}
                 onPress={() => onSignUpPress()}
               >
-                <Text style={styles.buttonTitle}>Register</Text>
+                <Text style={styles.buttonTitle}>{translate("register")}</Text>
               </TouchableOpacity>
             </View>
           </View>
