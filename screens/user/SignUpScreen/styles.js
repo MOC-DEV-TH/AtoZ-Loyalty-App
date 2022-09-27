@@ -63,6 +63,10 @@ export default StyleSheet.create({
     borderColor: "grey",
     borderWidth: 1,
   },
+  textInput: {
+    color: 'green',
+    alignItems : "center"
+   },
   button: {
     backgroundColor: Colors.yellow,
     marginTop: 40,

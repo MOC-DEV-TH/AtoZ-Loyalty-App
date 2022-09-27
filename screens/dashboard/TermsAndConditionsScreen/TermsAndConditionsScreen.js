@@ -5,6 +5,7 @@ import EntryBaner from "../../../components/EntryBaner";
 import { StyleSheet, TouchableOpacity,Image } from "react-native";
 import { setLocalization,translate } from 'react-native-translate';
 import i18n from "../../../I18n/i18n";
+import Colors from "../../../constants/Colors";
 
 const OverlapContentBox = (props) => {
   return (
@@ -199,16 +200,12 @@ TermsAndCondition.navigationOptions = (props) => {
     headerTintColor: "black",
     headerTitleAlign: "center",
     headerStyle: {
-      backgroundColor: "white",
-      height: 0,
+      backgroundColor: Colors.primary
     },
 
     headerLeft: () => (
       <TouchableOpacity onPress={() => props.navigation.navigate("Home")}>
-        <Image
-          style={{ height: 15, width: 20, marginLeft: 10 }}
-          source={require("../../../assets/back_arrow.png")}
-        />
+        <Text style={{marginLeft:20,color:Colors.white}}>Back To Home</Text>
       </TouchableOpacity>
     ),
   };

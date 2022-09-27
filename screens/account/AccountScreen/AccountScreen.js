@@ -135,7 +135,7 @@ export default AccountScreen = (props) => {
                   Member Type
                 </Text>
                 <Text color="white" w={"50%"}>
-                  Gold
+                {memberInfo.member_level}
                 </Text>
               </HStack>
             </VStack>
@@ -159,14 +159,6 @@ export default AccountScreen = (props) => {
               </Text>
             </HStack>
 
-            <HStack alignItems={"center"}>
-              <Text w={"40%"} color="primary">
-                Business Name
-              </Text>
-              <Text w={"60%"} color="primary" pl={5}>
-                William
-              </Text>
-            </HStack>
 
             <HStack alignItems={"center"}>
               <Text w={"40%"} color="primary">
@@ -200,7 +192,7 @@ export default AccountScreen = (props) => {
                 City
               </Text>
               <Text w={"60%"} color="primary" pl={5}>
-                {memberInfo.current_point}
+                {memberInfo.city}
               </Text>
             </HStack>
 
@@ -209,7 +201,7 @@ export default AccountScreen = (props) => {
                 Member Since
               </Text>
               <Text w={"60%"} color="primary" pl={5}>
-                2019
+                {memberInfo.created_date}
               </Text>
             </HStack>
           </VStack>
@@ -372,11 +364,7 @@ AccountScreen.navigationOptions = (navData) => {
 
     headerLeft: () => (
       <TouchableOpacity onPress={() => navData.navigation.navigate("Home")}>
-        <Image
-          style={{ height: 15, width: 20, marginLeft: 10 }}
-          source={require("../../../assets/back_arrow.png")}
-          alt="back arrow"
-        />
+        <Text style={{marginLeft:20,color:Colors.white}}>Back To Home</Text>
       </TouchableOpacity>
     ),
   };

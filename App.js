@@ -98,7 +98,7 @@ export default function App() {
         data: JSON.parse(notificationObject.data.body),
       };
       console.log(newNotification.title);
-      storeData(newNotification.title);
+      //storeData(newNotification.title);
       await Notifications.setBadgeCountAsync(1);
     } catch (error) {
       console.error(error);

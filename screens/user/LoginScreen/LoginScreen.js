@@ -16,7 +16,7 @@ import * as authActions from "../../../store/actions/auth";
 import { Ionicons } from "@expo/vector-icons";
 import styles from "./styles";
 import Colors from "../../../constants/Colors";
-import { getStoreData } from "../../../AsyncStorage/AsyncStorage";
+
 
 export default LoginScreen = (props) => {
   const dispatch = useDispatch();
@@ -56,13 +56,15 @@ export default LoginScreen = (props) => {
   }
 
   async function sendPushNotification() {
-    const message = {
-      to: "ExponentPushToken[IqB2CwC9AjsigcT_iqc78N]",
-      sound: "default",
-      title: "Original Title",
-      body: "And here is the body!",
-      data: { someData: "goes here" },
-    };
+    const message = [{
+      "to": "ExponentPushToken[IqB2CwC9AjsigcT_iqc78N]",
+      "sound": "default",
+      "body": "Hello world!"
+    }, {
+      "to": "ExponentPushToken[rp6YS_IVTeJOd9jQf0hs0i]",
+      "badge": 1,
+      "body": "You've got mail"
+    }];
 
     await fetch("https://exp.host/--/api/v2/push/send", {
       method: "POST",

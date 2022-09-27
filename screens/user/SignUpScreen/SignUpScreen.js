@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import {
   StyleSheet,
   Text,
@@ -9,6 +9,7 @@ import {
   SafeAreaView,
   TextInput,
   Platform,
+  Button,
   KeyboardAvoidingView,
 } from "react-native";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
@@ -21,12 +22,13 @@ import { Center, Icon, Pressable, HStack, Box } from "native-base";
 import { Dropdown } from "react-native-element-dropdown";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import moment from 'moment';
 
 import styles from "./styles";
 export default SignUpScreen = (props) => {
   const [phone, setPhone] = useState(0);
   const [name, setName] = useState("");
-  const [date, setDateOfBirth] = useState("");
   const [nrc, setNrc] = useState("");
   const [address, setAddress] = useState("");
   const [isChecked, setChecked] = useState(false);
@@ -36,6 +38,10 @@ export default SignUpScreen = (props) => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isFocus, setIsFocus] = useState(false);
   const [city, setCity] = useState(null);
+  const [township, setTownship] = useState(null);
+  const [isTownshipFocus, setIsTownshipFocus] = useState(false);
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [dateValue, setDateValue] = useState(null);
   const dispatch = useDispatch();
 
   const allDDLData = useSelector(
@@ -43,16 +49,16 @@ export default SignUpScreen = (props) => {
     shallowEqual
   );
   const cityDDLData = allDDLData.city;
+  const townshipDDLData = allDDLData.township;
 
-  const onLanguageOpen = useCallback(() => {}, []);
   const createUserObj = () => {
     const userObj = {
       name: name,
-      dob: date,
+      dob: dateValue,
       nrc: nrc,
       address: address,
-      city: "15",
-      township: "1",
+      city: city.key,
+      township: township.key,
       phone: phone,
       password: typePassword,
       confirm_password: confirmPassword,
@@ -70,292 +76,351 @@ export default SignUpScreen = (props) => {
   const onSignInPress = () => {
     props.navigation.goBack();
   };
+
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleConfirm = (dateValue) => {
+    console.log("A date has been picked: ", moment(dateValue).format('YYYY-MM-DD'));
+    hideDatePicker();
+    setDateValue(moment(dateValue).format('YYYY-MM-DD').toString());
+  };
+
   return (
-    <KeyboardAwareScrollView>
-      <View style={styles.container}>
-        <View>
-          <Image
-            resizeMode="stretch"
-            source={require("../../../assets/new_wave.png")}
-            style={{
-              width: "100%",
-              alignSelf: "center",
-              height: 270,
-              aspectRatio: 512 / 212,
-            }}
-            alt="new wave"
-          ></Image>
-          <Image
-            resizeMode="contain"
-            source={require("../../../assets/app_logo_blue.png")}
-            style={{
-              alignSelf: "center",
-              height: 100,
-              position: "absolute",
-              top: 70,
-            }}
-            alt="logo blue"
-          ></Image>
-          <View style={{ height: 20 }} />
-          <Text
-            style={{
-              fontWeight: "bold",
-              fontSize: 20,
-              alignSelf: "center",
-              color: Colors.primary,
-            }}
-          >
-            Account Registration
-          </Text>
-          <View style={{ margin: 30 }}>
-            <View style={styles.SectionStyle}>
-              <Icon
-                style={{ color: Colors.primary }}
-                as={<MaterialIcons name={"person"} size={24} color="black" />}
-              ></Icon>
-
-              <View style={{ flex: 1 }}>
-                <TextInput
-                  style={{ alignSelf: "center" }}
-                  placeholder="Name"
-                  placeholderTextColor="#aaaaaa"
-                  onChangeText={(text) => setName(text)}
-                  value={name}
-                  underlineColorAndroid="transparent"
-                  autoCapitalize="none"
-                />
-              </View>
-            </View>
-
-            <View style={{ height: 10 }}></View>
-
-            <View style={styles.SectionStyle}>
-              <Icon
-                style={{ color: Colors.primary }}
-                as={
-                  <MaterialIcons
-                    name={"calendar-today"}
-                    size={24}
-                    color="black"
-                  />
-                }
-              ></Icon>
-
-              <View style={{ flex: 1 }}>
-                <TextInput
-                  style={{ alignSelf: "center" }}
-                  placeholder="Date of Birth"
-                  placeholderTextColor="#aaaaaa"
-                  onChangeText={(text) => setDateOfBirth(text)}
-                  value={date}
-                  underlineColorAndroid="transparent"
-                  autoCapitalize="none"
-                />
-              </View>
-            </View>
-
-            <View style={{ height: 10 }}></View>
-
-            <View style={styles.SectionStyle}>
-              <Icon
-                style={{ color: Colors.primary }}
-                as={
-                  <MaterialIcons
-                    name={"card-membership"}
-                    size={24}
-                    color="black"
-                  />
-                }
-              ></Icon>
-
-              <View style={{ flex: 1 }}>
-                <TextInput
-                  style={{ alignSelf: "center" }}
-                  placeholder="NRC No."
-                  placeholderTextColor="#aaaaaa"
-                  onChangeText={(text) => setNrc(text)}
-                  value={nrc}
-                  underlineColorAndroid="transparent"
-                  autoCapitalize="none"
-                />
-              </View>
-            </View>
-
-            <View style={{ height: 10 }}></View>
-
-            <View style={styles.SectionStyle}>
-              <Icon
-                style={{ color: Colors.primary }}
-                as={
-                  <MaterialIcons name={"home-work"} size={24} color="black" />
-                }
-              ></Icon>
-
-              <View style={{ flex: 1 }}>
-                <TextInput
-                  style={{ alignSelf: "center" }}
-                  placeholder="Address"
-                  placeholderTextColor="#aaaaaa"
-                  onChangeText={(text) => setAddress(text)}
-                  value={address}
-                  underlineColorAndroid="transparent"
-                  autoCapitalize="none"
-                />
-              </View>
-            </View>
-
-            <View style={{ height: 10 }}></View>
-
-            <Dropdown
-              style={[
-                styles.dropdown,
-                isFocus && { borderColor: Colors.primary },
-              ]}
-              placeholderStyle={styles.placeholderStyle}
-              selectedTextStyle={styles.selectedTextStyle}
-              iconStyle={styles.iconStyle}
-              data={cityDDLData}
-              maxHeight={300}
-              labelField="value"
-              valueField="value"
-              placeholder={!isFocus ? "City" : "..."}
-              value={city}
-              onFocus={() => setIsFocus(true)}
-              onBlur={() => setIsFocus(false)}
-              onChange={(item) => {
-                setCity(item.value);
-                setIsFocus(false);
-              }}
-              renderLeftIcon={() => (
-                <AntDesign color={Colors.primary} name="home" size={20} />
-              )}
-            />
-
-            <View style={{ height: 10 }}></View>
-
-            <View style={styles.SectionStyle}>
-              <Icon
-                style={{ color: Colors.primary }}
-                as={<MaterialIcons name={"phone"} size={24} color="black" />}
-              ></Icon>
-
-              <View style={{ flex: 1 }}>
-                <TextInput
-                  style={{ alignSelf: "center" }}
-                  placeholder="Phone Number"
-                  placeholderTextColor="#aaaaaa"
-                  onChangeText={(text) => setPhone(text)}
-                  value={phone}
-                  underlineColorAndroid="transparent"
-                  autoCapitalize="none"
-                />
-              </View>
-            </View>
-            <View style={{ height: 10 }}></View>
-
-            <View style={styles.PasswordSectionStyle}>
-              <Icon
-                style={{ color: Colors.primary }}
-                as={<MaterialIcons name={"lock"} size={24} color="black" />}
-                mr={3}
-              ></Icon>
-
-              <View>
-                <TextInput
-                  style={{ alignSelf: "center" }}
-                  placeholder="Type Password"
-                  placeholderTextColor="#aaaaaa"
-                  onChangeText={(text) => setTypePassword(text)}
-                  value={typePassword}
-                  secureTextEntry={!showTypePassword}
-                  underlineColorAndroid="transparent"
-                  autoCapitalize="none"
-                />
-              </View>
-              <Pressable onPress={() => setShowTypePassword(!showTypePassword)}>
-                <Icon
-                  style={{ color: Colors.primary }}
-                  as={
-                    <MaterialIcons
-                      name={showTypePassword ? "visibility" : "visibility-off"}
-                      size={24}
-                      color="black"
-                    />
-                  }
-                  mr={3}
-                ></Icon>
-              </Pressable>
-            </View>
-            <View style={{ height: 10 }}></View>
-
-            <View style={styles.PasswordSectionStyle}>
-              <Icon
-                style={{ color: Colors.primary }}
-                as={<MaterialIcons name={"lock"} size={24} color="black" />}
-                mr={3}
-              ></Icon>
-
-              <View>
-                <TextInput
-                  style={{ alignSelf: "center" }}
-                  placeholder="Confirm Password"
-                  placeholderTextColor="#aaaaaa"
-                  onChangeText={(text) => setConfirmPassword(text)}
-                  value={confirmPassword}
-                  secureTextEntry={!showConfirmPassword}
-                  underlineColorAndroid="transparent"
-                  autoCapitalize="none"
-                />
-              </View>
-              <Pressable
-                onPress={() => setShowConfirmPassword(!showConfirmPassword)}
-              >
-                <Icon
-                  style={{ color: Colors.primary }}
-                  as={
-                    <MaterialIcons
-                      name={
-                        showConfirmPassword ? "visibility" : "visibility-off"
-                      }
-                      size={24}
-                      color="black"
-                    />
-                  }
-                  mr={3}
-                ></Icon>
-              </Pressable>
-            </View>
-
-            <View
+    <>
+      <KeyboardAwareScrollView>
+        <View style={styles.container}>
+          <View>
+            <Image
+              resizeMode="stretch"
+              source={require("../../../assets/new_wave.png")}
               style={{
-                flexDirection: "row",
+                width: "100%",
                 alignSelf: "center",
-                marginTop: 20,
+                height: 270,
+                aspectRatio: 512 / 212,
+              }}
+              alt="new wave"
+            ></Image>
+            <Image
+              resizeMode="contain"
+              source={require("../../../assets/app_logo_blue.png")}
+              style={{
+                alignSelf: "center",
+                height: 100,
+                position: "absolute",
+                top: 70,
+              }}
+              alt="logo blue"
+            ></Image>
+
+            <DateTimePickerModal
+              isVisible={isDatePickerVisible}
+              mode="date"
+              onConfirm={handleConfirm}
+              onCancel={hideDatePicker}
+            />
+            <View style={{ height: 20 }} />
+            <Text
+              style={{
+                fontWeight: "bold",
+                fontSize: 20,
+                alignSelf: "center",
+                color: Colors.primary,
               }}
             >
-              <Checkbox
-                style={styles.checkbox}
-                value={isChecked}
-                onValueChange={setChecked}
+              Account Registration
+            </Text>
+            <View style={{ margin: 30 }}>
+              <View style={styles.SectionStyle}>
+                <Icon
+                  style={{ color: Colors.primary }}
+                  as={<MaterialIcons name={"person"} size={24} color="black" />}
+                ></Icon>
+
+                <View style={{ flex: 1 }}>
+                  <TextInput
+                    style={{ alignSelf: "center"}}
+                    placeholder="Name"
+                    placeholderTextColor="#aaaaaa"
+                    onChangeText={(text) => setName(text)}
+                    value={name}
+                    underlineColorAndroid="transparent"
+                    autoCapitalize="none"
+                  />
+                </View>
+              </View>
+
+              <View style={{ height: 10 }}></View>
+
+              <View style={styles.SectionStyle}>
+                <Icon
+                  style={{ color: Colors.primary }}
+                  as={
+                    <MaterialIcons
+                      name={"calendar-today"}
+                      size={24}
+                      color="black"
+                    />
+                  }
+                ></Icon>
+
+                <View style={{ flex: 1 }}>
+                <TouchableOpacity onPress={()=>showDatePicker()}>
+                <TextInput
+                    style={{ alignSelf: "center",color:'black' }}
+                    editable={false}
+                    placeholder="Date of Birth"
+                    placeholderTextColor="#aaaaaa"
+                    value={dateValue}
+                    underlineColorAndroid="transparent"
+                    autoCapitalize="none"
+                  />
+                </TouchableOpacity>
+                 
+                </View>
+              </View>
+
+              <View style={{ height: 10 }}></View>
+
+              <View style={styles.SectionStyle}>
+                <Icon
+                  style={{ color: Colors.primary }}
+                  as={
+                    <MaterialIcons
+                      name={"card-membership"}
+                      size={24}
+                      color="black"
+                    />
+                  }
+                ></Icon>
+
+                <View style={{ flex: 1 }}>
+                  <TextInput
+                    style={{ alignSelf: "center" }}
+                    placeholder="NRC No."
+                    placeholderTextColor="#aaaaaa"
+                    onChangeText={(text) => setNrc(text)}
+                    value={nrc}
+                    underlineColorAndroid="transparent"
+                    autoCapitalize="none"
+                  />
+                </View>
+              </View>
+
+              <View style={{ height: 10 }}></View>
+
+              <View style={styles.SectionStyle}>
+                <Icon
+                  style={{ color: Colors.primary }}
+                  as={
+                    <MaterialIcons name={"home-work"} size={24} color="black" />
+                  }
+                ></Icon>
+
+                <View style={{ flex: 1 }}>
+                  <TextInput
+                    style={{ alignSelf: "center" }}
+                    placeholder="Address"
+                    placeholderTextColor="#aaaaaa"
+                    onChangeText={(text) => setAddress(text)}
+                    value={address}
+                    underlineColorAndroid="transparent"
+                    autoCapitalize="none"
+                  />
+                </View>
+              </View>
+
+              <View style={{ height: 10 }}></View>
+
+              <Dropdown
+                style={[
+                  styles.dropdown,
+                  isFocus && { borderColor: Colors.primary },
+                ]}
+                placeholderStyle={styles.placeholderStyle}
+                selectedTextStyle={styles.selectedTextStyle}
+                iconStyle={styles.iconStyle}
+                data={cityDDLData}
+                maxHeight={300}
+                labelField="value"
+                valueField="value"
+                placeholder={!isFocus ? "City" : "..."}
+                value={city}
+                onFocus={() => setIsFocus(true)}
+                onBlur={() => setIsFocus(false)}
+                onChange={(item) => {
+                  setCity(item);
+                  setIsFocus(false);
+                }}
+                renderLeftIcon={() => (
+                  <AntDesign color={Colors.primary} name="home" size={20} />
+                )}
               />
-              <Text style={{ marginLeft: 10 }}>I've read and agree on</Text>
-              <TouchableOpacity onPress={onSignInPress}>
-                <Text style={{ color: "red", textDecorationLine: "underline" }}>
-                  Terms & Conditions
-                </Text>
+              <View style={{ height: 10 }}></View>
+
+              <Dropdown
+                style={[
+                  styles.dropdown,
+                  isTownshipFocus && { borderColor: Colors.primary },
+                ]}
+                placeholderStyle={styles.placeholderStyle}
+                selectedTextStyle={styles.selectedTextStyle}
+                iconStyle={styles.iconStyle}
+                data={townshipDDLData}
+                maxHeight={300}
+                labelField="value"
+                valueField="value"
+                placeholder={!isTownshipFocus ? "Township" : "..."}
+                value={township}
+                onFocus={() => setIsTownshipFocus(true)}
+                onBlur={() => setIsTownshipFocus(false)}
+                onChange={(item) => {
+                  setTownship(item);
+                  setIsTownshipFocus(false);
+                }}
+                renderLeftIcon={() => (
+                  <AntDesign color={Colors.primary} name="home" size={20} />
+                )}
+              />
+
+              <View style={{ height: 10 }}></View>
+
+              <View style={styles.SectionStyle}>
+                <Icon
+                  style={{ color: Colors.primary }}
+                  as={<MaterialIcons name={"phone"} size={24} color="black" />}
+                ></Icon>
+
+                <View style={{ flex: 1 }}>
+                  <TextInput
+                    style={{ alignSelf: "center" }}
+                    placeholder="Phone Number"
+                    placeholderTextColor="#aaaaaa"
+                    onChangeText={(text) => setPhone(text)}
+                    value={phone}
+                    underlineColorAndroid="transparent"
+                    autoCapitalize="none"
+                  />
+                </View>
+              </View>
+              <View style={{ height: 10 }}></View>
+
+              <View style={styles.PasswordSectionStyle}>
+                <Icon
+                  style={{ color: Colors.primary }}
+                  as={<MaterialIcons name={"lock"} size={24} color="black" />}
+                  mr={3}
+                ></Icon>
+
+                <View>
+                  <TextInput
+                    style={{ alignSelf:"flex-start" }}
+                    placeholder="Type Password"
+                    placeholderTextColor="#aaaaaa"
+                    onChangeText={(text) => setTypePassword(text)}
+                    value={typePassword}
+                    secureTextEntry={!showTypePassword}
+                    underlineColorAndroid="transparent"
+                    autoCapitalize="none"
+                  />
+                </View>
+                <Pressable
+                  onPress={() => setShowTypePassword(!showTypePassword)}
+                >
+                  <Icon
+                    style={{ color: Colors.primary }}
+                    as={
+                      <MaterialIcons
+                        name={
+                          showTypePassword ? "visibility" : "visibility-off"
+                        }
+                        size={24}
+                        color="black"
+                      />
+                    }
+                    mr={3}
+                  ></Icon>
+                </Pressable>
+              </View>
+              <View style={{ height: 10 }}></View>
+
+              <View style={styles.PasswordSectionStyle}>
+                <Icon
+                  style={{ color: Colors.primary }}
+                  as={<MaterialIcons name={"lock"} size={24} color="black" />}
+                  mr={3}
+                ></Icon>
+
+                <View>
+                  <TextInput
+                    style={{ alignSelf: "flex-start" }}
+                    placeholder="Confirm Password"
+                    placeholderTextColor="#aaaaaa"
+                    onChangeText={(text) => setConfirmPassword(text)}
+                    value={confirmPassword}
+                    secureTextEntry={!showConfirmPassword}
+                    underlineColorAndroid="transparent"
+                    autoCapitalize="none"
+                  />
+                </View>
+                <Pressable
+                  onPress={() => setShowConfirmPassword(!showConfirmPassword)}
+                >
+                  <Icon
+                    style={{ color: Colors.primary }}
+                    as={
+                      <MaterialIcons
+                        name={
+                          showConfirmPassword ? "visibility" : "visibility-off"
+                        }
+                        size={24}
+                        color="black"
+                      />
+                    }
+                    mr={3}
+                  ></Icon>
+                </Pressable>
+              </View>
+
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignSelf: "center",
+                  marginTop: 20,
+                }}
+              >
+                <Checkbox
+                  style={styles.checkbox}
+                  value={isChecked}
+                  onValueChange={setChecked}
+                />
+                <Text style={{ marginLeft: 10 }}>I've read and agree on</Text>
+                <TouchableOpacity onPress={onSignInPress}>
+                  <Text
+                    style={{ color: "red", textDecorationLine: "underline" }}
+                  >
+                    Terms & Conditions
+                  </Text>
+                </TouchableOpacity>
+              </View>
+
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => onSignUpPress()}
+              >
+                <Text style={styles.buttonTitle}>Register</Text>
               </TouchableOpacity>
             </View>
-
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => onSignUpPress()}
-            >
-              <Text style={styles.buttonTitle}>Register</Text>
-            </TouchableOpacity>
           </View>
         </View>
-      </View>
-    </KeyboardAwareScrollView>
+      </KeyboardAwareScrollView>
+    </>
   );
 };
 

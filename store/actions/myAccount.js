@@ -35,7 +35,8 @@ export const getMemberInfo = () => {
       respData.details.township,
       respData.details.member_level,
       respData.details.current_point,
-      respData.details.user_id
+      respData.details.user_id,
+      respData.details.created_date
     );
     console.log(memberInfoObj);
     dispatch({

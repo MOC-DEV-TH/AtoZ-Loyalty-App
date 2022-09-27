@@ -23,6 +23,7 @@ import {
   } from "accordion-collapse-react-native";
   import i18n from "../../../I18n/i18n";
   import { MaterialIcons } from "@expo/vector-icons";
+  import Colors from "../../../constants/Colors";
 
   const CollapseHeaderInner = ({ title, hasDivider }) => {
     return (
@@ -684,9 +685,6 @@ import {
             </Box>
             {/* end of Block */}
   
-  
-  
-  
           </OverlapContentBox>
         </ScrollView>
       </View>
@@ -699,16 +697,12 @@ import {
       headerTintColor: "black",
       headerTitleAlign: "center",
       headerStyle: {
-        backgroundColor: "white",
-        height: 0,
+        backgroundColor: Colors.primary,
       },
   
       headerLeft: () => (
         <TouchableOpacity onPress={() => props.navigation.navigate("Home")}>
-          <Image
-            style={{ height: 15, width: 20, marginLeft: 10 }}
-            source={require("../../../assets/back_arrow.png")}
-          />
+          <Text style={{marginLeft:20,color:Colors.white}}>Back To Home</Text>
         </TouchableOpacity>
       ),
     };

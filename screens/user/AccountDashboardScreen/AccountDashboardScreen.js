@@ -103,7 +103,7 @@ export default AccountDashboardScreen = (props) => {
           onPress={() => onLoginPress()}
           fontWeight="bold"
         >
-          Get Start
+          Login
         </Button>
       </View>
 
@@ -123,7 +123,7 @@ export default AccountDashboardScreen = (props) => {
           onPress={() => onRegisterPress()}
           fontWeight="bold"
         >
-          Get Start
+          Sign up
         </Button>
       </View>
 
