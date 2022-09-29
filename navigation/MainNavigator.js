@@ -27,7 +27,7 @@ const defaultNavOptions = {
   headerStyle: {
     backgroundColor:
       Platform.OS === "android" ? Colors.primary : Colors.primary,
-    height: 120,
+    height: 80,
     shadowColor: "transparent", // this covers iOS
     elevation: 0,
   },
@@ -127,20 +127,21 @@ const tabScreenConfig = {
   Dashboard: {
     screen: DashboardNavigator,
     navigationOptions: {
+      tabBarColor : {color:Colors.yellow},
       tabBarLabel: (
         <Text
           style={{
-            color: Colors.primary,
+            color: Colors.yellow,
           }}
         >
           {translate("home")}
         </Text>
       ),
       tabBarOptions: {
-        activeTintColor: Colors.primary,
+        activeTintColor: Colors.yellow,
         labelStyle: {
           fontSize: 10,
-          color: Colors.primary,
+          color: Colors.yellow,
         },
       },
       tabBarIcon: (tabInfo) => {
@@ -154,7 +155,7 @@ const tabScreenConfig = {
       tabBarLabel: (
         <Text
           style={{
-            color: Colors.primary,
+            color: Colors.yellow,
           }}
         >
           {translate("pointhistory")}
@@ -164,7 +165,7 @@ const tabScreenConfig = {
         activeTintColor: Colors.primary,
         labelStyle: {
           fontSize: 10,
-          color: Colors.primary,
+          color: Colors.white,
         },
       },
       tabBarIcon: (tabInfo) => {
@@ -184,14 +185,14 @@ const tabScreenConfig = {
       tabBarLabel: (
         <Text
           style={{
-            color: Colors.primary,
+            color: Colors.yellow,
           }}
         >
           {translate("promotions")}
         </Text>
       ),
       tabBarOptions: {
-        activeTintColor: Colors.primary,
+        activeTintColor: Colors.white,
         labelStyle: {
           fontSize: 10,
           color: Colors.primary,
@@ -214,7 +215,7 @@ const tabScreenConfig = {
       tabBarLabel: (
         <Text
           style={{
-            color: Colors.primary,
+            color: Colors.yellow,
           }}
         >
           {translate("notification")}
@@ -239,22 +240,24 @@ const tabScreenConfig = {
     },
   },
 };
+
+
 const MainTabNavigator =
   Platform.OS === "android"
     ? createMaterialBottomTabNavigator(tabScreenConfig, {
-        activeColor: Colors.primary,
-        inactiveColor: Colors.dimGray,
-        showLabel: false,
-        shifting: true,
+        activeColor: Colors.yellow,
+        inactiveColor: Colors.yellow,
+        showLabel : true,
+        labeled : true,
         barStyle: {
-          backgroundColor: "#f2f2f2",
+          backgroundColor: Colors.primary,
           // fontFamily: ShareStyles.MyanmarFontBold
         },
       })
     : createBottomTabNavigator(tabScreenConfig, {
         tabBarOptions: {
           activeTintColor: "#3B3B3B",
-          showLabel: false,
+          labeled:true
         },
       });
 

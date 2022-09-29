@@ -5,9 +5,9 @@ import Colors from "../../../constants/Colors";
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems : "center",
-    justifyContent:"center"
+    backgroundColor: '#fff',
+    paddingLeft:20,
+    paddingRight:20
   },
   headerIcon: {
     width: 100,
@@ -31,6 +31,6 @@ export default StyleSheet.create({
     alignSelf: "center",
     color: Colors.primary,
     fontWeight: "bold",
-    fontSize: 18,
+    fontSize: 17,
   },
 });

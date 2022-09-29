@@ -2,9 +2,8 @@ import { StyleSheet } from "react-native";
 import Colors from "../../../constants/Colors";
 export default StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: "white",
-    justifyContent:"center",
+    flex: 1
   },
 
   logo: {
@@ -21,19 +20,21 @@ export default StyleSheet.create({
     backgroundColor: '#fff',
     borderWidth: .5,
     borderColor: Colors.primary,
-    height: 40,
+    alignItems: "center",
     borderRadius: 5 ,
-    padding:12,
+    paddingLeft: 15,
+    paddingRight: 15
 },
 PasswordSectionStyle: {
   flexDirection: 'row',
   backgroundColor: '#fff',
+  alignItems: "center",
   justifyContent:"space-between",
   borderWidth: .5,
   borderColor: Colors.primary,
-  height: 40,
   borderRadius: 5 ,
-  padding:12,
+  paddingLeft: 15,
+  paddingRight: 15
 },
 
   input: {

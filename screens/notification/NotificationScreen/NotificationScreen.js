@@ -6,21 +6,57 @@ import {
   View,
   TouchableOpacity,
   SafeAreaView,
-  ActivityIndicator
+  ActivityIndicator,
+  FlatList
 } from "react-native";
 import i18n from "../../../I18n/i18n";
 import { Ionicons } from "@expo/vector-icons";
 import styles from "./styles";
 import Colors from "../../../constants/Colors";
-import { Menu, Pressable, Box, Center } from "native-base";
+import { Menu, Pressable, Box, Center,HStack, VStack } from "native-base";
+import { useEffect, useCallback, useState } from "react";
 import { translate } from "react-native-translate";
+import * as SQLite from "expo-sqlite";
+
+//open database
+const db = SQLite.openDatabase("db.aToz");
 
 export default NotificationScreen = (props) => {
+
+  const[notificationData,setNotificationData] = useState([])
+
+ useEffect(()=>{
+  db.transaction(tx => {
+    tx.executeSql('SELECT * FROM notifications', null,
+      (txObj, { rows: { _array } }) => {setNotificationData(_array)},
+      (txObj, error) => console.log('Error ', error)
+      ) 
+  })
+ })
+
+ const renderItem = ({ item }) => {
+  return (
+    <VStack style={{marginTop:10}}>
+        <Text style={{fontSize:17,fontWeight:"bold",color:Colors.primary}}>{item.title}</Text>
+        <Text style={{color:Colors.primary}}>
+        {item.desc}
+        </Text>
+    </VStack>
+  );
+};
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.button}>
         <Text style={styles.text}>{translate("inbox")}</Text>
       </View>
+      <FlatList
+          showsVerticalScrollIndicator={false}
+          style={{marginTop:60}}
+          data={notificationData}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+        />
     </SafeAreaView>
   );
 };
@@ -57,7 +93,7 @@ NotificationScreen.navigationOptions = (props) => {
               >
                 <Ionicons
                   size={38}
-                  style={{ color: Colors.white }}
+                  style={{ color: Colors.white,marginRight:15 }}
                   name="menu"
                 ></Ionicons>
               </Pressable>

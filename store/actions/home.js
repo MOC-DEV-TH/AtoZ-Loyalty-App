@@ -2,11 +2,20 @@ import AppVersion from "../../constants/AppVersion";
 import Global from "../../constants/Global";
 import HomePromotion from "../../model/home_promotion";
 export const SET_HOME_PROMOTION = "SET_HOME_PROMOTION";
+export const SET_RESPONSE_CODE = "SET_RESPONSE_CODE"
+export const SET_EMPTY_RESPONSE_CODE = "SET_EMPTY_RESPONSE_CODE"
 
+export const setEmptyResponseCode = () => {
+  return (dispatch) => {
+    dispatch({
+      type: SET_EMPTY_RESPONSE_CODE,
+    });
+  };
+};
 export const getHomePromotions = () => {
   return async (dispatch, getState) => {
     const token = getState().auth.token;
-    const response = await fetch(
+    const response = await  fetch(
       Global.baseUrl + "/get_home?app_version=" + AppVersion.app_version,
       {
         method: "GET",
@@ -25,8 +34,13 @@ export const getHomePromotions = () => {
     }
 
     const respData = await response.json();
+    dispatch({
+      type: SET_RESPONSE_CODE,
+      response_code : respData.response_code
+    })
+    console.log("HomeResponse"+respData.response_code);
     const loadHomePromotions = [];
-
+    
     for (const item of respData.details) {
       loadHomePromotions.push(
         new HomePromotion(
@@ -44,6 +58,7 @@ export const getHomePromotions = () => {
         )
       );
     }
+
     dispatch({
       type: SET_HOME_PROMOTION,
       home_promotions: loadHomePromotions,

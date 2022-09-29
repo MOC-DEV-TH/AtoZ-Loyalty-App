@@ -19,10 +19,13 @@ import styles from "./styles";
 import Colors from "../../../constants/Colors";
 import { Menu, Pressable, Box } from "native-base";
 import { translate } from "react-native-translate";
+import SessionExpireAlert from "../../../components/SessionExpireAlert";
 
-export default function PointHistoryScreen() {
+export default  PointHistoryScreen = (props) =>  {
   const dispatch = useDispatch();
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [alert,setShowAlert] = useState(false);
+
 
   const loadPointHistoryData = useCallback(async () => {
     setIsRefreshing(true);
@@ -36,7 +39,38 @@ export default function PointHistoryScreen() {
     loadPointHistoryData();
   }, [loadPointHistoryData]);
 
-  const extractKey = ({ rows }) => rows;
+  useEffect(() => {
+    console.log("Will Focus");
+    const willFocusSub = props.navigation.addListener(
+      "willFocus",
+      loadPointHistoryData
+    );
+    return () => {
+      willFocusSub.remove();
+    };
+  }, [loadPointHistoryData]);
+
+  const onConfirm = () => {
+    dispatch(pointHistoryActions.setEmptyResponseCode());
+    props.navigation.navigate("AccountDashboard");
+    setShowAlert(false)
+  }
+
+  const responseCode = useSelector(
+    (state) => state.pointHistory.response_code,
+    shallowEqual
+  );
+
+  const showSessionDialog = useCallback(()=>{
+    setShowAlert(true)
+  })
+
+  useEffect(()=>{
+    if(responseCode=="005"){
+      showSessionDialog()
+    }
+  },)
+
   const pointHistoryData = useSelector(
     (state) => state.pointHistory.pointHistoryData,
     shallowEqual
@@ -51,7 +85,6 @@ export default function PointHistoryScreen() {
         );
       });
     }
-
     return (
       <View>
         <View style={styles.sectionTitleContainer}>
@@ -70,9 +103,12 @@ export default function PointHistoryScreen() {
       </View>
     );
   };
-
+  const extractKey = ({ rows }) => rows;
   return (
-    <SafeAreaView style={styles.container}>
+    <>
+            <SessionExpireAlert showAlert={alert} onConfirmPressed={onConfirm}/>
+
+    <View style={styles.container}>
       <Text
         style={{
           marginTop: 12,
@@ -97,9 +133,13 @@ export default function PointHistoryScreen() {
           keyExtractor={extractKey}
         />
       )}
-    </SafeAreaView>
+    </View>
+    </>
+
   );
 }
+
+
 PointHistoryScreen.navigationOptions = (props) => {
   return {
     headerTitle: "",
@@ -132,22 +172,18 @@ PointHistoryScreen.navigationOptions = (props) => {
               >
                 <Ionicons
                   size={38}
-                  style={{ color: Colors.white }}
+                  style={{ color: Colors.white, marginRight: 15 }}
                   name="menu"
                 ></Ionicons>
               </Pressable>
             );
           }}
         >
-          <Menu.Item
-            onPress={() =>
-              props.navigation.navigate("MyAccount")
-            }
-          >
+          <Menu.Item onPress={() => props.navigation.navigate("MyAccount")}>
             {translate("myaccount")}
           </Menu.Item>
           <Menu.Item onPress={() => props.navigation.navigate("AboutUs")}>
-          {translate("aboutus")}
+            {translate("aboutus")}
           </Menu.Item>
           <Menu.Item
             onPress={() => props.navigation.navigate("TermAndCondition")}

@@ -18,10 +18,27 @@ import * as promotionActions from "../../../store/actions/promotions";
 import { useEffect, useCallback, useState } from "react";
 import Global from "../../../constants/Global";
 import { translate } from "react-native-translate";
+import { getStoreData } from "../../../AsyncStorage/AsyncStorage";
+import AsyncStorageKey from "../../../constants/AsyncStorageKey";
+import SessionExpireAlert from "../../../components/SessionExpireAlert";
+
 
 export default PromotionScreen = (props) => {
   const dispatch = useDispatch();
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [language,setLanguage] = useState("");
+  const [alert, setShowAlert] = useState(false);
+
+  useEffect(() => {
+    console.log("Will Focus");
+    const willFocusSub = props.navigation.addListener(
+      "willFocus",
+      loadPromotionData
+    );
+    return () => {
+      willFocusSub.remove();
+    };
+  }, [loadPromotionData]);
 
   const loadPromotionData = useCallback(async () => {
     setIsRefreshing(true);
@@ -35,6 +52,39 @@ export default PromotionScreen = (props) => {
     loadPromotionData();
   }, [loadPromotionData]);
 
+  useEffect(() => {
+    getStoreData().then((value) => {
+      if (value == AsyncStorageKey.LANGUAGE_MM) {
+        setLanguage(value)
+      } else if (value == AsyncStorageKey.LANGUAGE_ENG) {
+        setLanguage(value)
+      } else {
+        setLanguage("en")
+      }
+    });
+  }, []);
+
+  const onConfirm = () => {
+    dispatch(promotion.setEmptyResponseCode());
+    props.navigation.navigate("AccountDashboard");
+    setShowAlert(false)
+  }
+
+  const responseCode = useSelector(
+    (state) => state.promotion.response_code,
+    shallowEqual
+  );
+
+  const showSessionDialog = useCallback(()=>{
+    setShowAlert(true)
+  })
+
+  useEffect(()=>{
+    if(responseCode=="005"){
+      showSessionDialog()
+    }
+  },)
+
   const promotionData = useSelector(
     (state) => state.promotion.promotions,
     shallowEqual
@@ -43,7 +93,6 @@ export default PromotionScreen = (props) => {
   const renderItem = ({ item }) => {
     return (
       <HStack style={styles.flatList}>
-        {/* <Image resizeMode='contain' style={styles.image} source={require('../../../assets/a_to_z_logo.png')} alt='image'/> */}
         <Image
           resizeMode="contain"
           style={styles.image}
@@ -53,9 +102,26 @@ export default PromotionScreen = (props) => {
         <VStack style={styles.vContainer}>
           <Text style={styles.title}>{item.name}</Text>
           <Text style={styles.description}>
-            From time to time, the Company may advertise or offer exclusive
-            offers to select Members to redeem points for items other than a
-            discount reward, or receive other benefits or discounts
+            {item.description}
+          </Text>
+        </VStack>
+      </HStack>
+    );
+  };
+  const renderItemMM = ({ item }) => {
+    console.log("DescriptionMM"+item.descriptionmm)
+    return (
+      <HStack style={styles.flatList}>
+        <Image
+          resizeMode="contain"
+          style={styles.image}
+          source={{ uri: Global.baseImageUrl + item.image_mm }}
+          alt="promotion image"
+        />
+        <VStack style={styles.vContainer}>
+          <Text style={styles.title}>{item.namemm}</Text>
+          <Text style={styles.description}>
+           {item.descriptionmm}
           </Text>
         </VStack>
       </HStack>
@@ -71,7 +137,21 @@ export default PromotionScreen = (props) => {
       <View style={styles.button}>
         <Text style={styles.text}>{translate("hotdeal")}</Text>
       </View>
-      {isRefreshing ? (
+      <SessionExpireAlert showAlert={alert} onConfirmPressed={onConfirm}/>
+      {language=="my" 
+      ? isRefreshing ? (
+        <ActivityIndicator size="large" />
+      ) : (
+        <FlatList
+          onRefresh={loadPromotionData}
+          refreshing={isRefreshing}
+          data={promotionData}
+          renderItem={renderItemMM}
+          ListEmptyComponent={renderListEmptyComponent}
+          keyExtractor={(item) => item.id}
+        />
+      ) :
+      isRefreshing ? (
         <ActivityIndicator size="large" />
       ) : (
         <FlatList
@@ -82,7 +162,9 @@ export default PromotionScreen = (props) => {
           ListEmptyComponent={renderListEmptyComponent}
           keyExtractor={(item) => item.id}
         />
-      )}
+      )
+      }
+      
     </View>
   );
 };
@@ -119,7 +201,7 @@ PromotionScreen.navigationOptions = (props) => {
               >
                 <Ionicons
                   size={38}
-                  style={{ color: Colors.white }}
+                  style={{ color: Colors.white,marginRight:15 }}
                   name="menu"
                 ></Ionicons>
               </Pressable>

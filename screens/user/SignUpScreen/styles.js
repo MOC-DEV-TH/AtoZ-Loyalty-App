@@ -12,6 +12,7 @@ export default StyleSheet.create({
     borderWidth: 0.5,
     borderRadius: 8,
     paddingHorizontal: 8,
+    textAlign : "center"
    
   },
   logo: {
@@ -30,6 +31,7 @@ export default StyleSheet.create({
   selectedTextStyle: {
     fontSize: 16,
     color:Colors.black,
+    textAlign:"center"
   },
 
   PasswordSectionStyle: {

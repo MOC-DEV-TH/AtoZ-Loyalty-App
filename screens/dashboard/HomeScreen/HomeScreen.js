@@ -22,13 +22,18 @@ import Slideshow from "react-native-image-slider-show";
 import Slider from "../../../model/slider";
 import Global from "../../../constants/Global";
 import { translate } from "react-native-translate";
+import SessionExpireAlert from "../../../components/SessionExpireAlert";
 
 export default HomeScreen = (props) => {
   const sliderList = [];
+  const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
+  let [alert,setShowAlert] = useState(false)
+
+
   const renderItem = ({ item }) => {
     return (
-      <View style={{ width: "48%" }}>
+      <View style={{ width: "48%",marginTop:15 }}>
         <VStack style={{ flex: 1 }}>
           <Image
             resizeMode="stretch"
@@ -46,18 +51,30 @@ export default HomeScreen = (props) => {
               paddingRight: 10,
             }}
           >
-            <Text style={{ color: Colors.white }}>{item.name}</Text>
-            <Text style={{ color: Colors.white }}>6000 ks</Text>
+            <Text style={{ color: Colors.primary }}>{item.name}</Text>
+            <Text style={{ color: Colors.white,fontWeight:"bold" }}></Text>
           </HStack>
         </VStack>
       </View>
     );
   };
-  useEffect(() => {
-    loadPromotionData();
-  });
 
-  const dispatch = useDispatch();
+  useEffect(() => {
+    console.log("Reload")
+    loadPromotionData();
+  },[loadPromotionData]);
+
+  useEffect(() => {
+    console.log("Will Focus");
+    const willFocusSub = props.navigation.addListener(
+      "willFocus",
+      loadPromotionData
+    );
+    return () => {
+      willFocusSub.remove();
+    };
+  }, [loadPromotionData]);
+
   const loadPromotionData = useCallback(async () => {
     setIsLoading(true);
     try {
@@ -66,11 +83,35 @@ export default HomeScreen = (props) => {
       setError(error.message);
     }
     setIsLoading(false);
-  }, [setIsLoading]);
+  }, [setIsLoading,dispatch]);
+
+
   const promotionData = useSelector(
     (state) => state.homeScreen.home_promotions,
     shallowEqual
   );
+
+  const onConfirm = () => {
+    dispatch(homeActions.setEmptyResponseCode());
+    props.navigation.navigate("AccountDashboard");
+    setShowAlert(false)
+  }
+
+  const responseCode = useSelector(
+    (state) => state.homeScreen.response_code,
+    shallowEqual
+  );
+
+  const showSessionDialog = useCallback(()=>{
+    setShowAlert(true)
+  })
+
+  useEffect(()=>{
+    if(responseCode=="005"){
+      showSessionDialog()
+    }
+  })
+
   promotionData.map((data) => {});
   const promotionSlider = promotionData.filter(
     (item) => item.ads_type == "Slider"
@@ -89,7 +130,7 @@ export default HomeScreen = (props) => {
       <View>
         <Slideshow dataSource={sliderList} />
       </View>
-
+      <SessionExpireAlert showAlert={alert} onConfirmPressed={onConfirm}/>
       <Text
         style={{
           marginTop: 15,
@@ -108,7 +149,6 @@ export default HomeScreen = (props) => {
         contentContainerStyle={{
           paddingLeft: 10,
           paddingRight: 10,
-          paddingTop: 20,
         }}
         columnWrapperStyle={{ justifyContent: "space-between" }}
       />
@@ -147,7 +187,7 @@ HomeScreen.navigationOptions = (props) => {
               >
                 <Ionicons
                   size={38}
-                  style={{ color: Colors.white }}
+                  style={{ color: Colors.white,marginRight:15 }}
                   name="menu"
                 ></Ionicons>
               </Pressable>

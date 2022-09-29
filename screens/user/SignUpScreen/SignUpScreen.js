@@ -26,6 +26,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from 'moment';
 import styles from "./styles";
 import { translate } from "react-native-translate";
+import LogoBanner from "../../../components/LogoBanner";
 
 export default SignUpScreen = (props) => {
   const [phone, setPhone] = useState(0);
@@ -97,28 +98,7 @@ export default SignUpScreen = (props) => {
       <KeyboardAwareScrollView>
         <View style={styles.container}>
           <View>
-            <Image
-              resizeMode="stretch"
-              source={require("../../../assets/new_wave.png")}
-              style={{
-                width: "100%",
-                alignSelf: "center",
-                height: 270,
-                aspectRatio: 512 / 212,
-              }}
-              alt="new wave"
-            ></Image>
-            <Image
-              resizeMode="contain"
-              source={require("../../../assets/app_logo_blue.png")}
-              style={{
-                alignSelf: "center",
-                height: 100,
-                position: "absolute",
-                top: 70,
-              }}
-              alt="logo blue"
-            ></Image>
+          <LogoBanner minHeight={200} statusBarHeight={true}></LogoBanner>
 
             <DateTimePickerModal
               isVisible={isDatePickerVisible}

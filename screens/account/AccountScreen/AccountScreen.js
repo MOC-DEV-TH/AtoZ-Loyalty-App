@@ -26,13 +26,13 @@ import ContainerFluid from "../../../components/ContainerFluid";
 import { useState, useEffect, useCallback } from "react";
 import Colors from "../../../constants/Colors";
 import i18n from "../../../I18n/i18n";
-import * as Localization from "expo-localization";
 import { storeData,getStoreData } from "../../../AsyncStorage/AsyncStorage";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import * as myAccountActions from "../../../store/actions/myAccount";
 import { setLocalization,translate } from 'react-native-translate';
 import my from "../../../locales/my";
 import en from "../../../locales/en";
+import AwesomeAlert from "react-native-awesome-alerts";
 
 export default AccountScreen = (props) => {
   const [currentPwshow, setcurrentPwShow] = useState(false);
@@ -43,6 +43,16 @@ export default AccountScreen = (props) => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   let [locale, setLocale] = useState("");
+  let [showAlert, setShowAlert] = useState(false);
+  
+
+function onPressConfirm(){
+    setShowAlert(false);
+    props.navigation.navigate("AccountDashboard")
+}
+function onPressCancel(){
+  setShowAlert(false);
+}
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -94,18 +104,6 @@ export default AccountScreen = (props) => {
       );
     }
   };
-  const logoutAlert = () =>
-    Alert.alert("Logout!", "Are you sure to logout!", [
-      {
-        text: translate("yes"),
-        onPress: () => console.log("Ask me later pressed"),
-      },
-      {
-        text: translate("Cancel"),
-        onPress: () => console.log("Cancel Pressed"),
-        style: "cancel",
-      },
-    ]);
 
   return (
     <View>
@@ -141,11 +139,28 @@ export default AccountScreen = (props) => {
             </VStack>
           </Box>
         </Box>
-
+        <AwesomeAlert
+          show={showAlert}
+          title="Are you sure you to logout!"
+          showCancelButton={true}
+          showConfirmButton={true}
+          cancelText="Cancel"
+          confirmText="Yes"
+          confirmButtonColor={Colors.yellow}
+          confirmButtonStyle={styles.alertButton}
+          confirmButtonTextStyle={styles.alertButtonText}
+          cancelButtonColor={Colors.yellow}
+          cancelButtonStyle={styles.alertButton}
+          cancelButtonTextStyle={styles.alertButtonText}
+          titleStyle={styles.alertTitle}
+          contentContainerStyle={styles.alertContentContainer}
+          onCancelPressed={onPressCancel}
+          onConfirmPressed={onPressConfirm}/>
         <Img
-          source={require("../../../assets/wave.png")}
+          source={require("../../../assets/new_wave_acoount.png")}
+
           intWidth={1712}
-          intHeight={237}
+          intHeight={312}
         ></Img>
 
         <ContainerFluid pt={5} pb={8}>
@@ -313,7 +328,7 @@ export default AccountScreen = (props) => {
 
                 <HStack alignItems={"center"}>
                   <Text w={"40%"} color="primary" fontWeight={"bold"}>
-                    {translate("changeLanguage")}                    
+                    {translate("changeLanguage")}
                   </Text>
                   <TouchableOpacity onPress={() => onPressChangeLanguage()}>
                     <Text style={{fontSize:11}} w={"100%"} pl={5} mt={3} color="primary">
@@ -327,8 +342,8 @@ export default AccountScreen = (props) => {
 
           <HStack justifyContent={"space-between"} mt={8}>
             <VStack>
-              <TouchableOpacity onPress={() => logoutAlert()}>
-                <Text>{translate("logout")}</Text>
+              <TouchableOpacity onPress={() => setShowAlert(true)}>
+                <Text>Logout</Text>
               </TouchableOpacity>
             </VStack>
             <VStack>
@@ -343,7 +358,7 @@ export default AccountScreen = (props) => {
                 fontWeight="bold"
                 onPress={() => onPressSave()}
               >
-                {translate("save")}
+                Save
               </Button>
             </VStack>
           </HStack>

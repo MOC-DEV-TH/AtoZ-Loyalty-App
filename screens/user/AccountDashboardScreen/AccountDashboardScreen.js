@@ -13,6 +13,7 @@ import { setLocalization,translate } from 'react-native-translate';
 import en from "../../../locales/en";
 import my from "../../../locales/my";
 import { useDispatch } from "react-redux";
+import LogoBanner from "../../../components/LogoBanner";
 import {
   Box,
   Text,
@@ -47,12 +48,14 @@ export default AccountDashboardScreen = (props) => {
       else if(local=="my") {
         setLocalization(en)
         setLocal("en")
-        storeData()
+        storeData("en")
       }
-      
   };
+
+  
+
   const onLoginPress = () => {
-    props.navigation.navigate("SignIn");
+     props.navigation.navigate("SignIn");
   };
    
   const onRegisterPress = () => {
@@ -65,33 +68,9 @@ export default AccountDashboardScreen = (props) => {
 
   return (
     <View style={styles.container}>
-      <Image
-        resizeMode="stretch"
-        source={require("../../../assets/new_wave.png")}
-        style={{
-          width: "100%",
-          alignSelf: "center",
-          height: 270,
-          aspectRatio: 512 / 212,
-          position: "absolute",
-          top: 0,
-        }}
-        alt="new wave"
-      ></Image>
+      <LogoBanner minHeight={200} statusBarHeight={true}></LogoBanner>
 
-      <Image
-        resizeMode="contain"
-        source={require("../../../assets/app_logo_blue.png")}
-        style={{
-          alignSelf: "center",
-          height: 100,
-          position: "absolute",
-          top: 70,
-        }}
-        alt="logo blue"
-      ></Image>
-
-      <View>
+      <View style={{marginTop:40}}>
         <Text style={{ color: Colors.primary, alignSelf: "center" }}>
           {translate("alreadyAccount")}
         </Text>

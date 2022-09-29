@@ -17,6 +17,8 @@ import { Ionicons } from "@expo/vector-icons";
 import styles from "./styles";
 import Colors from "../../../constants/Colors";
 import { translate } from "react-native-translate";
+import LogoBanner from "../../../components/LogoBanner";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 
 export default LoginScreen = (props) => {
@@ -60,6 +62,7 @@ export default LoginScreen = (props) => {
     const message = [{
       "to": "ExponentPushToken[IqB2CwC9AjsigcT_iqc78N]",
       "sound": "default",
+      "title" : "This is notification title",
       "body": "Hello world!"
     }, {
       "to": "ExponentPushToken[rp6YS_IVTeJOd9jQf0hs0i]",
@@ -79,31 +82,12 @@ export default LoginScreen = (props) => {
   }
 
   return (
-    <View style={styles.container}>
-      <Image
-        resizeMode="stretch"
-        source={require("../../../assets/new_wave.png")}
-        style={{
-          width: "100%",
-          alignSelf: "center",
-          height: 270,
-          aspectRatio: 512 / 212,
-          position: "absolute",
-          top: 0,
-        }}
-        alt="new wave"
-      ></Image>
-       <Image
-        resizeMode="contain"
-        source={require("../../../assets/app_logo_blue.png")}
-        style={{
-          alignSelf: "center",
-          height: 100,
-          position: "absolute",
-          top: 70,
-        }}
-        alt="logo"
-      ></Image>
+    <KeyboardAwareScrollView style={styles.container}>
+    <View >
+      
+      <LogoBanner minHeight={200} statusBarHeight={true}></LogoBanner>
+
+      
 
       <View style={{ margin: 30 }}>
         <View style={styles.SectionStyle}>
@@ -120,7 +104,7 @@ export default LoginScreen = (props) => {
 
           <View style={{ flex: 1 }}>
             <TextInput
-              style={{ alignSelf: "center" ,height:20}}
+              style={{ alignSelf: "center", width:"100%", textAlign:"center", height: 40 }}
               placeholder={translate("userid")}
               placeholderTextColor="#aaaaaa"
               onChangeText={(text) => setUserId(text)}
@@ -144,9 +128,9 @@ export default LoginScreen = (props) => {
               }
               mr={3}
             ></Icon>
-          <View>
+          <View style={{ flex: 1 }}>
             <TextInput
-              style={{ alignSelf: "center" ,height:20 }}
+              style={{ alignSelf: "center", width:"100%", textAlign:"center", height: 40 }}
               placeholder={translate("password")}
               placeholderTextColor="#aaaaaa"
               onChangeText={(text) => setPassword(text)}
@@ -156,6 +140,7 @@ export default LoginScreen = (props) => {
               autoCapitalize="none"
             />
           </View>
+          
           <Pressable onPress={() => setShowPassword(!showPassword)}>
           <Icon style={{color:Colors.primary}}
               as={
@@ -169,6 +154,8 @@ export default LoginScreen = (props) => {
             ></Icon>
              </Pressable>
         </View>
+
+
 
         {/* <View style={{ alignSelf: "flex-end", marginTop: 10 }}>
           <TouchableOpacity onPress={onForgotPasswordPress}>
@@ -203,7 +190,9 @@ export default LoginScreen = (props) => {
           </Text>
         </TouchableOpacity>
       </View> */}
+      
     </View>
+    </KeyboardAwareScrollView>
   );
 };
 

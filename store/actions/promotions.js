@@ -2,7 +2,16 @@ import AppVersion from "../../constants/AppVersion";
 import Global from "../../constants/Global";
 import Promotion from "../../model/promotion";
 export const SET_PROMOTION = "SET_PROMOTION";
+export const SET_RESPONSE_CODE = "SET_RESPONSE_CODE"
+export const SET_EMPTY_RESPONSE_CODE = "SET_EMPTY_RESPONSE_CODE"
 
+export const setEmptyResponseCode = () => {
+  return (dispatch) => {
+    dispatch({
+      type: SET_EMPTY_RESPONSE_CODE,
+    });
+  };
+};
 export const getPromotions = () => {
   return async (dispatch, getState) => {
     const token = getState().auth.token;
@@ -26,6 +35,10 @@ export const getPromotions = () => {
     }
 
     const respData = await response.json();
+    dispatch({
+      type: SET_RESPONSE_CODE,
+      response_code : respData.response_code
+    })
     console.log(respData);
 
     const loadPromotions = [];
@@ -44,9 +57,9 @@ export const getPromotions = () => {
           item.created_by,
           item.modified_date,
           item.modified_by,
-          this.description,
-          this.descriptionmm,
-          this.namemm
+          item.description,
+          item.descriptionmm,
+          item.namemm
         )
       );
     }

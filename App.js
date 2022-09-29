@@ -32,12 +32,19 @@ import Colors from "./constants/Colors";
 import { setLocalization } from "react-native-translate";
 import en from "./locales/en";
 import my from "./locales/my";
+import * as SQLite from "expo-sqlite";
+import { checkDatabaseForFirstTime } from "./persistence/database";
+import { retrieveNotification } from "./persistence/database";
+import { addToDatabase } from "./persistence/database";
+
+//open database
+const db = SQLite.openDatabase("db.aToz");
 
 TaskManager.defineTask(
   BACKGROUND_NOTIFICATION_TASK,
   ({ data, error, executionInfo }) => {
+    addToDatabase(db,data.title, data.body);
     console.log("Received a notification in the background!");
-    storeData("Background Notification");
   }
 );
 
@@ -73,13 +80,18 @@ Notifications.setNotificationHandler({
     shouldSetBadge: false,
   }),
 });
+
+
 export default function App() {
   const [isChecking, setIsChecking] = useState(true);
   const [expoPushToken, setExpoPushToken] = useState("");
   const [notification, setNotification] = useState(false);
+  let [alert,setShowAlert] = useState(false)
   const notificationListener = useRef();
   const responseListener = useRef();
   const lastNotificationResponse = Notifications.useLastNotificationResponse();
+
+
   useEffect(() => {
     if (lastNotificationResponse) {
       handleNewNotification(
@@ -98,12 +110,22 @@ export default function App() {
         data: JSON.parse(notificationObject.data.body),
       };
       console.log(newNotification.title);
-      //storeData(newNotification.title);
+      addToDatabase(db,newNotification.title, newNotification.body);
       await Notifications.setBadgeCountAsync(1);
     } catch (error) {
       console.error(error);
     }
   };
+
+
+  useEffect(()=>{
+    checkDatabaseForFirstTime(db)
+  })
+
+  useEffect(()=>{
+    retrieveNotification(db)
+  })
+
   //Set the locale once at the beginning of your app.
   useEffect(() => {
     i18n.local = Localization.locale;
@@ -172,6 +194,8 @@ export default function App() {
     getStoreData().then((value) => {
       if (value == AsyncStorageKey.LANGUAGE_MM) {
         setLocalization(my);
+      } else if (value == AsyncStorageKey.LANGUAGE_ENG) {
+        setLocalization(en);
       } else {
         setLocalization(en);
       }

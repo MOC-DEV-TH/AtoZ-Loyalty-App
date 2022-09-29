@@ -8,4 +8,21 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  alertButton: {
+    width: 100,
+    textAlign: "center",
+    justifyContent: "center",
+},
+  alertButtonText: {
+    textAlign: "center",
+    color: Colors.primary,
+},
+  alertTitle: {
+    color: Colors.white,
+    fontSize: 16,
+},
+  alertContentContainer: {
+    backgroundColor: Colors.primary,
+    padding: 25,
+},
 });
