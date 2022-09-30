@@ -1,4 +1,7 @@
 const my = {  
+  nativebaseFont: "myFont",
+  headingFont: "My-Heading-Font",
+  bodyFont: "My-Body-Font",
   welcome: 'ကြိုဆိုပါတယ်။',
   getstart :'စတင်အသုံးပြုရန်',
   login : 'ဝင်ရောက်ရန်',

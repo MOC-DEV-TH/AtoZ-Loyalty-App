@@ -64,7 +64,8 @@
     "react-navigation-tabs": "^2.11.2",
     "react-redux": "^8.0.2",
     "redux-thunk": "^2.4.1",
-    "styled-components": "^5.3.6"
+    "styled-components": "^5.3.6",
+    "expo-font": "~10.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.18.6"
