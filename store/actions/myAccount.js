@@ -2,6 +2,16 @@ import AppVersion from "../../constants/AppVersion";
 import Global from "../../constants/Global";
 import MemberInfo from "../../model/memberInfo";
 export const SET_MEMBER_INFO = "SET_MEMBER_INFO";
+export const SET_RESPONSE_CODE = "SET_RESPONSE_CODE"
+export const SET_EMPTY_RESPONSE_CODE = "SET_EMPTY_RESPONSE_CODE"
+
+export const setEmptyResponseCode = () => {
+  return (dispatch) => {
+    dispatch({
+      type: SET_EMPTY_RESPONSE_CODE,
+    });
+  };
+};
 
 export const getMemberInfo = () => {
   return async (dispatch, getState) => {
@@ -26,6 +36,12 @@ export const getMemberInfo = () => {
     }
 
     const respData = await response.json();
+    if(respData.response_code=="005"){
+      dispatch({
+        type: SET_RESPONSE_CODE,
+        response_code : respData.response_code
+      })
+    }
     const memberInfoObj = new MemberInfo(
       respData.details.name,
       respData.details.dob,

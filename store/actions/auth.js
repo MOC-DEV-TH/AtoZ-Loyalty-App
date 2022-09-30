@@ -1,6 +1,8 @@
 import Global from "../../constants/Global";
 import AppVersion from "../../constants/AppVersion";
 import DropDownVO from "../../model/dropDown";
+import { getStoreData } from "../../AsyncStorage/AsyncStorage";
+import AsyncStorageKey from "../../constants/AsyncStorageKey";
 
 export const AUTHENTICATE = "AUTHENTICATE";
 export const SET_ALL_DROP_DOWN = "SET_DROP_DOWN";
@@ -15,7 +17,7 @@ export const authenticate = (token, userID) => {
   };
 };
 
-export const login = (userID, password) => {
+export const login = (userID, password,expoToken) => {
   return async (dispatch) => {
     const response = await fetch(Global.baseUrl + "/login", {
       method: "POST",
@@ -27,6 +29,7 @@ export const login = (userID, password) => {
         user_id: userID,
         password: password,
         app_version: AppVersion.app_version,
+        expo_token : expoToken
       }),
     });
 

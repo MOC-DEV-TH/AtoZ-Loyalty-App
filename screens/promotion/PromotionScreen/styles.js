@@ -42,6 +42,7 @@ export default StyleSheet.create({
   title:{
     fontWeight: "bold",
     color:Colors.primary,    
+    marginBottom:5
   },
   description:{
     textAlign:"justify",

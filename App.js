@@ -21,6 +21,7 @@ import AsyncStorageKey from "./constants/AsyncStorageKey";
 import i18n from "./I18n/i18n";
 import * as Localization from "expo-localization";
 import authReducer from "./store/reducers/auth";
+import userReducer from "./store/reducers/users";
 import homeReducer from "./store/reducers/home";
 import promotionReducer from "./store/reducers/promotions";
 import myAccountReducer from "./store/reducers/myAccount";
@@ -56,6 +57,7 @@ const rootReducer = combineReducers({
   promotion: promotionReducer,
   homeScreen: homeReducer,
   pointHistory: pointHistoryReducer,
+  user : userReducer
 });
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
@@ -191,7 +193,7 @@ export default function App() {
 
   //check language
   useEffect(() => {
-    getStoreData().then((value) => {
+    getStoreData(AsyncStorageKey.LANGUAGE).then((value) => {
       if (value == AsyncStorageKey.LANGUAGE_MM) {
         setLocalization(my);
       } else if (value == AsyncStorageKey.LANGUAGE_ENG) {
@@ -250,7 +252,8 @@ async function registerForPushNotificationsAsync() {
       return;
     }
     token = (await Notifications.getExpoPushTokenAsync()).data;
-    console.log(token);
+    console.log("ExpoToken::::"+token);
+    storeData(AsyncStorageKey.EXPO_TOKEN,token);
   } else {
     alert("Must use physical device for Push Notifications");
   }

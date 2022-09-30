@@ -20,14 +20,16 @@ import AccountDashboardScreen from "../screens/user/AccountDashboardScreen/Accou
 import HelpScreen from "../screens/user/HelpScreen/HelpScreen";
 import FaqScreen from "../screens/dashboard/FaqScreen/FaqScreen";
 import AboutScreen from "../screens/dashboard/AboutScreen/AboutScreen";
+import AccountVerificationScreen from "../screens/user/AccountVerificationScreen/AccountVerificationScreen";
 import TermsAndConditionsScreen from "../screens/dashboard/TermsAndConditionsScreen/TermsAndConditionsScreen";
+import SuccessScreen from "../screens/user/SuccessScreen/SuccessScreen";
 import {translate} from "react-native-translate";
 
 const defaultNavOptions = {
   headerStyle: {
     backgroundColor:
       Platform.OS === "android" ? Colors.primary : Colors.primary,
-    height: 80,
+    height: 75,
     shadowColor: "transparent", // this covers iOS
     elevation: 0,
   },
@@ -36,7 +38,7 @@ const defaultNavOptions = {
   headerTitleAlign: "left | center",
   titleStyle: {},
   labelStyle: {},
-  headerTintColor: Platform.OS === "android" ? Colors.primary : Colors.primary,
+  headerTintColor: Platform.OS === "android" ? "transparent" : "transparent",
 };
 
 const DashboardNavigator = createStackNavigator(
@@ -117,6 +119,8 @@ const AuthNavigator = createStackNavigator(
     ForgotPassword: ForgotPasswordScreen,
     AccountDashboard: AccountDashboardScreen,
     Help: HelpScreen,
+    AccountVerification : AccountVerificationScreen,
+    Success : SuccessScreen
   },
   {
     defaultNavigationOptions: defaultNavOptions,

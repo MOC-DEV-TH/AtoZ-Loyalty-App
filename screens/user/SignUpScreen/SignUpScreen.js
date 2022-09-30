@@ -44,6 +44,7 @@ export default SignUpScreen = (props) => {
   const [isTownshipFocus, setIsTownshipFocus] = useState(false);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [dateValue, setDateValue] = useState(null);
+  const [responseStatus,setResponseStatus] = useState(null)
   const dispatch = useDispatch();
 
   const allDDLData = useSelector(
@@ -53,6 +54,15 @@ export default SignUpScreen = (props) => {
   const cityDDLData = allDDLData.city;
   const townshipDDLData = allDDLData.township;
 
+  const response_status = useSelector(
+    (state) => state.user.status,
+    shallowEqual
+  );
+  useEffect(()=>{
+    if(response_status=="Success"){
+      props.navigation.replace("AccountVerification")
+    }
+  })
   const createUserObj = () => {
     const userObj = {
       name: name,
@@ -126,7 +136,7 @@ export default SignUpScreen = (props) => {
 
                 <View style={{ flex: 1 }}>
                   <TextInput
-                    style={{ alignSelf: "center",height:20}}
+                    style={{ alignSelf: "center",height:20,textAlign:"center"}}
                     placeholder={translate("name")}
                     placeholderTextColor="#aaaaaa"
                     onChangeText={(text) => setName(text)}
@@ -154,7 +164,7 @@ export default SignUpScreen = (props) => {
                 <View style={{ flex: 1 }}>
                 <TouchableOpacity onPress={()=>showDatePicker()}>
                 <TextInput
-                    style={{ alignSelf: "center",height:20,color:'black' }}
+                    style={{ alignSelf: "center",height:20,color:'black',textAlign:"center" }}
                     editable={false}
                     placeholder={translate("dob")}
                     placeholderTextColor="#aaaaaa"
@@ -183,7 +193,7 @@ export default SignUpScreen = (props) => {
 
                 <View style={{ flex: 1 }}>
                   <TextInput
-                    style={{ alignSelf: "center",height:20 }}
+                    style={{ alignSelf: "center",height:20,textAlign:"center" }}
                     placeholder={translate("nrc")}
                     placeholderTextColor="#aaaaaa"
                     onChangeText={(text) => setNrc(text)}
@@ -206,7 +216,7 @@ export default SignUpScreen = (props) => {
 
                 <View style={{ flex: 1 }}>
                   <TextInput
-                    style={{ alignSelf: "center",height:20 }}
+                    style={{ alignSelf: "center",height:20,textAlign:"center" }}
                     placeholder={translate("address")}
                     placeholderTextColor="#aaaaaa"
                     onChangeText={(text) => setAddress(text)}
@@ -280,7 +290,7 @@ export default SignUpScreen = (props) => {
 
                 <View style={{ flex: 1 }}>
                   <TextInput
-                    style={{ alignSelf: "center",height:20 }}
+                    style={{ alignSelf: "center",height:20,textAlign:"center" }}
                     placeholder= {translate("ph")}
                     placeholderTextColor="#aaaaaa"
                     onChangeText={(text) => setPhone(text)}
@@ -301,7 +311,7 @@ export default SignUpScreen = (props) => {
 
                 <View>
                   <TextInput
-                    style={{ alignSelf:"flex-start",height:20 }}
+                    style={{ alignSelf:"flex-start",height:20,textAlign:"center" }}
                     placeholder= {translate("typepwd")}
                     placeholderTextColor="#aaaaaa"
                     onChangeText={(text) => setTypePassword(text)}
@@ -340,7 +350,7 @@ export default SignUpScreen = (props) => {
 
                 <View>
                   <TextInput
-                    style={{ alignSelf: "center" ,height:20,textAlign:"left" }}
+                    style={{ alignSelf: "center" ,height:20,textAlign:"center" }}
                     placeholder={translate("confirmpwd")}
                     placeholderTextColor="#aaaaaa"
                     onChangeText={(text) => setConfirmPassword(text)}
@@ -377,14 +387,15 @@ export default SignUpScreen = (props) => {
                 }}
               >
                 <Checkbox
-                  style={styles.checkbox}
+                  
                   value={isChecked}
+                  color={isChecked ? Colors.primary : undefined}
                   onValueChange={setChecked}
                 />
-                <Text style={{ marginLeft: 10 }}>{translate("agreeon")}</Text>
+                <Text style={{color:Colors.primary, marginLeft: 10 }}>{translate("agreeon")}</Text>
                 <TouchableOpacity onPress={onSignInPress}>
                   <Text
-                    style={{ color: "red", textDecorationLine: "underline" }}
+                    style={{ color: Colors.primary, textDecorationLine: "underline" }}
                   >
                     {translate("termandcondition")}
                   </Text>

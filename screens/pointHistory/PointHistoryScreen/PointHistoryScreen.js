@@ -21,11 +21,10 @@ import { Menu, Pressable, Box } from "native-base";
 import { translate } from "react-native-translate";
 import SessionExpireAlert from "../../../components/SessionExpireAlert";
 
-export default  PointHistoryScreen = (props) =>  {
+export default PointHistoryScreen = (props) => {
   const dispatch = useDispatch();
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [alert,setShowAlert] = useState(false);
-
+  const [alert, setShowAlert] = useState(false);
 
   const loadPointHistoryData = useCallback(async () => {
     setIsRefreshing(true);
@@ -53,23 +52,23 @@ export default  PointHistoryScreen = (props) =>  {
   const onConfirm = () => {
     dispatch(pointHistoryActions.setEmptyResponseCode());
     props.navigation.navigate("AccountDashboard");
-    setShowAlert(false)
-  }
+    setShowAlert(false);
+  };
 
   const responseCode = useSelector(
     (state) => state.pointHistory.response_code,
     shallowEqual
   );
 
-  const showSessionDialog = useCallback(()=>{
-    setShowAlert(true)
-  })
+  const showSessionDialog = useCallback(() => {
+    setShowAlert(true);
+  });
 
-  useEffect(()=>{
-    if(responseCode=="005"){
-      showSessionDialog()
+  useEffect(() => {
+    if (responseCode == "005") {
+      showSessionDialog();
     }
-  },)
+  });
 
   const pointHistoryData = useSelector(
     (state) => state.pointHistory.pointHistoryData,
@@ -106,39 +105,37 @@ export default  PointHistoryScreen = (props) =>  {
   const extractKey = ({ rows }) => rows;
   return (
     <>
-            <SessionExpireAlert showAlert={alert} onConfirmPressed={onConfirm}/>
+      <SessionExpireAlert showAlert={alert} onConfirmPressed={onConfirm} />
 
-    <View style={styles.container}>
-      <Text
-        style={{
-          marginTop: 12,
-          marginBottom: 12,
-          color: Colors.primary,
-          fontSize: 24,
-          fontWeight: "bold",
-          alignSelf: "center",
-        }}
-      >
-        1000 {translate("pointavailable")}
-      </Text>
-      {isRefreshing ? (
-        <ActivityIndicator size="large" />
-      ) : (
-        <FlatList
-          onRefresh={loadPointHistoryData}
-          refreshing={isRefreshing}
-          style={styles.container}
-          data={pointHistoryData}
-          renderItem={renderItem}
-          keyExtractor={extractKey}
-        />
-      )}
-    </View>
+      <View style={styles.container}>
+        <Text
+          style={{
+            marginTop: 12,
+            marginBottom: 12,
+            color: Colors.primary,
+            fontSize: 24,
+            fontWeight: "bold",
+            alignSelf: "center",
+          }}
+        >
+          1000 {translate("pointavailable")}
+        </Text>
+        {isRefreshing ? (
+          <ActivityIndicator size="large" />
+        ) : (
+          <FlatList
+            onRefresh={loadPointHistoryData}
+            refreshing={isRefreshing}
+            style={styles.container}
+            data={pointHistoryData}
+            renderItem={renderItem}
+            keyExtractor={extractKey}
+          />
+        )}
+      </View>
     </>
-
   );
-}
-
+};
 
 PointHistoryScreen.navigationOptions = (props) => {
   return {

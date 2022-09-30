@@ -26,13 +26,15 @@ import ContainerFluid from "../../../components/ContainerFluid";
 import { useState, useEffect, useCallback } from "react";
 import Colors from "../../../constants/Colors";
 import i18n from "../../../I18n/i18n";
-import { storeData,getStoreData } from "../../../AsyncStorage/AsyncStorage";
+import { storeData, getStoreData } from "../../../AsyncStorage/AsyncStorage";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import * as myAccountActions from "../../../store/actions/myAccount";
-import { setLocalization,translate } from 'react-native-translate';
+import { setLocalization, translate } from "react-native-translate";
 import my from "../../../locales/my";
 import en from "../../../locales/en";
 import AwesomeAlert from "react-native-awesome-alerts";
+import SessionExpireAlert from "../../../components/SessionExpireAlert";
+import AsyncStorageKey from "../../../constants/AsyncStorageKey";
 
 export default AccountScreen = (props) => {
   const [currentPwshow, setcurrentPwShow] = useState(false);
@@ -44,39 +46,36 @@ export default AccountScreen = (props) => {
   const [confirmPassword, setConfirmPassword] = useState("");
   let [locale, setLocale] = useState("");
   let [showAlert, setShowAlert] = useState(false);
-  
-
-function onPressConfirm(){
-    setShowAlert(false);
-    props.navigation.navigate("AccountDashboard")
-}
-function onPressCancel(){
-  setShowAlert(false);
-}
+  let [sessionAlert, setSessionAlert] = useState(false);
   const dispatch = useDispatch();
 
+  function onPressConfirm() {
+    setShowAlert(false);
+    props.navigation.navigate("AccountDashboard");
+  }
+  function onPressCancel() {
+    setShowAlert(false);
+  }
+
   useEffect(() => {
-    getStoreData().then((value) => {
-      setLocale(value)
+    getStoreData(AsyncStorageKey.LANGUAGE).then((value) => {
+      setLocale(value);
     });
-   
   }, []);
 
   const onPressChangeLanguage = () => {
-    console.log("LanguageValue"+locale)
-    if(locale=="en"){
-      setLocalization(my)
-      setLocale("my")
-      storeData("my")
+    console.log("LanguageValue" + locale);
+    if (locale == "en") {
+      setLocale("my");
+      setLocalization(my);
+      storeData(AsyncStorageKey.LANGUAGE,"my");
+    } else if (locale == "my") {
+      setLocale("en");
+      setLocalization(en);
+      storeData(AsyncStorageKey.LANGUAGE,"en");
     }
-    else if(locale=="my") {
-      setLocalization(en)
-      setLocale("en")
-      storeData("en")
-    }
-    
-};
- const setLocalValue = useCallback(()=>{i18n.locale = local})
+  };
+  
   const loadMemberInfo = useCallback(async () => {
     try {
       await dispatch(myAccountActions.getMemberInfo());
@@ -86,6 +85,10 @@ function onPressCancel(){
   });
   useEffect(() => {
     loadMemberInfo();
+
+    if(responseCode=="005"){
+      showSessionDialog()
+    }
   });
   const memberInfo = useSelector(
     (state) => state.myAccount.memberInfo,
@@ -104,6 +107,22 @@ function onPressCancel(){
       );
     }
   };
+
+  const onConfirm = () => {
+    dispatch(myAccountActions.setEmptyResponseCode());
+    props.navigation.navigate("AccountDashboard");
+    setSessionAlert(false)
+  }
+
+  const responseCode = useSelector(
+    (state) => state.myAccount.response_code,
+    shallowEqual
+  );
+
+  const showSessionDialog = useCallback(()=>{
+    setSessionAlert(true)
+  })
+
 
   return (
     <View>
@@ -133,12 +152,13 @@ function onPressCancel(){
                   {translate("membertype")}
                 </Text>
                 <Text color="white" w={"50%"}>
-                {memberInfo.member_level}
+                  {memberInfo.member_level}
                 </Text>
               </HStack>
             </VStack>
           </Box>
         </Box>
+        <SessionExpireAlert showAlert={sessionAlert} onConfirmPressed={onConfirm}/>
         <AwesomeAlert
           show={showAlert}
           title="Are you sure you to logout!"
@@ -155,10 +175,10 @@ function onPressCancel(){
           titleStyle={styles.alertTitle}
           contentContainerStyle={styles.alertContentContainer}
           onCancelPressed={onPressCancel}
-          onConfirmPressed={onPressConfirm}/>
+          onConfirmPressed={onPressConfirm}
+        />
         <Img
           source={require("../../../assets/new_wave_acoount.png")}
-
           intWidth={1712}
           intHeight={312}
         ></Img>
@@ -173,7 +193,6 @@ function onPressCancel(){
                 {memberInfo.name}
               </Text>
             </HStack>
-
 
             <HStack alignItems={"center"}>
               <Text w={"40%"} color="primary">
@@ -331,7 +350,13 @@ function onPressCancel(){
                     {translate("changeLanguage")}
                   </Text>
                   <TouchableOpacity onPress={() => onPressChangeLanguage()}>
-                    <Text style={{fontSize:11}} w={"100%"} pl={5} mt={3} color="primary">
+                    <Text
+                      style={{ fontSize: 11 }}
+                      w={"100%"}
+                      pl={5}
+                      mt={3}
+                      color="primary"
+                    >
                       မြန်မာ / Eng
                     </Text>
                   </TouchableOpacity>
@@ -379,7 +404,9 @@ AccountScreen.navigationOptions = (navData) => {
 
     headerLeft: () => (
       <TouchableOpacity onPress={() => navData.navigation.navigate("Home")}>
-        <Text style={{marginLeft:20,color:Colors.white}}>{translate("backtohome")}</Text>
+        <Text style={{ marginLeft: 20, color: Colors.white }}>
+          {translate("backtohome")}
+        </Text>
       </TouchableOpacity>
     ),
   };

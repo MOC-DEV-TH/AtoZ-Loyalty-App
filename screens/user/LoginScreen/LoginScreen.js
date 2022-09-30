@@ -9,17 +9,18 @@ import {
   View,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
-import { Center, Icon,Pressable } from "native-base";
+import { Center, Icon, Pressable } from "native-base";
 import * as Notifications from "expo-notifications";
-import { useDispatch,useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import * as authActions from "../../../store/actions/auth";
 import { Ionicons } from "@expo/vector-icons";
 import styles from "./styles";
 import Colors from "../../../constants/Colors";
 import { translate } from "react-native-translate";
 import LogoBanner from "../../../components/LogoBanner";
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { getStoreData } from "../../../AsyncStorage/AsyncStorage";
+import AsyncStorageKey from "../../../constants/AsyncStorageKey";
 
 export default LoginScreen = (props) => {
   const dispatch = useDispatch();
@@ -27,17 +28,25 @@ export default LoginScreen = (props) => {
   const [userId, setUserId] = useState(0);
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [expoToken,setExpoToken] = useState("")
+
+
+  useEffect(()=>{
+    getStoreData(AsyncStorageKey.EXPO_TOKEN).then((value)=>{
+      setExpoToken(value)
+    })
+  })
 
   const onPressCreateNewAccount = () => {
     props.navigation.navigate("SignUp");
-  }
+  };
 
   const onSignInPress = async () => {
     if (userId == "" || password == "") {
       alert("Data must not empty!!");
     } else {
       try {
-        await dispatch(authActions.login(userId, password));
+        await dispatch(authActions.login(userId, password,expoToken));
         props.navigation.navigate("Main");
       } catch (error) {
         console.log("error : " + error.message);
@@ -59,16 +68,19 @@ export default LoginScreen = (props) => {
   }
 
   async function sendPushNotification() {
-    const message = [{
-      "to": "ExponentPushToken[IqB2CwC9AjsigcT_iqc78N]",
-      "sound": "default",
-      "title" : "This is notification title",
-      "body": "Hello world!"
-    }, {
-      "to": "ExponentPushToken[rp6YS_IVTeJOd9jQf0hs0i]",
-      "badge": 1,
-      "body": "You've got mail"
-    }];
+    const message = [
+      {
+        to: "ExponentPushToken[IqB2CwC9AjsigcT_iqc78N]",
+        sound: "default",
+        title: "This is notification title",
+        body: "Hello world!",
+      },
+      {
+        to: "ExponentPushToken[rp6YS_IVTeJOd9jQf0hs0i]",
+        badge: 1,
+        body: "You've got mail",
+      },
+    ];
 
     await fetch("https://exp.host/--/api/v2/push/send", {
       method: "POST",
@@ -83,115 +95,94 @@ export default LoginScreen = (props) => {
 
   return (
     <KeyboardAwareScrollView style={styles.container}>
-    <View >
-      
-      <LogoBanner minHeight={200} statusBarHeight={true}></LogoBanner>
+      <View>
+        <LogoBanner minHeight={200} statusBarHeight={true}></LogoBanner>
 
-      
-
-      <View style={{ margin: 30 }}>
-        <View style={styles.SectionStyle}>
-        <Icon style={{color:Colors.primary}}
-              as={
-                <MaterialIcons
-                  name={"person"}
-                  size={24}
-                  color="black"
-                />
-              }
-            
+        <View style={{ margin: 30 }}>
+          <View style={styles.SectionStyle}>
+            <Icon
+              style={{ color: Colors.primary }}
+              as={<MaterialIcons name={"person"} size={24} color="black" />}
             ></Icon>
 
-          <View style={{ flex: 1 }}>
-            <TextInput
-              style={{ alignSelf: "center", width:"100%", textAlign:"center", height: 40 }}
-              placeholder={translate("userid")}
-              placeholderTextColor="#aaaaaa"
-              onChangeText={(text) => setUserId(text)}
-              value={userId}
-              underlineColorAndroid="transparent"
-              autoCapitalize="none"
-            />
+            <View style={{ flex: 1 }}>
+              <TextInput
+                style={{
+                  alignSelf: "center",
+                  width: "100%",
+                  textAlign: "center",
+                  height: 40,
+                }}
+                placeholder={translate("userid")}
+                placeholderTextColor="#aaaaaa"
+                onChangeText={(text) => setUserId(text)}
+                value={userId}
+                underlineColorAndroid="transparent"
+                autoCapitalize="none"
+              />
+            </View>
           </View>
-        </View>
 
-        <View style={{ height: 20 }}></View>
+          <View style={{ height: 20 }}></View>
 
-        <View style={styles.PasswordSectionStyle}>
-        <Icon style={{color:Colors.primary}}
-              as={
-                <MaterialIcons
-                  name={"lock"}
-                  size={24}
-                  color="black"
-                />
-              }
+          <View style={styles.PasswordSectionStyle}>
+            <Icon
+              style={{ color: Colors.primary }}
+              as={<MaterialIcons name={"lock"} size={24} color="black" />}
               mr={3}
             ></Icon>
-          <View style={{ flex: 1 }}>
-            <TextInput
-              style={{ alignSelf: "center", width:"100%", textAlign:"center", height: 40 }}
-              placeholder={translate("password")}
-              placeholderTextColor="#aaaaaa"
-              onChangeText={(text) => setPassword(text)}
-              value={password}
-              secureTextEntry={!showPassword}
-              underlineColorAndroid="transparent"
-              autoCapitalize="none"
-            />
+            <View style={{ flex: 1 }}>
+              <TextInput
+                style={{
+                  alignSelf: "center",
+                  width: "100%",
+                  textAlign: "center",
+                  height: 40,
+                }}
+                placeholder={translate("password")}
+                placeholderTextColor="#aaaaaa"
+                onChangeText={(text) => setPassword(text)}
+                value={password}
+                secureTextEntry={!showPassword}
+                underlineColorAndroid="transparent"
+                autoCapitalize="none"
+              />
+            </View>
+
+            <Pressable onPress={() => setShowPassword(!showPassword)}>
+              <Icon
+                style={{ color: Colors.primary }}
+                as={
+                  <MaterialIcons
+                    name={showPassword ? "visibility" : "visibility-off"}
+                    size={24}
+                    color="black"
+                  />
+                }
+                mr={3}
+              ></Icon>
+            </Pressable>
           </View>
-          
-          <Pressable onPress={() => setShowPassword(!showPassword)}>
-          <Icon style={{color:Colors.primary}}
-              as={
-                <MaterialIcons
-                  name={showPassword ? "visibility" : "visibility-off"}
-                  size={24}
-                  color="black"
-                />
-              }
-              mr={3}
-            ></Icon>
-             </Pressable>
-        </View>
-
-
-
-        {/* <View style={{ alignSelf: "flex-end", marginTop: 10 }}>
-          <TouchableOpacity onPress={onForgotPasswordPress}>
-            <Text style={{ color: "black", textDecorationLine: "underline" }}>
-              Forgot Password?
+          <TouchableOpacity onPress={() => onPressCreateNewAccount()}>
+            <Text
+              style={{
+                color: Colors.primary,
+                alignSelf: "center",
+                marginTop: 60,
+              }}
+            >
+              {translate("createnewaccount")}
             </Text>
           </TouchableOpacity>
-        </View> */}
 
-        <TouchableOpacity onPress={()=> onPressCreateNewAccount()}>
-        <Text style={{color:Colors.primary,alignSelf:"center",marginTop:60}}>{translate("createnewaccount")}</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.button} onPress={() => onSignInPress()}>
-          <Text style={styles.buttonTitle}>{translate("login")}</Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => onSignInPress()}
+          >
+            <Text style={styles.buttonTitle}>{translate("login")}</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-
-      {/* <View
-        style={{
-          flexDirection: "row",
-          position: "absolute",
-          bottom: 0,
-          alignSelf: "center",
-          marginBottom: 20,
-        }}
-      >
-        <Text>You don't have account??</Text>
-        <TouchableOpacity onPress={onRegisterPress}>
-          <Text style={{ color: "red", textDecorationLine: "underline" }}>
-            Register here
-          </Text>
-        </TouchableOpacity>
-      </View> */}
-      
-    </View>
     </KeyboardAwareScrollView>
   );
 };
@@ -204,7 +195,7 @@ LoginScreen.navigationOptions = (props) => {
     headerTitleAlign: "center",
     headerStyle: {
       backgroundColor: Colors.primary,
-      height:80
+      height: 80,
     },
   };
 };

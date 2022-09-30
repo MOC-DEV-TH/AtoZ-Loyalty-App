@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   FlatList,
   ActivityIndicator,
+  SafeAreaView,
 } from "react-native";
 import i18n from "../../../I18n/i18n";
 import { Ionicons } from "@expo/vector-icons";
@@ -21,7 +22,8 @@ import { translate } from "react-native-translate";
 import { getStoreData } from "../../../AsyncStorage/AsyncStorage";
 import AsyncStorageKey from "../../../constants/AsyncStorageKey";
 import SessionExpireAlert from "../../../components/SessionExpireAlert";
-
+import SeeMore from 'react-native-see-more-inline';
+import ReadMore from '@fawazahmed/react-native-read-more';
 
 export default PromotionScreen = (props) => {
   const dispatch = useDispatch();
@@ -53,7 +55,7 @@ export default PromotionScreen = (props) => {
   }, [loadPromotionData]);
 
   useEffect(() => {
-    getStoreData().then((value) => {
+    getStoreData(AsyncStorageKey.LANGUAGE).then((value) => {
       if (value == AsyncStorageKey.LANGUAGE_MM) {
         setLanguage(value)
       } else if (value == AsyncStorageKey.LANGUAGE_ENG) {
@@ -101,9 +103,9 @@ export default PromotionScreen = (props) => {
         />
         <VStack style={styles.vContainer}>
           <Text style={styles.title}>{item.name}</Text>
-          <Text style={styles.description}>
+          <SeeMore numberOfLines={4} style={styles.description}>
             {item.description}
-          </Text>
+          </SeeMore>
         </VStack>
       </HStack>
     );
@@ -120,9 +122,9 @@ export default PromotionScreen = (props) => {
         />
         <VStack style={styles.vContainer}>
           <Text style={styles.title}>{item.namemm}</Text>
-          <Text style={styles.description}>
+          <SeeMore numberOfLines={4} style={styles.description}>
            {item.descriptionmm}
-          </Text>
+          </SeeMore>
         </VStack>
       </HStack>
     );

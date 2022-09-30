@@ -14,6 +14,7 @@ import en from "../../../locales/en";
 import my from "../../../locales/my";
 import { useDispatch } from "react-redux";
 import LogoBanner from "../../../components/LogoBanner";
+import AsyncStorageKey from "../../../constants/AsyncStorageKey";
 import {
   Box,
   Text,
@@ -34,25 +35,22 @@ import {
 export default AccountDashboardScreen = (props) => {
   const dispatch = useDispatch();
   let [local, setLocal] = useState("en");
-  i18n.locale = local;
   useEffect(() => {
     dispatch(authActions.getAllDDL());
   });
 
   const onPressChangeLanguage = () => {
       if(local=="en"){
-        setLocalization(my)
         setLocal("my")
-        storeData("my")
+        setLocalization(my)
+        storeData(AsyncStorageKey.LANGUAGE,"my")
       }
       else if(local=="my") {
-        setLocalization(en)
         setLocal("en")
-        storeData("en")
+        setLocalization(en)
+        storeData(AsyncStorageKey.LANGUAGE,"en")
       }
   };
-
-  
 
   const onLoginPress = () => {
      props.navigation.navigate("SignIn");

@@ -4,4 +4,5 @@ export default{
     LANGUAGE_ENG : "en",
     LANGUAGE_CHINESE : "chn",
 
+    EXPO_TOKEN : "expo_token"
 }
