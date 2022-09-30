@@ -1,4 +1,7 @@
 const en = {
+  nativebaseFont: "enFont",
+  headingFont: "En-Heading-Font",
+  bodyFont: "En-Body-Font",
   welcome: "welcome",
   getstart: "Get Started",
   login: "Login",

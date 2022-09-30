@@ -29,16 +29,18 @@ import { extendTheme, NativeBaseProvider } from "native-base";
 import * as TaskManager from "expo-task-manager";
 const BACKGROUND_NOTIFICATION_TASK = "BACKGROUND-NOTIFICATION-TASK";
 import Colors from "./constants/Colors";
-import { setLocalization } from "react-native-translate";
+import { setLocalization, translate } from "react-native-translate";
 import en from "./locales/en";
 import my from "./locales/my";
 import * as SQLite from "expo-sqlite";
 import { checkDatabaseForFirstTime } from "./persistence/database";
 import { retrieveNotification } from "./persistence/database";
 import { addToDatabase } from "./persistence/database";
+import { useFonts } from 'expo-font';
 
 //open database
 const db = SQLite.openDatabase("db.aToz");
+
 
 TaskManager.defineTask(
   BACKGROUND_NOTIFICATION_TASK,
@@ -59,20 +61,9 @@ const rootReducer = combineReducers({
 });
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
-const theme = extendTheme({
-  useSystemColorMode: true,
-  components: {
-    Button: {
-      baseStyle: {
-        rounded: "full",
-      },
-    },
-  },
-  colors: {
-    primary: Colors.primary,
-    white: Colors.white,
-  },
-});
+
+
+
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
@@ -83,6 +74,52 @@ Notifications.setNotificationHandler({
 
 
 export default function App() {
+    
+  const [fontsLoaded] = useFonts({
+    "En-Heading-Font": require('./assets/fonts/Roboto/Roboto-Bold.ttf'),
+    "En-Body-Font": require('./assets/fonts/Roboto/Roboto-Regular.ttf'),
+    "My-Heading-Font": require('./assets/fonts/Padauk/Padauk-Bold.ttf'),
+    "My-Body-Font": require('./assets/fonts/Padauk/Padauk-Regular.ttf'),
+  });
+
+  const theme = extendTheme({
+    useSystemColorMode: true,
+    components: {
+      Button: {
+        baseStyle: {
+          rounded: "full",
+        },
+      },
+    },
+    colors: {
+      primary: Colors.primary,
+      white: Colors.white,
+    },
+    fontConfig: {
+      EnFont: {
+        400: {
+          normal: "En-Body-Font",
+        },
+        700: {
+          normal: "En-Heading-Font",
+        },
+      },
+      MyFont: {
+        400: {
+          normal: "My-Body-Font",
+        },
+        700: {
+          normal: "My-Heading-Font",
+        },
+      },
+    },
+    fonts: {
+      enFont: 'EnFont',
+      myFont: 'MyFont',
+      body: 'MyFont'
+    },
+  });
+
   const [isChecking, setIsChecking] = useState(true);
   const [expoPushToken, setExpoPushToken] = useState("");
   const [notification, setNotification] = useState(false);
