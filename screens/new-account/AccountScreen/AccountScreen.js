@@ -5,7 +5,6 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   Box,
-  Text,
   HStack,
   VStack,
   Input,
@@ -44,6 +43,8 @@ import {
   CollapseBody,
   AccordionList,
 } from "accordion-collapse-react-native";
+import Text from "../../../components/Typography";
+
 
 const CollapseHeaderInner = ({ title, icon }) => {
   return (
@@ -57,10 +58,10 @@ const CollapseHeaderInner = ({ title, icon }) => {
         bg={"primary"}
         borderRadius={30}
       >
-        <Box mr={30}>{icon}</Box>
+        <Box w={"40%"} alignItems={"flex-end"} pr={10}>{icon}</Box>
         <Heading
           size="sm"
-          maxW={"90%"}
+          w={"60%"}
           fontWeight={"bold"}
           color="white"
           fontFamily={translate("nativebaseFont")}
@@ -167,7 +168,7 @@ export default AccountScreen = (props) => {
     <SafeAreaView>
       <ScrollView>
       <Box alignItems={"center"} pt={30} pb={45}>
-        <FontAwesome name="user-circle-o" size={45} color={Colors.primary} />
+        <FontAwesome name="user-circle-o" size={50} color={Colors.primary} />
         <Box maxW="250" w="100%" mt={25}>
           <VStack space={3}>
             <HStack alignItems="center">
@@ -223,7 +224,7 @@ export default AccountScreen = (props) => {
       </Box>
 
       <ContainerFluid px={5}>
-        <VStack space={15}>
+        <VStack space={25}>
           {/* Account Information */}
           <Collapse isExpanded={showAccTab} onToggle={()=>{
               setShowAccTab(true);
@@ -321,11 +322,11 @@ export default AccountScreen = (props) => {
             </CollapseHeader>
             <CollapseBody>
               <VStack space={2} mt={5} px={2}>
-                <HStack alignItems={"center"}>
-                  <Text w={"35%"} color="primary" fontWeight={"bold"} fontFamily={"enFont"}>
+                <Box>
+                  <Text color="primary" mb={2} fontWeight={"bold"} fontFamily={translate("nativebaseFont")}>
                     {translate("currentpwd")}
                   </Text>
-                  <Box w={"65%"} pl={5} color="primary">
+                  <Box color="primary">
                     <Input
                       size="md"
                       type={currentPwshow ? "text" : "password"}
@@ -357,13 +358,13 @@ export default AccountScreen = (props) => {
                       }
                     />
                   </Box>
-                </HStack>
+                </Box>
 
-                <HStack alignItems={"center"}>
-                  <Text w={"35%"} color="primary" fontWeight={"bold"} fontFamily={translate("nativebaseFont")}>
+                <Box>
+                  <Text color="primary" mb={2} fontWeight={"bold"} fontFamily={translate("nativebaseFont")}>
                     {translate("newpwd")}
                   </Text>
-                  <Box w={"65%"} pl={5} color="primary">
+                  <Box color="primary">
                     <Input
                       size="md"
                       type={newPwshow ? "text" : "password"}
@@ -391,67 +392,12 @@ export default AccountScreen = (props) => {
                       }
                     />
                   </Box>
-                </HStack>
-                
+                </Box>
 
-                <HStack alignItems={"center"} mt={5}>
-                  <Spacer></Spacer>
-                  <Box w={"65%"} pl={5} color="primary">
-                    <Button size={"lg"}  w={"100%"} bg={Colors.yellow} _text={{color:Colors.primary, textTransform:"uppercase", fontFamily:translate("headingFont")}}>Save</Button>
-                  </Box>
-
+                <HStack justifyContent={"flex-end"} mt={5}>
+                  <Button size={"lg"}  bg={Colors.yellow} _text={{color:Colors.primary, textTransform:"uppercase", fontFamily:translate("headingFont")}} px={10} onPress={() => onPressSave()}>Save</Button>
                 </HStack>
 
-                {/* <HStack alignItems={"center"}>
-                  <Text w={"40%"} color="primary" fontWeight={"bold"}>
-                    {translate("confirmpwd")}
-                  </Text>
-                  <Box w={"60%"} pl={5} color="primary">
-                    <Input
-                      size="md"
-                      type={confirmPwshow ? "text" : "password"}
-                      onChangeText={(text) => setConfirmPassword(text)}
-                      value={confirmPassword}
-                      InputRightElement={
-                        <Pressable
-                          onPress={() => setconfirmPwShow(!confirmPwshow)}
-                        >
-                          <Icon
-                            as={
-                              <MaterialIcons
-                                name={
-                                  confirmPwshow
-                                    ? "visibility"
-                                    : "visibility-off"
-                                }
-                                size={24}
-                                color="black"
-                              />
-                            }
-                            mr={3}
-                          ></Icon>
-                        </Pressable>
-                      }
-                    />
-                  </Box>
-                </HStack> */}
-
-                {/* <HStack alignItems={"center"}>
-                  <Text w={"40%"} color="primary" fontWeight={"bold"}>
-                    {translate("changeLanguage")}
-                  </Text>
-                  <TouchableOpacity onPress={() => onPressChangeLanguage()}>
-                    <Text
-                      style={{ fontSize: 11 }}
-                      w={"100%"}
-                      pl={5}
-                      mt={3}
-                      color="primary"
-                    >
-                      မြန်မာ / Eng
-                    </Text>
-                  </TouchableOpacity>
-                </HStack> */}
               </VStack>
             </CollapseBody>
           </Collapse>

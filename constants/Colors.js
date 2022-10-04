@@ -4,6 +4,7 @@ export default {
     green: '#006700',
     theme: '#f1c232',
     primary: '#034ea1',
+    primaryLight: "#4e82bd",
     dimGray: '#696969',
     lightGray: '#9b9b9b',
     dryBlack: '#464646',

@@ -15,7 +15,7 @@
     "ios": {
       "splash": {
         "image": "./assets/atoz-splash.png",
-        "resizeMode": "center",
+        "resizeMode": "contain",
         "backgroundColor": "#034ea1"
       },
       "bundleIdentifier": "com.atoz.client",
@@ -32,7 +32,7 @@
     "android": {
       "splash": {
         "image": "./assets/atoz-splash.png",
-        "resizeMode": "center",
+        "resizeMode": "contain",
         "backgroundColor": "#034ea1"
       },
       "package" : "com.atoz.client",

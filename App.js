@@ -38,6 +38,7 @@ import { checkDatabaseForFirstTime } from "./persistence/database";
 import { retrieveNotification } from "./persistence/database";
 import { addToDatabase } from "./persistence/database";
 import { useFonts } from 'expo-font';
+import { useCallback } from "react";
 
 //open database
 const db = SQLite.openDatabase("db.aToz");
@@ -76,51 +77,28 @@ Notifications.setNotificationHandler({
 
 
 export default function App() {
+  
     
   const [fontsLoaded] = useFonts({
-    "En-Heading-Font": require('./assets/fonts/Roboto/Roboto-Bold.ttf'),
-    "En-Body-Font": require('./assets/fonts/Roboto/Roboto-Regular.ttf'),
+    "En-Heading-Font": require('./assets/fonts/Helvetica/HelveticaLTStd-Bold.otf'),
+    "En-Body-Font": require('./assets/fonts/Helvetica/HelveticaLTStd-Light.otf'),
     "My-Heading-Font": require('./assets/fonts/Padauk/Padauk-Bold.ttf'),
     "My-Body-Font": require('./assets/fonts/Padauk/Padauk-Regular.ttf'),
   });
 
-  const theme = extendTheme({
-    useSystemColorMode: true,
-    components: {
-      Button: {
-        baseStyle: {
-          rounded: "full",
-        },
-      },
-    },
-    colors: {
-      primary: Colors.primary,
-      white: Colors.white,
-    },
-    fontConfig: {
-      EnFont: {
-        400: {
-          normal: "En-Body-Font",
-        },
-        700: {
-          normal: "En-Heading-Font",
-        },
-      },
-      MyFont: {
-        400: {
-          normal: "My-Body-Font",
-        },
-        700: {
-          normal: "My-Heading-Font",
-        },
-      },
-    },
-    fonts: {
-      enFont: 'EnFont',
-      myFont: 'MyFont',
-      body: 'MyFont'
-    },
-  });
+  useEffect(() => {
+    async function prepare() {
+      await SplashScreen.preventAutoHideAsync();
+    }
+    prepare();
+  }, []);
+
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
 
   const [isChecking, setIsChecking] = useState(true);
   const [expoPushToken, setExpoPushToken] = useState("");
@@ -241,15 +219,60 @@ export default function App() {
     });
   }, []);
 
-  return (
-    <Provider store={store}>
-      <NativeBaseProvider theme={theme}>
-        <View style={{ flex: 1 }}>
-          <NavigationContainer />
-        </View>
-      </NativeBaseProvider>
-    </Provider>
-  );
+  // is font ready?
+  if (!fontsLoaded) {
+    return null;
+  }else{
+    const theme = extendTheme({
+      useSystemColorMode: true,
+      components: {
+        Button: {
+          baseStyle: {
+            rounded: "full",
+          },
+        },
+      },
+      colors: {
+        ...Colors
+      },
+      fontConfig: {
+        EnFont: {
+          400: {
+            normal: "En-Body-Font",
+          },
+          700: {
+            normal: "En-Heading-Font",
+          },
+        },
+        MyFont: {
+          400: {
+            normal: "My-Body-Font",
+          },
+          700: {
+            normal: "My-Heading-Font",
+          },
+        },
+      },
+      fonts: {
+        enFont: 'EnFont',
+        myFont: 'MyFont',
+        body: 'MyFont'
+      },
+    });
+
+    return (
+      <Provider store={store}>
+        <NativeBaseProvider theme={theme}>
+          <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+            <NavigationContainer />
+          </View>
+        </NativeBaseProvider>
+      </Provider>
+    );
+
+  }
+
+  
 }
 registerRootComponent(App);
 
