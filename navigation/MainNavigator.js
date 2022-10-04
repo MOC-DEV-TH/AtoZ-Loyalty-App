@@ -44,6 +44,8 @@ const defaultNavOptions = {
 const DashboardNavigator = createStackNavigator(
   {
     Home: HomeScreen,
+    PointHistory: PointHistoryScreen,
+    Notification: NotificationScreen,
   },
   {
     defaultNavigationOptions: defaultNavOptions,

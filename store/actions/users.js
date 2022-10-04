@@ -42,7 +42,7 @@ export const registerUser = (userObj) => {
       }
 
       const respData = await response.json();
-      console.log("register user response"+respData);
+      console.log("register user response"+respData.status);
       if(respData.response_code=="016")
       {
         alert(respData.description)

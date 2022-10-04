@@ -14,7 +14,7 @@ const en = {
   accountregistration: "Account Registration",
   name: "Name",
   dob: "Date of Birth",
-  nrc: "NRC No.*",
+  nrc: "NRC No.",
   address: "Address",
   city: "City",
   township:"Township",

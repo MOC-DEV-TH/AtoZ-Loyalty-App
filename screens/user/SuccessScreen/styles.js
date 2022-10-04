@@ -20,7 +20,7 @@ export default StyleSheet.create({
         paddingLeft:15,
         paddingRight:15,
         position:"absolute",
-        bottom:100
+        bottom:60
       },
       buttonTitle: {
         color: Colors.primary,

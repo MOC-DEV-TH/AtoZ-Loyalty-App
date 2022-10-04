@@ -38,7 +38,7 @@ import {
             mx={"auto"}
           ></Img>
         <Text style={{ color: Colors.primary,fontSize:22,fontWeight:"bold",marginTop:15}}>
-        Welcome
+        THANK YOU
         </Text>
         <Text
           style={{
@@ -46,17 +46,44 @@ import {
             fontWeight: "normal",
             textAlign: "center",
             margin: 6,
-            lineHeight:25
+            lineHeight:25,
+            marginTop:40
           }}
         >
-          Your Loyalty account is{"\n"}created successfully Your{"\n"}account ID will be notify shorty...
+          Your Loyalty Program Membership{"\n"}Account Creation has been{"\n"}submitted successfully.
+        </Text>
+
+        <Text
+          style={{
+            color: Colors.primary,
+            fontWeight: "normal",
+            textAlign: "center",
+            margin: 6,
+            lineHeight:25,
+            marginTop:25
+          }}
+        >
+          Account verification process is{"\n"}already underway.
+        </Text>
+
+        <Text
+          style={{
+            color: Colors.primary,
+            fontWeight: "normal",
+            textAlign: "center",
+            margin: 6,
+            lineHeight:25,
+            marginTop:25
+          }}
+        >
+          Your Login credentials will be{"\n"}notified via SMS after verification.
         </Text>
 
         <TouchableOpacity
             style={styles.button}
             onPress={() => login()}
           >
-            <Text style={styles.buttonTitle}>Login Now</Text>
+            <Text style={styles.buttonTitle}>Login</Text>
           </TouchableOpacity>
 
       </View>

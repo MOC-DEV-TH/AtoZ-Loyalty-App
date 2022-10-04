@@ -40,6 +40,7 @@ import { addToDatabase } from "./persistence/database";
 import { useFonts } from 'expo-font';
 import { useCallback } from "react";
 
+
 //open database
 const db = SQLite.openDatabase("db.aToz");
 
@@ -86,18 +87,18 @@ export default function App() {
     "My-Body-Font": require('./assets/fonts/Padauk/Padauk-Regular.ttf'),
   });
 
-  useEffect(() => {
-    async function prepare() {
-      await SplashScreen.preventAutoHideAsync();
-    }
-    prepare();
-  }, []);
+  // useEffect(() => {
+  //   async function prepare() {
+  //     await SplashScreen.preventAutoHideAsync();
+  //   }
+  //   prepare();
+  // }, []);
 
-  const onLayoutRootView = useCallback(async () => {
-    if (fontsLoaded) {
-      await SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded]);
+  // const onLayoutRootView = useCallback(async () => {
+  //   if (fontsLoaded) {
+  //     await SplashScreen.hideAsync();
+  //   }
+  // }, [fontsLoaded]);
 
 
   const [isChecking, setIsChecking] = useState(true);
@@ -263,7 +264,7 @@ export default function App() {
     return (
       <Provider store={store}>
         <NativeBaseProvider theme={theme}>
-          <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+          <View style={{ flex: 1 }}>
             <NavigationContainer />
           </View>
         </NativeBaseProvider>
