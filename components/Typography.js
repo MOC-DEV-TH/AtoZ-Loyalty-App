@@ -4,6 +4,6 @@ import { translate } from "react-native-translate";
 
 export default function Text(props){
     return (
-        <Para {...props} fontFamily={translate("nativebaseFont")} color="primaryLight">{props.children}</Para>
+        <Para {...props} fontFamily={translate("nativebaseFont")} color={(props.color) ? props.color : "primaryLight"}>{props.children}</Para>
     )
 }

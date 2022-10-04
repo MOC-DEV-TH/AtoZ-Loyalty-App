@@ -10,6 +10,7 @@ const en = {
   alreadyAccount: "Already have an account",
   createnewaccount: "Create New Account",
   help: "Help",
+  setting: "Setting",
   accountregistration: "Account Registration",
   name: "Name",
   dob: "Date of Birth",
