@@ -18,6 +18,11 @@
       "**/*"
     ],
     "ios": {
+      "splash": {
+        "image": "./assets/atoz-splash.png",
+        "resizeMode": "contain",
+        "backgroundColor": "#034ea1"
+      },
       "bundleIdentifier": "com.atoz.client",
       "buildNumber" : "1.1.1",
       "supportsTablet": false,
@@ -30,6 +35,11 @@
       }
     },
     "android": {
+      "splash": {
+        "image": "./assets/atoz-splash.png",
+        "resizeMode": "contain",
+        "backgroundColor": "#034ea1"
+      },
       "package" : "com.atoz.client",
       "googleServicesFile": "./google-services.json",
       "versionCode" : 1,

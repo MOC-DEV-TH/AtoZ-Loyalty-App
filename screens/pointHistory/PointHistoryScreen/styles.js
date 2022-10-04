@@ -8,8 +8,8 @@ export default StyleSheet.create({
     backgroundColor: '#fff',
   },
   headerIcon: {
-    width: 100,
-    height: 120,
+    width: 30,
+    height: 30,
     resizeMode: "contain",
     marginLeft: 10,
     marginRight: 10,

@@ -28,12 +28,11 @@ export default HomeScreen = (props) => {
   const sliderList = [];
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
-  let [alert,setShowAlert] = useState(false)
-
+  let [alert, setShowAlert] = useState(false);
 
   const renderItem = ({ item }) => {
     return (
-      <View style={{ width: "48%",marginTop:15 }}>
+      <View style={{ width: "48%", marginTop: 15 }}>
         <VStack style={{ flex: 1 }}>
           <Image
             resizeMode="stretch"
@@ -52,7 +51,7 @@ export default HomeScreen = (props) => {
             }}
           >
             <Text style={{ color: Colors.primary }}>{item.name}</Text>
-            <Text style={{ color: Colors.white,fontWeight:"bold" }}></Text>
+            <Text style={{ color: Colors.white, fontWeight: "bold" }}></Text>
           </HStack>
         </VStack>
       </View>
@@ -60,9 +59,9 @@ export default HomeScreen = (props) => {
   };
 
   useEffect(() => {
-    console.log("Reload")
+    console.log("Reload");
     loadPromotionData();
-  },[loadPromotionData]);
+  }, [loadPromotionData]);
 
   useEffect(() => {
     console.log("Will Focus");
@@ -83,8 +82,7 @@ export default HomeScreen = (props) => {
       setError(error.message);
     }
     setIsLoading(false);
-  }, [setIsLoading,dispatch]);
-
+  }, [setIsLoading, dispatch]);
 
   const promotionData = useSelector(
     (state) => state.homeScreen.home_promotions,
@@ -94,23 +92,27 @@ export default HomeScreen = (props) => {
   const onConfirm = () => {
     dispatch(homeActions.setEmptyResponseCode());
     props.navigation.navigate("AccountDashboard");
-    setShowAlert(false)
-  }
+    setShowAlert(false);
+  };
 
   const responseCode = useSelector(
     (state) => state.homeScreen.response_code,
     shallowEqual
   );
 
-  const showSessionDialog = useCallback(()=>{
-    setShowAlert(true)
-  })
+  const showSessionDialog = useCallback(() => {
+    setShowAlert(true);
+  });
 
-  useEffect(()=>{
-    if(responseCode=="005"){
-      showSessionDialog()
+  useEffect(() => {
+    if (responseCode == "005") {
+      showSessionDialog();
     }
-  })
+  });
+
+  const onPressAvailablePoint = () => {
+    props.navigation.navigate("PointHistory")
+  }
 
   promotionData.map((data) => {});
   const promotionSlider = promotionData.filter(
@@ -130,17 +132,53 @@ export default HomeScreen = (props) => {
       <View>
         <Slideshow dataSource={sliderList} />
       </View>
-      <SessionExpireAlert showAlert={alert} onConfirmPressed={onConfirm}/>
-      <Text
+      <SessionExpireAlert showAlert={alert} onConfirmPressed={onConfirm} />
+      <View
         style={{
-          marginTop: 15,
-          alignSelf: "center",
-          color: Colors.primary,
+          backgroundColor: Colors.primary,
           fontWeight: "bold",
+          padding: 10,
+          paddingTop:20,
+          paddingBottom:20
         }}
       >
-        {translate("pointcollected")} XXXX {translate("point")}
-      </Text>
+      <VStack>
+      <HStack pb={7} justifyContent={"space-between"}>
+          <Text
+            style={{ color: Colors.white, fontWeight: "bold", fontSize: 20 }}
+          >
+            Available Points
+          </Text>
+         <TouchableOpacity onPress={()=>onPressAvailablePoint()}>
+         <Image
+            style={{ height: 20, width: 20 }}
+            resizeMode="contain"
+            source={require("../../../assets/right_arrow_circle.png")}
+          />
+         </TouchableOpacity>
+        </HStack>
+        <Box
+          alignSelf="center"
+          alignItems="center"
+          bg="primary.500"
+          p={3}
+          borderColor="white"
+          borderWidth="3"
+          borderRadius={12}
+          width="100%"
+          _text={{
+            fontSize: "lg",
+            fontWeight: "bold",
+            color: "warmGray.50",
+            letterSpacing: "lg",
+            fontSize:22
+          }}
+        >
+          1400 Points
+        </Box>
+      </VStack>
+      </View>
+      
       <FlatList
         data={ads_data}
         numColumns={2}
@@ -149,9 +187,12 @@ export default HomeScreen = (props) => {
         contentContainerStyle={{
           paddingLeft: 10,
           paddingRight: 10,
+          paddingBottom :15
         }}
         columnWrapperStyle={{ justifyContent: "space-between" }}
       />
+      
+      
     </SafeAreaView>
   );
 };
@@ -176,44 +217,50 @@ HomeScreen.navigationOptions = (props) => {
     ),
 
     headerRight: () => (
-      <Box w="90%" alignItems="center">
-        <Menu
-          w="140"
-          trigger={(triggerProps) => {
-            return (
-              <Pressable
-                accessibilityLabel="More options menu"
-                {...triggerProps}
-              >
-                <Ionicons
-                  size={38}
-                  style={{ color: Colors.white,marginRight:15 }}
-                  name="menu"
-                ></Ionicons>
-              </Pressable>
-            );
-          }}
-        >
-          <Menu.Item
-            onPress={() =>
-              props.navigation.navigate("MyAccount", { screenName: "Home" })
-            }
-          >
-          {translate("myaccount")}
-          </Menu.Item>
-          <Menu.Item onPress={() => props.navigation.navigate("AboutUs")}>
-          {translate("aboutus")}
-          </Menu.Item>
-          <Menu.Item
-            onPress={() => props.navigation.navigate("TermAndCondition")}
-          >
-           {translate("termandcondition")}
-          </Menu.Item>
-          <Menu.Item onPress={() => props.navigation.navigate("Faq")}>
-            {translate("faq")}
-          </Menu.Item>
-        </Menu>
-      </Box>
+      <TouchableOpacity onPress={()=>props.navigation.navigate("Notification")}>
+          <Image
+            style={{height:20,width:20,marginRight:15}}
+            source={require("../../../assets/notification_icon.png")}
+          />
+        </TouchableOpacity>
+      // <Box w="90%" alignItems="center">
+      //   <Menu
+      //     w="140"
+      //     trigger={(triggerProps) => {
+      //       return (
+      //         <Pressable
+      //           accessibilityLabel="More options menu"
+      //           {...triggerProps}
+      //         >
+      //           <Ionicons
+      //             size={38}
+      //             style={{ color: Colors.white, marginRight: 15 }}
+      //             name="menu"
+      //           ></Ionicons>
+      //         </Pressable>
+      //       );
+      //     }}
+      //   >
+      //     <Menu.Item
+      //       onPress={() =>
+      //         props.navigation.navigate("MyAccount", { screenName: "Home" })
+      //       }
+      //     >
+      //       {translate("myaccount")}
+      //     </Menu.Item>
+      //     <Menu.Item onPress={() => props.navigation.navigate("AboutUs")}>
+      //       {translate("aboutus")}
+      //     </Menu.Item>
+      //     <Menu.Item
+      //       onPress={() => props.navigation.navigate("TermAndCondition")}
+      //     >
+      //       {translate("termandcondition")}
+      //     </Menu.Item>
+      //     <Menu.Item onPress={() => props.navigation.navigate("Faq")}>
+      //       {translate("faq")}
+      //     </Menu.Item>
+      //   </Menu>
+      // </Box>
     ),
   };
 };
