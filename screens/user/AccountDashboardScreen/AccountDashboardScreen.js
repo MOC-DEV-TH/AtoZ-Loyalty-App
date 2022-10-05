@@ -104,7 +104,7 @@ export default AccountDashboardScreen = (props) => {
         </Button>
       </View>
 
-      <View
+      {/* <View
         style={{
           position: "absolute",
           bottom: 20,
@@ -132,7 +132,7 @@ export default AccountDashboardScreen = (props) => {
         <TouchableOpacity onPress={() => onPressChangeLanguage()}>
           <Text style={{fontSize:11}} color={Colors.primary}>မြန်မာ / Eng</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
     </View>
   );
 };

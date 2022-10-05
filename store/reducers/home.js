@@ -1,8 +1,9 @@
-import { SET_HOME_PROMOTION ,SET_RESPONSE_CODE,SET_EMPTY_RESPONSE_CODE} from "../actions/home";
+import { SET_HOME_PROMOTION ,SET_RESPONSE_CODE,SET_EMPTY_RESPONSE_CODE,SET_AVAILABLE_POINT} from "../actions/home";
 
 const initialState = {
     home_promotions: [],
-    response_code : null
+    response_code : null,
+    available_point : 0
   };
   
   export default (state = initialState, action) => {
@@ -21,6 +22,11 @@ const initialState = {
           return {
             ...state,
             response_code: null,
+          };
+          case SET_AVAILABLE_POINT:
+          return {
+            ...state,
+            available_point: action.available_point,
           };
         default:
           return state;

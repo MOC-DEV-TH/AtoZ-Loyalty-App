@@ -62,7 +62,7 @@ export const getMemberInfo = () => {
   };
 };
 
-export const updateAccount = (oldPassword, newPassword, confirm_password) => {
+export const updateAccount = (oldPassword, newPassword) => {
   return async (dispatch, getState) => {
     const token = getState().auth.token;
     const userId = getState().auth.userId;
@@ -78,7 +78,6 @@ export const updateAccount = (oldPassword, newPassword, confirm_password) => {
           user_id: userId,
           old_password: oldPassword,
           new_password: newPassword,
-          confirm_password: confirm_password,
         }),
       });
 

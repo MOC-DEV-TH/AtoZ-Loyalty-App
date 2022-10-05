@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   StatusBar,
   Platform,
+  LogBox
 } from "react-native";
 import "react-native-gesture-handler";
 import { Provider } from "react-redux";
@@ -38,12 +39,12 @@ import { checkDatabaseForFirstTime } from "./persistence/database";
 import { retrieveNotification } from "./persistence/database";
 import { addToDatabase } from "./persistence/database";
 import { useFonts } from 'expo-font';
-import { useCallback } from "react";
 
+console.disableYellowBox = true;
+LogBox.ignoreAllLogs();
 
 //open database
 const db = SQLite.openDatabase("db.aToz");
-
 
 TaskManager.defineTask(
   BACKGROUND_NOTIFICATION_TASK,

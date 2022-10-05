@@ -88,6 +88,10 @@ export default HomeScreen = (props) => {
     (state) => state.homeScreen.home_promotions,
     shallowEqual
   );
+  const availablePoints = useSelector(
+    (state) => state.homeScreen.available_point,
+    shallowEqual
+  );
 
   const onConfirm = () => {
     dispatch(homeActions.setEmptyResponseCode());
@@ -111,7 +115,7 @@ export default HomeScreen = (props) => {
   });
 
   const onPressAvailablePoint = () => {
-    props.navigation.navigate("PointHistory")
+    props.navigation.push("PointHistory")
   }
 
   promotionData.map((data) => {});
@@ -145,7 +149,7 @@ export default HomeScreen = (props) => {
       <VStack>
       <HStack pb={7} justifyContent={"space-between"}>
           <Text
-            style={{ color: Colors.white, fontWeight: "bold", fontSize: 20 }}
+            style={{ color: Colors.white, fontWeight: "bold", fontSize: 18 }}
           >
             Available Points
           </Text>
@@ -174,7 +178,7 @@ export default HomeScreen = (props) => {
             fontSize:22
           }}
         >
-          1400 Points
+          {availablePoints+" Points"} 
         </Box>
       </VStack>
       </View>

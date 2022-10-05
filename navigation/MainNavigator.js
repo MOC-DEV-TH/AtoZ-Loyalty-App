@@ -12,7 +12,7 @@ import LoginScreen from "../screens/user/LoginScreen/LoginScreen";
 import SignUpScreen from "../screens/user/SignUpScreen/SignUpScreen";
 import ForgotPasswordScreen from "../screens/user/ForgotPasswordScreen/ForgotPasswordScreen";
 import HomeScreen from "../screens/dashboard/HomeScreen/HomeScreen";
-import AccountScreen from "../screens/account/AccountScreen/AccountScreen";
+import AccountScreen from "../screens/new-account/AccountScreen/AccountScreen";
 import NotificationScreen from "../screens/notification/NotificationScreen/NotificationScreen";
 import PromotionScreen from "../screens/promotion/PromotionScreen/PromotionScreen";
 import PointHistoryScreen from "../screens/pointHistory/PointHistoryScreen/PointHistoryScreen";
@@ -23,6 +23,7 @@ import AboutScreen from "../screens/dashboard/AboutScreen/AboutScreen";
 import AccountVerificationScreen from "../screens/user/AccountVerificationScreen/AccountVerificationScreen";
 import TermsAndConditionsScreen from "../screens/dashboard/TermsAndConditionsScreen/TermsAndConditionsScreen";
 import SuccessScreen from "../screens/user/SuccessScreen/SuccessScreen";
+import SettingScreen from "../screens/user/SettingScreen/SettingScreen";
 import {translate} from "react-native-translate";
 
 const defaultNavOptions = {
@@ -32,8 +33,8 @@ const defaultNavOptions = {
     height: 75,
     shadowColor: "transparent", // this covers iOS
     elevation: 0,
+    
   },
-  headerTitleStyle: { flex: 1 },
   headerBackTitleStyle: {},
   headerTitleAlign: "left | center",
   titleStyle: {},
@@ -61,14 +62,17 @@ const AccountNavigator = createStackNavigator(
   }
 );
 
-const PointHistoryNavigator = createStackNavigator(
+const SettingNavigator = createStackNavigator(
   {
-    PointHistory: PointHistoryScreen,
+    Setting: SettingScreen,
+    MyAccount: AccountScreen,
+    Notification : NotificationScreen
   },
   {
     defaultNavigationOptions: defaultNavOptions,
   }
 );
+
 const AboutNavigator = createStackNavigator(
   {
     AboutUs: AboutScreen,
@@ -85,7 +89,6 @@ const FaqNavigator = createStackNavigator(
     defaultNavigationOptions: defaultNavOptions,
   }
 );
-
 const TermAndConditionNavigator = createStackNavigator(
   {
     TermAndCondition: TermsAndConditionsScreen,
@@ -94,7 +97,6 @@ const TermAndConditionNavigator = createStackNavigator(
     defaultNavigationOptions: defaultNavOptions,
   }
 );
-
 const NotificationNavigator = createStackNavigator(
   {
     Notification: NotificationScreen,
@@ -107,6 +109,18 @@ const NotificationNavigator = createStackNavigator(
 const PromotionNavigator = createStackNavigator(
   {
     Promotion: PromotionScreen,
+    Notification: NotificationScreen,
+  },
+  {
+    defaultNavigationOptions: defaultNavOptions,
+  }
+);
+const HelpNavigator = createStackNavigator(
+  {
+    Help: HelpScreen,
+    TermAndCondition: TermsAndConditionsScreen,
+    Notification: NotificationScreen,
+    Faq: FaqScreen,
   },
   {
     defaultNavigationOptions: defaultNavOptions,
@@ -120,7 +134,6 @@ const AuthNavigator = createStackNavigator(
     SignUp: SignUpScreen,
     ForgotPassword: ForgotPasswordScreen,
     AccountDashboard: AccountDashboardScreen,
-    Help: HelpScreen,
     AccountVerification : AccountVerificationScreen,
     Success : SuccessScreen
   },
@@ -155,36 +168,6 @@ const tabScreenConfig = {
       },
     },
   },
-  PointHistory: {
-    screen: PointHistoryNavigator,
-    navigationOptions: {
-      tabBarLabel: (
-        <Text
-          style={{
-            color: Colors.yellow,
-          }}
-        >
-          {translate("pointhistory")}
-        </Text>
-      ),
-      tabBarOptions: {
-        activeTintColor: Colors.primary,
-        labelStyle: {
-          fontSize: 10,
-          color: Colors.white,
-        },
-      },
-      tabBarIcon: (tabInfo) => {
-        return (
-          <Ionicons
-            name="ios-bookmarks-outline"
-            size={20}
-            color={tabInfo.tintColor}
-          />
-        );
-      },
-    },
-  },
   Promotion: {
     screen: PromotionNavigator,
     navigationOptions: {
@@ -215,8 +198,8 @@ const tabScreenConfig = {
       },
     },
   },
-  Notification: {
-    screen: NotificationNavigator,
+  Help: {
+    screen: HelpNavigator,
     navigationOptions: {
       tabBarLabel: (
         <Text
@@ -224,7 +207,37 @@ const tabScreenConfig = {
             color: Colors.yellow,
           }}
         >
-          {translate("notification")}
+          {translate("help")}
+        </Text>
+      ),
+      tabBarOptions: {
+        activeTintColor: Colors.primary,
+        labelStyle: {
+          fontSize: 10,
+          color: Colors.white,
+        },
+      },
+      tabBarIcon: (tabInfo) => {
+        return (
+          <Ionicons
+            name="help-circle-outline"
+            size={20}
+            color={tabInfo.tintColor}
+          />
+        );
+      },
+    },
+  },
+  Setting: {
+    screen: SettingNavigator,
+    navigationOptions: {
+      tabBarLabel: (
+        <Text
+          style={{
+            color: Colors.yellow,
+          }}
+        >
+          Setting
         </Text>
       ),
       tabBarOptions: {
@@ -237,7 +250,7 @@ const tabScreenConfig = {
       tabBarIcon: (tabInfo) => {
         return (
           <Ionicons
-            name="ios-notifications-outline"
+            name="settings"
             size={20}
             color={tabInfo.tintColor}
           />
@@ -273,9 +286,6 @@ const Navigator = createSwitchNavigator(
     Auth: AuthNavigator,
     Main: MainTabNavigator,
     MyAccount: AccountNavigator,
-    AboutUs: AboutNavigator,
-    Faq: FaqNavigator,
-    TermAndCondition: TermAndConditionNavigator,
   },
   {
     initialRouteName: "Auth",

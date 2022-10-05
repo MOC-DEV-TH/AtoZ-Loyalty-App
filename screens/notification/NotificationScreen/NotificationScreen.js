@@ -63,7 +63,17 @@ export default NotificationScreen = (props) => {
 
 NotificationScreen.navigationOptions = (props) => {
   return {
-    headerTitle: "",
+    headerTitle: () => (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Text style={{fontSize:22,color:Colors.white}}>Notifications</Text>
+      </View>
+    ),
     headerLeft: () => (
       <View
         style={{

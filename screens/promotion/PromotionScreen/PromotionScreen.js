@@ -67,7 +67,7 @@ export default PromotionScreen = (props) => {
   }, []);
 
   const onConfirm = () => {
-    dispatch(promotion.setEmptyResponseCode());
+    dispatch(promotionActions.setEmptyResponseCode());
     props.navigation.navigate("AccountDashboard");
     setShowAlert(false)
   }
@@ -192,44 +192,12 @@ PromotionScreen.navigationOptions = (props) => {
     ),
 
     headerRight: () => (
-      <Box w="90%" alignItems="center">
-        <Menu
-          w="140"
-          trigger={(triggerProps) => {
-            return (
-              <Pressable
-                accessibilityLabel="More options menu"
-                {...triggerProps}
-              >
-                <Ionicons
-                  size={38}
-                  style={{ color: Colors.white,marginRight:15 }}
-                  name="menu"
-                ></Ionicons>
-              </Pressable>
-            );
-          }}
-        >
-          <Menu.Item
-            onPress={() =>
-              props.navigation.navigate("MyAccount")
-            }
-          >
-            {translate("myaccount")}
-          </Menu.Item>
-          <Menu.Item onPress={() => props.navigation.navigate("AboutUs")}>
-            {translate("aboutus")}
-          </Menu.Item>
-          <Menu.Item
-            onPress={() => props.navigation.navigate("TermAndCondition")}
-          >
-            {translate("termandcondition")}
-          </Menu.Item>
-          <Menu.Item onPress={() => props.navigation.navigate("Faq")}>
-            {translate("faq")}
-          </Menu.Item>
-        </Menu>
-      </Box>
+      <TouchableOpacity onPress={()=>props.navigation.navigate("Notification")}>
+          <Image
+            style={{height:20,width:20,marginRight:15}}
+            source={require("../../../assets/notification_icon.png")}
+          />
+        </TouchableOpacity>
     ),
   };
 };

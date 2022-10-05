@@ -28,3 +28,12 @@ export const addToDatabase = (db,notiTitle, notiDesc) => {
     console.log(data)
     return data
   }
+
+  export const deleteAllNotifications = (db) => {
+  db.transaction(tx => {
+    tx.executeSql('DELETE  FROM notifications', null,
+      (txObj, { rows: { _array } }) => console.log(_array),
+      (txObj, error) => console.log('Error ', error)
+      ) 
+  })
+}

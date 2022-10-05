@@ -8,8 +8,9 @@ import { TouchableOpacity, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import Button from "../../../components/Button";
 import { FontAwesome5 } from "@expo/vector-icons";
-import { TouchableHighlight } from "react-native";
+import { TouchableHighlight,View } from "react-native";
 import { Linking } from "react-native";
+import styles from "./styles";
 
 export default HelpScreen = ({navigation}) => {
   return (
@@ -58,19 +59,30 @@ export default HelpScreen = ({navigation}) => {
 HelpScreen.navigationOptions = (props) => {
   return {
     headerTitle: "",
-    headerTintColor: "black",
-    headerTitleAlign: "center",
-    headerStyle: {
-      backgroundColor: "white",
-    },
-
     headerLeft: () => (
-      <TouchableOpacity onPress={() => props.navigation.goBack()}>
-        <Image
-          style={{ height: 15, width: 20, marginLeft: 10 }}
-          source={require("../../../assets/back_arrow.png")}
-        />
-      </TouchableOpacity>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <TouchableOpacity>
+          <Image
+            style={styles.headerIcon}
+            source={require("../../../assets/app_logo_blue.png")}
+          />
+        </TouchableOpacity>
+      </View>
+    ),
+
+    headerRight: () => (
+      <TouchableOpacity onPress={()=>props.navigation.navigate("Notification")}>
+          <Image
+            style={{height:20,width:20,marginRight:15}}
+            source={require("../../../assets/notification_icon.png")}
+          />
+        </TouchableOpacity>
     ),
   };
 };

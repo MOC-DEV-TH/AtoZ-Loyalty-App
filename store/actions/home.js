@@ -4,6 +4,7 @@ import HomePromotion from "../../model/home_promotion";
 export const SET_HOME_PROMOTION = "SET_HOME_PROMOTION";
 export const SET_RESPONSE_CODE = "SET_RESPONSE_CODE"
 export const SET_EMPTY_RESPONSE_CODE = "SET_EMPTY_RESPONSE_CODE"
+export const SET_AVAILABLE_POINT = "SET_AVAILABLE_POINT"
 
 export const setEmptyResponseCode = () => {
   return (dispatch) => {
@@ -36,12 +37,16 @@ export const getHomePromotions = () => {
     const respData = await response.json();
     dispatch({
       type: SET_RESPONSE_CODE,
-      response_code : respData.response_code
+      response_code : respData.response_code,
+    })
+    dispatch({
+      type: SET_AVAILABLE_POINT,
+      available_point : respData.details.available_point,
     })
     console.log("HomeResponse"+respData.response_code);
     const loadHomePromotions = [];
     
-    for (const item of respData.details) {
+    for (const item of respData.details.details) {
       loadHomePromotions.push(
         new HomePromotion(
           item.id,

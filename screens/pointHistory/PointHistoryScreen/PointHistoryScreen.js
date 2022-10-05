@@ -54,6 +54,14 @@ export default PointHistoryScreen = (props) => {
     props.navigation.navigate("AccountDashboard");
     setShowAlert(false);
   };
+  const available_point = useSelector(
+    (state) => state.pointHistory.available_point,
+    shallowEqual
+  );
+  const pointHistoryData = useSelector(
+    (state) => state.pointHistory.pointHistoryData,
+    shallowEqual
+  );
 
   const responseCode = useSelector(
     (state) => state.pointHistory.response_code,
@@ -70,10 +78,7 @@ export default PointHistoryScreen = (props) => {
     }
   });
 
-  const pointHistoryData = useSelector(
-    (state) => state.pointHistory.pointHistoryData,
-    shallowEqual
-  );
+  console.log("AvailablePoint"+available_point)
 
   const renderItem = ({ item }) => {
     let items = [];
@@ -102,7 +107,6 @@ export default PointHistoryScreen = (props) => {
       </View>
     );
   };
-  const extractKey = ({ rows }) => rows;
   return (
     <>
       <SessionExpireAlert showAlert={alert} onConfirmPressed={onConfirm} />
@@ -118,7 +122,7 @@ export default PointHistoryScreen = (props) => {
             alignSelf: "center",
           }}
         >
-          1000 {translate("pointavailable")}
+         {available_point} {translate("pointavailable")}
         </Text>
         {isRefreshing ? (
           <ActivityIndicator size="large" />
@@ -129,7 +133,7 @@ export default PointHistoryScreen = (props) => {
             style={styles.container}
             data={pointHistoryData}
             renderItem={renderItem}
-            keyExtractor={extractKey}
+            keyExtractor={(item) => item.month}
           />
         )}
       </View>
@@ -139,7 +143,17 @@ export default PointHistoryScreen = (props) => {
 
 PointHistoryScreen.navigationOptions = (props) => {
   return {
-    headerTitle: "",
+    headerTitle: () => (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Text style={{fontSize:22,color:Colors.white}}>Point History</Text>
+      </View>
+    ),
     headerLeft: () => (
       <View
         style={{
@@ -148,7 +162,7 @@ PointHistoryScreen.navigationOptions = (props) => {
           alignItems: "center",
         }}
       >
-        <TouchableOpacity onPress={()=>props.navigation.Back()}>
+        <TouchableOpacity onPress={()=>props.navigation.goBack()}>
           <Image
             style={styles.headerIcon}
             source={require("../../../assets/left_arrow_circle.png")}
@@ -156,42 +170,5 @@ PointHistoryScreen.navigationOptions = (props) => {
         </TouchableOpacity>
       </View>
     ),
-
-    // headerRight: () => (
-    //   <Box w="90%" alignItems="center">
-    //     <Menu
-    //       w="140"
-    //       trigger={(triggerProps) => {
-    //         return (
-    //           <Pressable
-    //             accessibilityLabel="More options menu"
-    //             {...triggerProps}
-    //           >
-    //             <Ionicons
-    //               size={38}
-    //               style={{ color: Colors.white, marginRight: 15 }}
-    //               name="menu"
-    //             ></Ionicons>
-    //           </Pressable>
-    //         );
-    //       }}
-    //     >
-    //       <Menu.Item onPress={() => props.navigation.navigate("MyAccount")}>
-    //         {translate("myaccount")}
-    //       </Menu.Item>
-    //       <Menu.Item onPress={() => props.navigation.navigate("AboutUs")}>
-    //         {translate("aboutus")}
-    //       </Menu.Item>
-    //       <Menu.Item
-    //         onPress={() => props.navigation.navigate("TermAndCondition")}
-    //       >
-    //         {translate("termandcondition")}
-    //       </Menu.Item>
-    //       <Menu.Item onPress={() => props.navigation.navigate("Faq")}>
-    //         {translate("faq")}
-    //       </Menu.Item>
-    //     </Menu>
-    //   </Box>
-    // ),
   };
 };

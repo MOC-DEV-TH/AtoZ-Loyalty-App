@@ -13,6 +13,13 @@ export default StyleSheet.create({
     textAlign: "center",
     justifyContent: "center",
 },
+headerIcon: {
+  width: 30,
+  height: 30,
+  resizeMode: "contain",
+  marginLeft: 10,
+  marginRight: 10,
+},
   alertButtonText: {
     textAlign: "center",
     color: Colors.primary,

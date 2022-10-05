@@ -45,7 +45,6 @@ import {
 } from "accordion-collapse-react-native";
 import Text from "../../../components/Typography";
 
-
 const CollapseHeaderInner = ({ title, icon }) => {
   return (
     <>
@@ -58,7 +57,9 @@ const CollapseHeaderInner = ({ title, icon }) => {
         bg={"primary"}
         borderRadius={30}
       >
-        <Box w={"40%"} alignItems={"flex-end"} pr={10}>{icon}</Box>
+        <Box w={"40%"} alignItems={"flex-end"} pr={10}>
+          {icon}
+        </Box>
         <Heading
           size="sm"
           w={"60%"}
@@ -138,17 +139,10 @@ export default AccountScreen = (props) => {
   console.log("UserName" + memberInfo.name);
 
   const onPressSave = () => {
-    if (currentPassword != "" || newPassword != "" || confirmPassword != "") {
-      dispatch(
-        myAccountActions.updateAccount(
-          currentPassword,
-          newPassword,
-          confirmPassword
-        )
-      );
+    if (currentPassword != "" || newPassword != "") {
+      dispatch(myAccountActions.updateAccount(currentPassword, newPassword));
     }
   };
-
   const onConfirm = () => {
     dispatch(myAccountActions.setEmptyResponseCode());
     props.navigation.navigate("AccountDashboard");
@@ -167,262 +161,313 @@ export default AccountScreen = (props) => {
   return (
     <SafeAreaView>
       <ScrollView>
-      <Box alignItems={"center"} pt={30} pb={45}>
-        <FontAwesome name="user-circle-o" size={50} color={Colors.primary} />
-        <Box maxW="250" w="100%" mt={25}>
-          <VStack space={3}>
-            <HStack alignItems="center">
-              <Text
-                color="primary"
-                w={"50%"}
-                style={{ fontFamily: translate("bodyFont") }}
-              >
-                {translate("userid")}
-              </Text>
-              <Text
-                color="primary"
-                w={"50%"}
-                style={{ fontFamily: translate("bodyFont") }}
-              >
-                {memberInfo.user_id}
-              </Text>
-            </HStack>
-            <HStack alignItems="center">
-              <Text
-                color="primary"
-                w={"50%"}
-                style={{ fontFamily: translate("bodyFont") }}
-              >
-                {translate("pointcollected")}
-              </Text>
-              <Text
-                color="primary"
-                w={"50%"}
-                style={{ fontFamily: translate("bodyFont") }}
-              >
-                {memberInfo.current_point}
-              </Text>
-            </HStack>
-            <HStack alignItems="center">
-              <Text
-                color="primary"
-                w={"50%"}
-                style={{ fontFamily: translate("bodyFont") }}
-              >
-                {translate("membertype")}
-              </Text>
-              <Text
-                color="primary"
-                w={"50%"}
-                style={{ fontFamily: translate("bodyFont") }}
-              >
-                {memberInfo.member_level}
-              </Text>
-            </HStack>
-          </VStack>
+        <Box alignItems={"center"} pt={30} pb={45}>
+          <FontAwesome name="user-circle-o" size={50} color={Colors.primary} />
+          <Box maxW="250" w="100%" mt={25}>
+            <VStack space={3}>
+              <HStack alignItems="center">
+                <Text
+                  color="primary"
+                  w={"50%"}
+                  style={{ fontFamily: translate("bodyFont") }}
+                >
+                  {translate("userid")}
+                </Text>
+                <Text
+                  color="primary"
+                  w={"50%"}
+                  style={{ fontFamily: translate("bodyFont") }}
+                >
+                  {memberInfo.user_id}
+                </Text>
+              </HStack>
+              <HStack alignItems="center">
+                <Text
+                  color="primary"
+                  w={"50%"}
+                  style={{ fontFamily: translate("bodyFont") }}
+                >
+                  {translate("pointcollected")}
+                </Text>
+                <Text
+                  color="primary"
+                  w={"50%"}
+                  style={{ fontFamily: translate("bodyFont") }}
+                >
+                  {memberInfo.current_point}
+                </Text>
+              </HStack>
+              <HStack alignItems="center">
+                <Text
+                  color="primary"
+                  w={"50%"}
+                  style={{ fontFamily: translate("bodyFont") }}
+                >
+                  {translate("membertype")}
+                </Text>
+                <Text
+                  color="primary"
+                  w={"50%"}
+                  style={{ fontFamily: translate("bodyFont") }}
+                >
+                  {memberInfo.member_level}
+                </Text>
+              </HStack>
+            </VStack>
+          </Box>
         </Box>
-      </Box>
 
-      <ContainerFluid px={5}>
-        <VStack space={25}>
-          {/* Account Information */}
-          <Collapse isExpanded={showAccTab} onToggle={()=>{
-              setShowAccTab(true);
-              setShowPwTab(false);
-              console.log("Acc tab clicked")
-            }} >
-            <CollapseHeader>
-              <CollapseHeaderInner
-                title="Account Information"
-                icon={
-                  <FontAwesome
-                    name="user-circle-o"
-                    size={24}
-                    color={Colors.white}
-                  />
-                }
-              />
-            </CollapseHeader>
-            <CollapseBody>
-              <VStack space={2} mt={5} px={2}>
-                <HStack alignItems={"center"}>
-                  <Text w={"40%"} color="primary" fontFamily={"enFont"}>
-                    {translate("name")}
-                  </Text>
-                  <Text w={"60%"} color="primary" pl={5}>
-                    {/* {memberInfo.name} */}
-                  </Text>
-                </HStack>
+        <ContainerFluid px={5}>
+          <VStack space={25}>
+            {/* Account Information */}
+            <Collapse
+              isExpanded={showAccTab}
+              onToggle={() => {
+                setShowAccTab(true);
+                setShowPwTab(false);
+                console.log("Acc tab clicked");
+              }}
+            >
+              <CollapseHeader>
+                <CollapseHeaderInner
+                  title="Account Information"
+                  icon={
+                    <FontAwesome
+                      name="user-circle-o"
+                      size={24}
+                      color={Colors.white}
+                    />
+                  }
+                />
+              </CollapseHeader>
+              <CollapseBody>
+                <VStack space={2} mt={5} px={2}>
+                  <HStack alignItems={"center"}>
+                    <Text w={"40%"} color="primary" fontFamily={"enFont"}>
+                      {translate("name")}
+                    </Text>
+                    <Text w={"60%"} color="primary" pl={5}>
+                      {memberInfo.name}
+                    </Text>
+                  </HStack>
 
-                <HStack alignItems={"center"}>
-                  <Text w={"40%"} color="primary" fontFamily={"enFont"}>
-                    {translate("dob")}
-                  </Text>
-                  <Text w={"60%"} color="primary" pl={5}>
-                    {/* {memberInfo.dob} */}
-                  </Text>
-                </HStack>
+                  <HStack alignItems={"center"}>
+                    <Text w={"40%"} color="primary" fontFamily={"enFont"}>
+                      {translate("dob")}
+                    </Text>
+                    <Text w={"60%"} color="primary" pl={5}>
+                      {memberInfo.dob}
+                    </Text>
+                  </HStack>
 
-                <HStack alignItems={"center"}>
-                  <Text w={"40%"} color="primary" fontFamily={"enFont"}>
-                    {translate("nrc")}
-                  </Text>
-                  <Text w={"60%"} color="primary" pl={5}>
-                    {/* {memberInfo.nrc} */}
-                  </Text>
-                </HStack>
+                  <HStack alignItems={"center"}>
+                    <Text w={"40%"} color="primary" fontFamily={"enFont"}>
+                      {translate("nrc")}
+                    </Text>
+                    <Text w={"60%"} color="primary" pl={5}>
+                      {memberInfo.nrc}
+                    </Text>
+                  </HStack>
 
-                <HStack alignItems={"center"}>
-                  <Text w={"40%"} color="primary" fontFamily={"enFont"}>
-                    {translate("address")}
-                  </Text>
-                  <Text w={"60%"} color="primary" pl={5}>
-                    {/* {memberInfo.address} */}
-                  </Text>
-                </HStack>
+                  <HStack alignItems={"center"}>
+                    <Text w={"40%"} color="primary" fontFamily={"enFont"}>
+                      {translate("address")}
+                    </Text>
+                    <Text w={"60%"} color="primary" pl={5}>
+                      {memberInfo.address}
+                    </Text>
+                  </HStack>
 
-                <HStack alignItems={"center"}>
-                  <Text w={"40%"} color="primary" fontFamily={"enFont"}>
-                    {translate("city")}
-                  </Text>
-                  <Text w={"60%"} color="primary" pl={5}>
-                    {/* {memberInfo.city} */}
-                  </Text>
-                </HStack>
+                  <HStack alignItems={"center"}>
+                    <Text w={"40%"} color="primary" fontFamily={"enFont"}>
+                      {translate("city")}
+                    </Text>
+                    <Text w={"60%"} color="primary" pl={5}>
+                      {memberInfo.city}
+                    </Text>
+                  </HStack>
 
-                <HStack alignItems={"center"}>
-                  <Text w={"40%"} color="primary" fontFamily={"enFont"}>
-                    {translate("membersince")}
-                  </Text>
-                  <Text w={"60%"} color="primary" pl={5}>
-                    {/* {memberInfo.created_date} */}
-                  </Text>
-                </HStack>
-              </VStack>
-            </CollapseBody>
-          </Collapse>
+                  <HStack alignItems={"center"}>
+                    <Text w={"40%"} color="primary" fontFamily={"enFont"}>
+                      {translate("membersince")}
+                    </Text>
+                    <Text w={"60%"} color="primary" pl={5}>
+                      {memberInfo.created_date}
+                    </Text>
+                  </HStack>
+                </VStack>
+              </CollapseBody>
+            </Collapse>
 
-          {/* Change Password */}
-          <Collapse isExpanded={showPwTab} onToggle={()=>{
-              setShowPwTab(true);
-              setShowAccTab(false);
-              console.log("Password tab clicked")
-            }} >
-            <CollapseHeader>
-              <CollapseHeaderInner
-                title="Change Password"
-                icon={
-                  <MaterialCommunityIcons
-                    name="onepassword"
-                    size={24}
-                    color={Colors.white}
-                  />
-                }
-              />
-            </CollapseHeader>
-            <CollapseBody>
-              <VStack space={2} mt={5} px={2}>
-                <Box>
-                  <Text color="primary" mb={2} fontWeight={"bold"} fontFamily={translate("nativebaseFont")}>
-                    {translate("currentpwd")}
-                  </Text>
-                  <Box color="primary">
-                    <Input
-                      size="md"
-                      type={currentPwshow ? "text" : "password"}
-                      onChangeText={(text) => setCurrentPassword(text)}
-                      value={currentPassword}
-                      borderRadius={30}
-                      borderColor={"primary"}
-                      px={4}
+            {/* Change Password */}
+            <Collapse
+              isExpanded={showPwTab}
+              onToggle={() => {
+                setShowPwTab(true);
+                setShowAccTab(false);
+                console.log("Password tab clicked");
+              }}
+            >
+              <CollapseHeader>
+                <CollapseHeaderInner
+                  title="Change Password"
+                  icon={
+                    <MaterialCommunityIcons
+                      name="onepassword"
+                      size={24}
+                      color={Colors.white}
+                    />
+                  }
+                />
+              </CollapseHeader>
+              <CollapseBody>
+                <VStack space={2} mt={5} px={2}>
+                  <Box>
+                    <Text
+                      color="primary"
+                      mb={2}
+                      fontWeight={"bold"}
                       fontFamily={translate("nativebaseFont")}
-                      InputRightElement={
-                        <Pressable
-                          onPress={() => setcurrentPwShow(!currentPwshow)}
+                    >
+                      {translate("currentpwd")}
+                    </Text>
+                    <Box color="primary">
+                      <Input
+                        size="md"
+                        type={currentPwshow ? "text" : "password"}
+                        onChangeText={(text) => setCurrentPassword(text)}
+                        value={currentPassword}
+                        borderRadius={30}
+                        borderColor={"primary"}
+                        px={4}
+                        fontFamily={translate("nativebaseFont")}
+                        InputRightElement={
+                          <Pressable
+                            onPress={() => setcurrentPwShow(!currentPwshow)}
+                          >
+                            <Icon
+                              as={
+                                <MaterialIcons
+                                  name={
+                                    currentPwshow
+                                      ? "visibility"
+                                      : "visibility-off"
+                                  }
+                                  size={20}
+                                  color="black"
+                                />
+                              }
+                              mr={3}
+                            ></Icon>
+                          </Pressable>
+                        }
+                      />
+                    </Box>
+                  </Box>
+
+                  <Box>
+                    <Text
+                      color="primary"
+                      mb={2}
+                      fontWeight={"bold"}
+                      fontFamily={translate("nativebaseFont")}
+                    >
+                      {translate("newpwd")}
+                    </Text>
+                    <Box color="primary">
+                      <Input
+                        size="md"
+                        type={newPwshow ? "text" : "password"}
+                        onChangeText={(text) => setNewPassword(text)}
+                        value={newPassword}
+                        borderRadius={30}
+                        borderColor={"primary"}
+                        px={4}
+                        fontFamily={translate("nativebaseFont")}
+                        InputRightElement={
+                          <Pressable onPress={() => setNewPwShow(!newPwshow)}>
+                            <Icon
+                              as={
+                                <MaterialIcons
+                                  name={
+                                    newPwshow ? "visibility" : "visibility-off"
+                                  }
+                                  size={20}
+                                  color="black"
+                                />
+                              }
+                              mr={3}
+                            ></Icon>
+                          </Pressable>
+                        }
+                      />
+                    </Box>
+                  </Box>
+
+                  <HStack justifyContent={"flex-end"} mt={5}>
+                    <TouchableOpacity onPress={() => onPressSave()}>
+                      <View
+                        style={{
+                          backgroundColor: Colors.yellow,
+                          width:150,height:48,
+                          borderRadius: 24,
+                          alignItems:"center",
+                          justifyContent:"center"
+                    
+                        }}
+                      >
+                        <Text
+                          style={{
+                            color: Colors.primary,
+                            textTransform: "uppercase",
+                            fontFamily: translate("headingFont"),
+                          }}
                         >
-                          <Icon
-                            as={
-                              <MaterialIcons
-                                name={
-                                  currentPwshow
-                                    ? "visibility"
-                                    : "visibility-off"
-                                }
-                                size={20}
-                                color="black"
-                              />
-                            }
-                            mr={3}
-                          ></Icon>
-                        </Pressable>
-                      }
-                    />
-                  </Box>
-                </Box>
-
-                <Box>
-                  <Text color="primary" mb={2} fontWeight={"bold"} fontFamily={translate("nativebaseFont")}>
-                    {translate("newpwd")}
-                  </Text>
-                  <Box color="primary">
-                    <Input
-                      size="md"
-                      type={newPwshow ? "text" : "password"}
-                      onChangeText={(text) => setNewPassword(text)}
-                      value={newPassword}
-                      borderRadius={30}
-                      borderColor={"primary"}
-                      px={4}
-                      fontFamily={translate("nativebaseFont")}
-                      InputRightElement={
-                        <Pressable onPress={() => setNewPwShow(!newPwshow)}>
-                          <Icon
-                            as={
-                              <MaterialIcons
-                                name={
-                                  newPwshow ? "visibility" : "visibility-off"
-                                }
-                                size={20}
-                                color="black"
-                              />
-                            }
-                            mr={3}
-                          ></Icon>
-                        </Pressable>
-                      }
-                    />
-                  </Box>
-                </Box>
-
-                <HStack justifyContent={"flex-end"} mt={5}>
-                  <Button size={"lg"}  bg={Colors.yellow} _text={{color:Colors.primary, textTransform:"uppercase", fontFamily:translate("headingFont")}} px={10} onPress={() => onPressSave()}>Save</Button>
-                </HStack>
-
-              </VStack>
-            </CollapseBody>
-          </Collapse>
-        </VStack>
-      </ContainerFluid>
-    </ScrollView>
+                          Save
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
+                  </HStack>
+                </VStack>
+              </CollapseBody>
+            </Collapse>
+          </VStack>
+        </ContainerFluid>
+      </ScrollView>
     </SafeAreaView>
   );
 };
 
-AccountScreen.navigationOptions = (navData) => {
+AccountScreen.navigationOptions = (props) => {
   return {
-    headerTitle: "",
-    headerTintColor: "black",
-    headerTitleAlign: "center",
-    headerStyle: {
-      backgroundColor: Colors.primary,
-    },
-
-    headerLeft: () => (
-      <TouchableOpacity onPress={() => navData.navigation.navigate("Home")}>
-        <Text style={{ marginLeft: 20, color: Colors.white }}>
-          {translate("backtohome")}
+    headerTitle: () => (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Text style={{ fontSize: 22, color: Colors.white }}>
+          {translate("myaccount")}
         </Text>
-      </TouchableOpacity>
+      </View>
+    ),
+    headerLeft: () => (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <TouchableOpacity onPress={() => props.navigation.goBack()}>
+          <Image
+            style={styles.headerIcon}
+            source={require("../../../assets/left_arrow_circle.png")}
+          />
+        </TouchableOpacity>
+      </View>
     ),
   };
 };

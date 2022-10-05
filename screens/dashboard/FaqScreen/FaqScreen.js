@@ -24,6 +24,8 @@ import {
   import i18n from "../../../I18n/i18n";
   import { MaterialIcons } from "@expo/vector-icons";
   import Colors from "../../../constants/Colors";
+  import styles from "./styles";
+
 
   const CollapseHeaderInner = ({ title, hasDivider }) => {
     return (
@@ -81,8 +83,8 @@ import {
     return (
       <View style={{ flex: 1 }}>
         <ScrollView>
-          <EntryBanner 
-          title="FAQs for Loyalty"></EntryBanner>
+          {/* <EntryBanner 
+          title="FAQs for Loyalty"></EntryBanner> */}
   
           <OverlapContentBox>
             <Box borderWidth={1} p={5} borderRadius={10} borderColor={"#e2edfb"}>
@@ -693,17 +695,32 @@ import {
   
   FAQScreen.navigationOptions = (props) => {
     return {
-      headerTitle: "",
-      headerTintColor: "black",
-      headerTitleAlign: "center",
-      headerStyle: {
-        backgroundColor: Colors.primary,
-      },
-  
+      headerTitle: () => (
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Text style={{fontSize:22,color:Colors.white}}>FAQs</Text>
+        </View>
+      ),
       headerLeft: () => (
-        <TouchableOpacity onPress={() => props.navigation.navigate("Home")}>
-          <Text style={{marginLeft:20,color:Colors.white}}>{translate("backtohome")}</Text>
-        </TouchableOpacity>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <TouchableOpacity onPress={()=>props.navigation.goBack()}>
+            <Image
+              style={styles.headerIcon}
+              source={require("../../../assets/left_arrow_circle.png")}
+            />
+          </TouchableOpacity>
+        </View>
       ),
     };
   };
