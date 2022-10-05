@@ -10,6 +10,6 @@ export default function Text(props){
 
 export function Heading(props){
     return (
-        <Title {...props} fontFamily={translate("nativebaseFont")} color={(props.color) ? props.color : "primaryLight"}>{props.children}</Title>
+        <Title {...props} fontFamily={translate("nativebaseFont")} color={(props.color) ? props.color : "primary"}>{props.children}</Title>
     )
 }
