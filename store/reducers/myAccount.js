@@ -1,7 +1,8 @@
-import { SET_MEMBER_INFO,SET_EMPTY_RESPONSE_CODE,SET_RESPONSE_CODE } from "../actions/myAccount";
+import { SET_MEMBER_INFO,SET_EMPTY_RESPONSE_CODE,SET_RESPONSE_CODE, SET_OUTLET_LOCATIONS_INFO } from "../actions/myAccount";
 
 const initialState = {
     memberInfo: {},
+    outletLocationsInfo: null,
     response_code : null
   };
   
@@ -21,6 +22,11 @@ const initialState = {
             ...state,
             response_code: null,
           };
+        case SET_OUTLET_LOCATIONS_INFO:
+          return {
+            ...state,
+            outletLocationsInfo: action.outlet_locations_info,
+          }
         default:
           return state;
       }

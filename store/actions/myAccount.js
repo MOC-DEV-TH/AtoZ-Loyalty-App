@@ -2,8 +2,9 @@ import AppVersion from "../../constants/AppVersion";
 import Global from "../../constants/Global";
 import MemberInfo from "../../model/memberInfo";
 export const SET_MEMBER_INFO = "SET_MEMBER_INFO";
-export const SET_RESPONSE_CODE = "SET_RESPONSE_CODE"
-export const SET_EMPTY_RESPONSE_CODE = "SET_EMPTY_RESPONSE_CODE"
+export const SET_RESPONSE_CODE = "SET_RESPONSE_CODE";
+export const SET_EMPTY_RESPONSE_CODE = "SET_EMPTY_RESPONSE_CODE";
+export const SET_OUTLET_LOCATIONS_INFO = "SET_OUTLET_LOCATIONS_INFO";
 
 export const setEmptyResponseCode = () => {
   return (dispatch) => {
@@ -97,3 +98,37 @@ export const updateAccount = (oldPassword, newPassword, confirm_password) => {
     }
   };
 };
+
+export function getOutletLocationsInfo(language){
+
+  return async (dispatch, getState) => {
+    const token = getState().auth.token;
+    const response = await fetch(
+      Global.baseUrl + "/get_outlet_locations?app_version=" + AppVersion.app_version,
+      {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json",
+          token: token,
+        },
+      }
+    );
+
+    if(response.status !== 200){
+      const errorResData = await response.text();
+      console.log(errorResData);
+      let message = "Something went wrong!";
+      throw new Error(message);
+    }
+
+    const respData = await response.json();
+    const respDataDetails = respData.details;
+    const respDataByLang = respDataDetails.find((location) => location.type == language);
+    const respDataByLangDetail = respDataByLang.detail;
+    dispatch({
+      type: SET_OUTLET_LOCATIONS_INFO,
+      outlet_locations_info: respDataByLangDetail,
+    });
+
+  }
+}
