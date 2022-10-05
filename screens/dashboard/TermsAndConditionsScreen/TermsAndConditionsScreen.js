@@ -6,6 +6,7 @@ import { StyleSheet, TouchableOpacity,Image } from "react-native";
 import { setLocalization,translate } from 'react-native-translate';
 import i18n from "../../../I18n/i18n";
 import Colors from "../../../constants/Colors";
+import styles from "./styles";
 
 const OverlapContentBox = (props) => {
   return (
@@ -195,18 +196,33 @@ export default TermsAndCondition = (props) => {
 };
 
 TermsAndCondition.navigationOptions = (props) => {
-  return {
-    headerTitle: "",
-    headerTintColor: "black",
-    headerTitleAlign: "center",
-    headerStyle: {
-      backgroundColor: Colors.primary
-    },
-
-    headerLeft: () => (
-      <TouchableOpacity onPress={() => props.navigation.navigate("Home")}>
-        <Text style={{marginLeft:20,color:Colors.white}}>Back To Home</Text>
-      </TouchableOpacity>
-    ),
+    return {
+      headerTitle: () => (
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Text style={{fontSize:22,color:Colors.white}}>Terms & Conditions</Text>
+        </View>
+      ),
+      headerLeft: () => (
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <TouchableOpacity onPress={()=>props.navigation.navigate("SignUp")}>
+            <Image
+              style={styles.headerIcon}
+              source={require("../../../assets/left_arrow_circle.png")}
+            />
+          </TouchableOpacity>
+        </View>
+      ),
+    };
   };
-};

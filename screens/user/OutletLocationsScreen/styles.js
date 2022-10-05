@@ -11,8 +11,8 @@ export default StyleSheet.create({
     padding:10
   },
   headerIcon: {
-    width: 100,
-    height: 120,
+    width: 30,
+    height: 30,
     resizeMode: "contain",
     marginLeft: 10,
     marginRight: 10,
@@ -20,9 +20,9 @@ export default StyleSheet.create({
   button: {
     backgroundColor: Colors.yellow,
     height: 40,
-    paddingLeft:25,
-    paddingRight:25,
-    marginTop:20,
+    paddingLeft:20,
+    paddingRight:20,
+    marginTop:10,
     borderRadius: 20,
     alignSelf: "center",
     alignItems: "center",
@@ -57,24 +57,6 @@ export default StyleSheet.create({
     marginTop:10,
     justifyContent:'space-between',
     alignItems:'flex-start',
-  },
-  alertButton: {
-    width: 100,
-    textAlign: "center",
-    justifyContent: "center",
-},
-  alertButtonText: {
-    textAlign: "center",
-    color: Colors.primary,
-},
-  alertTitle: {
-    color: Colors.white,
-    fontSize: 16,
-},
-  alertContentContainer: {
-    backgroundColor: Colors.primary,
-    padding: 25,
-},
-
+  }
 
 });

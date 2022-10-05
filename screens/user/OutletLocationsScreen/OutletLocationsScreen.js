@@ -1,4 +1,3 @@
-import { SafeAreaView } from "react-native-safe-area-context";
 import {
   AspectRatio,
   Image,
@@ -9,7 +8,7 @@ import {
   VStack,
   Box,
 } from "native-base";
-import { View, TouchableOpacity, ActivityIndicator } from "react-native";
+import { View, TouchableOpacity, ActivityIndicator,SafeAreaView } from "react-native";
 import ContainerFluid from "../../../components/ContainerFluid";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
@@ -21,6 +20,7 @@ import { useCallback } from "react";
 import { MaterialIcons } from '@expo/vector-icons'; 
 import Text, { Heading } from "../../../components/Typography";
 import Colors from "../../../constants/Colors";
+import styles from "./styles";
 
 
 export default OutletLocationsScreen = (props) => {
@@ -79,7 +79,9 @@ export default OutletLocationsScreen = (props) => {
           {isRefreshing ? (
             <ActivityIndicator size="large" />
           ) : (
-            <FlatList data={getLocations} renderItem={renderItem}  showsVerticalScrollIndicator={false}
+            <FlatList
+            style={{marginTop:15,marginBottom:15}}
+             data={getLocations} renderItem={renderItem}  showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false}/>
           )}
         </ContainerFluid>
@@ -90,20 +92,32 @@ export default OutletLocationsScreen = (props) => {
 
 OutletLocationsScreen.navigationOptions = (props) => {
   return {
-    headerTitle: "",
-    headerTintColor: "black",
-    headerTitleAlign: "center",
-    headerStyle: {
-      backgroundColor: "white",
-    },
-
+    headerTitle: () => (
+      <SafeAreaView
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Text style={{fontSize:20,color:Colors.white}}>Outlet Locations</Text>
+      </SafeAreaView>
+    ),
     headerLeft: () => (
-      <TouchableOpacity onPress={() => props.navigation.goBack()}>
-        <Image
-          style={{ height: 15, width: 20, marginLeft: 10 }}
-          source={require("../../../assets/back_arrow.png")}
-        />
-      </TouchableOpacity>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <TouchableOpacity onPress={()=>props.navigation.goBack()}>
+          <Image
+            style={styles.headerIcon}
+            source={require("../../../assets/left_arrow_circle.png")}
+          />
+        </TouchableOpacity>
+      </View>
     ),
   };
 };

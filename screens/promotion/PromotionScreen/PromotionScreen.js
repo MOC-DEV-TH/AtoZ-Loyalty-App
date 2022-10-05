@@ -35,12 +35,12 @@ export default PromotionScreen = (props) => {
     console.log("Will Focus");
     const willFocusSub = props.navigation.addListener(
       "willFocus",
-      loadPromotionData
+      loadPromotionData,
     );
     return () => {
       willFocusSub.remove();
     };
-  }, [loadPromotionData]);
+  }, [loadPromotionData,checkLanguage]);
 
   const loadPromotionData = useCallback(async () => {
     setIsRefreshing(true);
@@ -52,9 +52,10 @@ export default PromotionScreen = (props) => {
 
   useEffect(() => {
     loadPromotionData();
-  }, [loadPromotionData]);
+  }, [loadPromotionData,checkLanguage]);
 
-  useEffect(() => {
+  //check language
+  const checkLanguage = useCallback(async () => {
     getStoreData(AsyncStorageKey.LANGUAGE).then((value) => {
       if (value == AsyncStorageKey.LANGUAGE_MM) {
         setLanguage(value)
@@ -64,6 +65,10 @@ export default PromotionScreen = (props) => {
         setLanguage("en")
       }
     });
+  }, []);
+
+  useEffect(() => {
+    checkLanguage()
   }, []);
 
   const onConfirm = () => {

@@ -24,16 +24,17 @@ import AccountVerificationScreen from "../screens/user/AccountVerificationScreen
 import TermsAndConditionsScreen from "../screens/dashboard/TermsAndConditionsScreen/TermsAndConditionsScreen";
 import SuccessScreen from "../screens/user/SuccessScreen/SuccessScreen";
 import SettingScreen from "../screens/user/SettingScreen/SettingScreen";
+import OutletLocationsScreen from "../screens/user/OutletLocationsScreen/OutletLocationsScreen";
 import {translate} from "react-native-translate";
+import LanguageScreen from "../screens/user/LanguageScreen/LanguageScreen";
 
 const defaultNavOptions = {
   headerStyle: {
     backgroundColor:
       Platform.OS === "android" ? Colors.primary : Colors.primary,
-    height: 75,
+    height: 80,
     shadowColor: "transparent", // this covers iOS
     elevation: 0,
-    
   },
   headerBackTitleStyle: {},
   headerTitleAlign: "left | center",
@@ -66,12 +67,19 @@ const SettingNavigator = createStackNavigator(
   {
     Setting: SettingScreen,
     MyAccount: AccountScreen,
-    Notification : NotificationScreen
+    Notification : NotificationScreen,
+    OutLetLocation : OutletLocationsScreen,
   },
   {
     defaultNavigationOptions: defaultNavOptions,
   }
 );
+
+const LanguageNavigator = createStackNavigator(
+  {
+  Language : LanguageScreen
+  }
+)
 
 const AboutNavigator = createStackNavigator(
   {
@@ -81,25 +89,10 @@ const AboutNavigator = createStackNavigator(
     defaultNavigationOptions: defaultNavOptions,
   }
 );
-const FaqNavigator = createStackNavigator(
-  {
-    Faq: FaqScreen,
-  },
-  {
-    defaultNavigationOptions: defaultNavOptions,
-  }
-);
+
 const TermAndConditionNavigator = createStackNavigator(
   {
     TermAndCondition: TermsAndConditionsScreen,
-  },
-  {
-    defaultNavigationOptions: defaultNavOptions,
-  }
-);
-const NotificationNavigator = createStackNavigator(
-  {
-    Notification: NotificationScreen,
   },
   {
     defaultNavigationOptions: defaultNavOptions,
@@ -118,7 +111,6 @@ const PromotionNavigator = createStackNavigator(
 const HelpNavigator = createStackNavigator(
   {
     Help: HelpScreen,
-    TermAndCondition: TermsAndConditionsScreen,
     Notification: NotificationScreen,
     Faq: FaqScreen,
   },
@@ -250,7 +242,7 @@ const tabScreenConfig = {
       tabBarIcon: (tabInfo) => {
         return (
           <Ionicons
-            name="settings"
+            name="settings-sharp"
             size={20}
             color={tabInfo.tintColor}
           />
@@ -286,6 +278,8 @@ const Navigator = createSwitchNavigator(
     Auth: AuthNavigator,
     Main: MainTabNavigator,
     MyAccount: AccountNavigator,
+    TermAndCondition: TermAndConditionNavigator,
+    Language : LanguageNavigator
   },
   {
     initialRouteName: "Auth",

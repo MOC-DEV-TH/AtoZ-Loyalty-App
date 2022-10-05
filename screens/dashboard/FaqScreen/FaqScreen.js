@@ -83,8 +83,8 @@ import {
     return (
       <View style={{ flex: 1 }}>
         <ScrollView>
-          {/* <EntryBanner 
-          title="FAQs for Loyalty"></EntryBanner> */}
+          <EntryBanner 
+          title="FAQs for Loyalty"></EntryBanner>
   
           <OverlapContentBox>
             <Box borderWidth={1} p={5} borderRadius={10} borderColor={"#e2edfb"}>

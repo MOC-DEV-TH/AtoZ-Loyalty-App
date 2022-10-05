@@ -120,6 +120,7 @@ export default PointHistoryScreen = (props) => {
             fontSize: 24,
             fontWeight: "bold",
             alignSelf: "center",
+            padding:20
           }}
         >
          {available_point} {translate("pointavailable")}
