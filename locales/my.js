@@ -10,6 +10,7 @@ const my = {
   alreadyAccount : 'အကောင့်ရှိပြီးသားပါ',
   createnewaccount : 'အကောင့်အသစ်လုပ်လိုပါသည်',
   help : 'အကူအညီ',
+  setting: 'ချိန်ညှိရန်',
   accountregistration : 'စာရင်းသွင်းခြင်း',
   name : 'အမည်',
   dob : 'မွေးသက္ကရာဇ်',
