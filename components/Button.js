@@ -8,9 +8,15 @@ export default function Button(props){
 
     return (
         <TouchableOpacity onPress={props.onPress}>
-           <HStack bg={props.bg} px={props.px} height={47} alignItems={"center"} borderRadius={30}>
-            <Box mr={4}>{props.Icon}</Box>
-            <Text color={props.color} fontFamily={translate("headingFont")}>{props.children}</Text>
+           <HStack bg={props.bg} px={props.px} height={44} alignItems={"center"} borderRadius={30} justifyContent={(props.justifyContent) ? props.justifyContent : 'flex-start'}
+           mt={(props.mt) ? props.mt : 0} mb={(props.mb) ? props.mb : 0} my={(props.my) ? props.my : 0} 
+           >
+            {
+                (props.Icon) ? (
+                    <Box mr={4}>{props.Icon}</Box>
+                ) : (<></>)
+            }
+            <Text color={props.color} fontFamily={translate("headingFont")} fontSize={(props.fontSize) ? props.fontSize : "md"}>{props.children}</Text>
            </HStack>
         </TouchableOpacity>
     )
