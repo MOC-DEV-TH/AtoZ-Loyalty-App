@@ -157,8 +157,8 @@ export default TermsAndCondition = (props) => {
                     </SubSection>
                     <SubSection title={translate("terms_article5_contact")}>
                         <Para>{translate("terms_article5_contact_para1")}</Para>
-                        <Link href="https://nativebase.io" isExternal>{translate("terms_article5_contact_email1")}</Link>
-                        <Link>{translate("terms_article5_contact_email2")}</Link>
+                        <Link href="https://nativebase.io" _text={{color:"#1c19fd", textDecoration:"none", fontSize: "md"}} isExternal>{translate("terms_article5_contact_email1")}</Link>
+                        <Link  _text={{color:"#1c19fd", textDecoration:"none", fontSize: "md"}}>{translate("terms_article5_contact_email2")}</Link>
                     </SubSection>
                     <SubSection title={translate("terms_article5_juri_gov_law")}>
                         <Para>{translate("terms_article5_juri_gov_law_para1")}</Para>
