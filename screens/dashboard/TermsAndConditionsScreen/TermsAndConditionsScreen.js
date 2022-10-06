@@ -1,4 +1,4 @@
-import { Heading, View, Box, Text, ScrollView, VStack, Link } from "native-base";
+import { View, Box, ScrollView, VStack, Link } from "native-base";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ContainerFluid from "../../../components/ContainerFluid";
 import EntryBaner from "../../../components/EntryBaner";
@@ -7,29 +7,13 @@ import { setLocalization,translate } from 'react-native-translate';
 import i18n from "../../../I18n/i18n";
 import Colors from "../../../constants/Colors";
 import styles from "./styles";
-
-const OverlapContentBox = (props) => {
-  return (
-    <>
-      <Box
-        bg={"white"}
-        roundedTopLeft="3xl"
-        roundedTopRight="3xl"
-        py="30"
-        style={{ flex: 1 }}
-        marginTop={-30}
-      >
-        <ContainerFluid>{props.children}</ContainerFluid>
-      </Box>
-    </>
-  );
-};
+import Text, { Heading } from "../../../components/Typography";
 
 const SectionHeading = ({title, subtitle}) => {
     return (
         <Box mb={5}>
-              <Heading size={"lg"} color="#efb701" italic mb={1}>{title}</Heading>
-              <Heading size={"md"} color="primary" italic>{subtitle}</Heading>
+              <Heading size={"lg"} color="#efb701"  mb={1}>{title}</Heading>
+              <Heading size={"md"} color="primary" >{subtitle}</Heading>
         </Box>
     )
 }
@@ -37,8 +21,8 @@ const SectionHeading = ({title, subtitle}) => {
 const SubSection = (props) => {
     return (
         <>
-        <Heading size={"sm"}  mb={4}>{props.title}</Heading>
-        <Box bg={"blue.100"} p={5} borderRadius={8}>
+        <Heading size={"sm"}  mb={2}>{props.title}</Heading>
+        <Box>
             {props.children}
         </Box>
         </>
@@ -53,8 +37,7 @@ export default TermsAndCondition = (props) => {
   return (
     <View style={{ flex: 1 }}>
       <ScrollView>
-        <EntryBanner title={translate("loyaltytermsandconditions")}></EntryBanner>
-        <OverlapContentBox>
+        <ContainerFluid py={8}>
           <Box>
             <Heading size={"md"} mb={2}>{translate("termsandconditions")}</Heading>
             <Heading size={"md"}>{translate("termsandconditions_rewards_program")}</Heading>
@@ -189,7 +172,7 @@ export default TermsAndCondition = (props) => {
           </VStack>
 
 
-        </OverlapContentBox>
+        </ContainerFluid>
       </ScrollView>
     </View>
   );
