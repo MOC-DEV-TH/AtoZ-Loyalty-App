@@ -115,7 +115,6 @@ SettingScreen.navigationOptions = (props) => {
   return {
     headerTitle: "",
     headerLeft: () => (
-<<<<<<< HEAD
       <View
         style={{
           flex: 1,
@@ -142,45 +141,3 @@ SettingScreen.navigationOptions = (props) => {
     ),
   };
 };
-=======
-      <TouchableOpacity onPress={() => props.navigation.goBack()}>
-        <Image
-          style={{ height: 15, width: 20, marginLeft: 10 }}
-          source={require("../../../assets/back_arrow.png")}
-        />
-      </TouchableOpacity>
-    ),
-  };
-};
-
-const styles = StyleSheet.create({
-  button: {
-    backgroundColor: Colors.yellow,
-    height: 40,
-    paddingLeft: 20,
-    paddingRight: 20,
-    marginTop: 10,
-    borderRadius: 20,
-    alignSelf: "center",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  alertButton: {
-    width: 100,
-    textAlign: "center",
-    justifyContent: "center",
-  },
-  alertButtonText: {
-    textAlign: "center",
-    color: Colors.primary,
-  },
-  alertTitle: {
-    color: Colors.white,
-    fontSize: 16,
-  },
-  alertContentContainer: {
-    backgroundColor: Colors.primary,
-    padding: 25,
-  },
-});
->>>>>>> a118d0a07645c0bee6f7fd374bba8f2748120a16
