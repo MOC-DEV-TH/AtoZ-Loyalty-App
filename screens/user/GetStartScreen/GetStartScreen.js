@@ -1,9 +1,10 @@
 import { SafeAreaView } from "react-native-safe-area-context";
-import { AspectRatio, Image, Button } from "native-base";
-import { View, Text, TouchableOpacity } from "react-native";
+import { AspectRatio, Image, Text } from "native-base";
+import { View, TouchableOpacity } from "react-native";
 import styles from "./styles";
 import { translate } from "react-native-translate";
 import Colors from "../../../constants/Colors";
+import Button from "../../../components/Button";
 
 export default GetStartScreen = (props) => {
   const getStart = () => {
@@ -23,16 +24,16 @@ export default GetStartScreen = (props) => {
           }}
           alt="logo"
         ></Image>
-        <Button
+        {/* <Button
           padding={3}
           mt={40}
           bg={Colors.yellow}
-          _text={{ color: "primary", fontWeight: "bold" }}
+          _text={{ color: "primary", fontWeight: "bold", fontFamily:translate("nativebaseFont"), fontSize:"lg" }}
           onPress={() => getStart()}
-          fontWeight="bold"
         >
           {translate("getstart")}
-        </Button>
+        </Button> */}
+        <Button bg={Colors.yellow} justifyContent={"center"} fontSize="lg" color="primary" onPress={() => getStart()} mt={40}>Get Started</Button>
       </View>
     </SafeAreaView>
   );

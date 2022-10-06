@@ -21,6 +21,7 @@ import LogoBanner from "../../../components/LogoBanner";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { getStoreData } from "../../../AsyncStorage/AsyncStorage";
 import AsyncStorageKey from "../../../constants/AsyncStorageKey";
+import Button from "../../../components/Button";
 
 export default LoginScreen = (props) => {
   const dispatch = useDispatch();
@@ -175,12 +176,13 @@ export default LoginScreen = (props) => {
             </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={styles.button}
             onPress={() => onSignInPress()}
           >
             <Text style={styles.buttonTitle}>{translate("login")}</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
+          <Button onPress={() => onSignInPress()}  fontSize="lg" mt={3}>{translate("login")}</Button>
         </View>
       </View>
     </KeyboardAwareScrollView>

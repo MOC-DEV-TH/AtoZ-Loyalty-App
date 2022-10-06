@@ -6,11 +6,20 @@ import { translate } from "react-native-translate";
 
 export default function Button(props){
 
+    const contentAlign = (props.Icon) ? 'flex-start' : 'center';
+
     return (
         <TouchableOpacity onPress={props.onPress}>
-           <HStack bg={props.bg} px={props.px} height={47} alignItems={"center"} borderRadius={30}>
-            <Box mr={4}>{props.Icon}</Box>
-            <Text color={props.color} fontFamily={translate("headingFont")}>{props.children}</Text>
+           <HStack bg={(props.bg) ? props.bg : "yellow"} px={props.px} height={44} alignItems={"center"} borderRadius={30} justifyContent={(props.justifyContent) ? props.justifyContent : contentAlign}
+           mt={(props.mt) ? props.mt : 0} mb={(props.mb) ? props.mb : 0} my={(props.my) ? props.my : 0} 
+           width={(props.width) ? props.width : "100%"}
+           >
+            {
+                (props.Icon) ? (
+                    <Box mr={4}>{props.Icon}</Box>
+                ) : (<></>)
+            }
+            <Text color={(props.color) ? props.color : "primary"} fontFamily={translate("headingFont")} fontSize={(props.fontSize) ? props.fontSize : "md"}>{props.children}</Text>
            </HStack>
         </TouchableOpacity>
     )
