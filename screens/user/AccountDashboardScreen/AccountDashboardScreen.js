@@ -17,7 +17,6 @@ import LogoBanner from "../../../components/LogoBanner";
 import AsyncStorageKey from "../../../constants/AsyncStorageKey";
 import {
   Box,
-  Text,
   HStack,
   VStack,
   Input,
@@ -29,8 +28,9 @@ import {
   Icon,
   KeyboardAvoidingView,
   ScrollView,
-  Button,
 } from "native-base";
+import Button from "../../../components/Button";
+import Text from "../../../components/Typography";
 
 export default AccountDashboardScreen = (props) => {
   const dispatch = useDispatch();
@@ -72,7 +72,7 @@ export default AccountDashboardScreen = (props) => {
         <Text style={{ color: Colors.primary, alignSelf: "center" }}>
           {translate("alreadyAccount")}
         </Text>
-        <Button
+        {/* <Button
           mt={2}
           width="250"
           backgroundColor={Colors.yellow}
@@ -81,7 +81,8 @@ export default AccountDashboardScreen = (props) => {
           fontWeight="bold"
         >
           {translate("login")}
-        </Button>
+        </Button> */}
+        <Button width="250" fontSize="lg" mt={2} onPress={() => onLoginPress()}>{translate("login")}</Button>
       </View>
 
       <View style={{ margin: 30 }}>
@@ -92,7 +93,7 @@ export default AccountDashboardScreen = (props) => {
         <Text style={{ color: Colors.primary, alignSelf: "center" }}>
           {translate("createnewaccount")}
         </Text>
-        <Button
+        {/* <Button
           mt={2}
           width="250"
           backgroundColor={Colors.yellow}
@@ -101,7 +102,8 @@ export default AccountDashboardScreen = (props) => {
           fontWeight="bold"
         >
           {translate("register")}
-        </Button>
+        </Button> */}
+        <Button width="250" fontSize="lg" mt={2} onPress={() => onRegisterPress()}>{translate("register")}</Button>
       </View>
 
       {/* <View
