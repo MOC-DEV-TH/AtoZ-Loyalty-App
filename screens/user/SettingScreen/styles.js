@@ -59,9 +59,10 @@ export default StyleSheet.create({
     alignItems:'flex-start',
   },
   alertButton: {
-    width: 100,
+    width: 120,
     textAlign: "center",
     justifyContent: "center",
+
 },
   alertButtonText: {
     textAlign: "center",
@@ -73,7 +74,7 @@ export default StyleSheet.create({
 },
   alertContentContainer: {
     backgroundColor: Colors.primary,
-    padding: 25,
+    padding: 20,
 },
 
 

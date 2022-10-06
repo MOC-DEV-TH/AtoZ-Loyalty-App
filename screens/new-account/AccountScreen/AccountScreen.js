@@ -230,7 +230,7 @@ export default AccountScreen = (props) => {
             >
               <CollapseHeader>
                 <CollapseHeaderInner
-                  title="Account Information"
+                  title={translate("accountInformation")}
                   icon={
                     <FontAwesome
                       name="user-circle-o"
@@ -310,7 +310,7 @@ export default AccountScreen = (props) => {
             >
               <CollapseHeader>
                 <CollapseHeaderInner
-                  title="Change Password"
+                  title={translate("changepwd")}
                   icon={
                     <MaterialCommunityIcons
                       name="onepassword"
@@ -423,7 +423,7 @@ export default AccountScreen = (props) => {
                             fontFamily: translate("headingFont"),
                           }}
                         >
-                          Save
+                          {translate('save')}
                         </Text>
                       </View>
                     </TouchableOpacity>
@@ -448,7 +448,7 @@ AccountScreen.navigationOptions = (props) => {
           alignItems: "center",
         }}
       >
-        <Text style={{ fontSize: 22, color: Colors.white }}>
+        <Text style={{ fontSize: 22, color: Colors.white,padding:10 }}>
           {translate("myaccount")}
         </Text>
       </View>

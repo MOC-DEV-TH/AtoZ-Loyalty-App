@@ -188,7 +188,7 @@ TermsAndCondition.navigationOptions = (props) => {
             alignItems: "center",
           }}
         >
-          <Text style={{fontSize:22,color:Colors.white}}>Terms & Conditions</Text>
+          <Text style={{fontSize:22,color:Colors.white,padding:10}}>Terms & Conditions</Text>
         </View>
       ),
       headerLeft: () => (

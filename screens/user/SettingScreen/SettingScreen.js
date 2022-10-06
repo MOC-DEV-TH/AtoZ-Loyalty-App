@@ -33,11 +33,11 @@ export default SettingScreen = ({ navigation }) => {
       {/* Logout box */}
       <AwesomeAlert
         show={showAlert}
-        title="Are you sure you to logout!"
+        title={translate("surewanttologout")}
         showCancelButton={true}
         showConfirmButton={true}
-        cancelText="Cancel"
-        confirmText="Yes"
+        cancelText={translate("cancel")}
+        confirmText={translate("yes")}
         confirmButtonColor={Colors.yellow}
         confirmButtonStyle={styles.alertButton}
         confirmButtonTextStyle={styles.alertButtonText}
@@ -73,7 +73,7 @@ export default SettingScreen = ({ navigation }) => {
               color="white"
               onPress={() => navigation.navigate("MyAccount")}
             >
-              My Account
+              {translate("myaccount")}
             </Button>
             <Button
               px={10}
@@ -82,7 +82,7 @@ export default SettingScreen = ({ navigation }) => {
               color="white"
               onPress={()=>navigation.navigate("OutLetLocation")}
             >
-              Outlet Locations
+              {translate("outletlocation")}
             </Button>
             <Button
               px={10}
@@ -91,7 +91,7 @@ export default SettingScreen = ({ navigation }) => {
               color="white"
               onPress = {()=>navigation.navigate("Language")}
             >
-              Language
+              {translate("language")}
             </Button>
             <Button
               px={10}
@@ -102,7 +102,7 @@ export default SettingScreen = ({ navigation }) => {
               color="white"
               onPress={() => setShowAlert(true)}
             >
-              Logout
+              {translate("logout")}
             </Button>
           </VStack>
         </ContainerFluid>

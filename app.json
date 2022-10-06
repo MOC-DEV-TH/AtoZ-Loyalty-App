@@ -24,7 +24,7 @@
         "backgroundColor": "#034ea1"
       },
       "bundleIdentifier": "com.atoz.client",
-      "buildNumber" : "1.1.1",
+      "buildNumber" : "1.0.0",
       "supportsTablet": false,
       "googleServicesFile": "./GoogleService-Info.plist",
       "infoPlist": {

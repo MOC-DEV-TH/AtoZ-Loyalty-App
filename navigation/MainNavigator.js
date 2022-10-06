@@ -4,9 +4,8 @@ import { createStackNavigator } from "react-navigation-stack";
 import { createMaterialBottomTabNavigator } from "react-navigation-material-bottom-tabs";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 import { Ionicons } from "@expo/vector-icons";
-import { Platform, Text } from "react-native";
+import { Platform, Text, View } from "react-native";
 import Colors from "../constants/Colors";
-
 import GetStartScreen from "../screens/user/GetStartScreen/GetStartScreen";
 import LoginScreen from "../screens/user/LoginScreen/LoginScreen";
 import SignUpScreen from "../screens/user/SignUpScreen/SignUpScreen";
@@ -25,8 +24,9 @@ import TermsAndConditionsScreen from "../screens/dashboard/TermsAndConditionsScr
 import SuccessScreen from "../screens/user/SuccessScreen/SuccessScreen";
 import SettingScreen from "../screens/user/SettingScreen/SettingScreen";
 import OutletLocationsScreen from "../screens/user/OutletLocationsScreen/OutletLocationsScreen";
-import {translate} from "react-native-translate";
+import { translate } from "react-native-translate";
 import LanguageScreen from "../screens/user/LanguageScreen/LanguageScreen";
+import { Box } from "native-base";
 
 const defaultNavOptions = {
   headerStyle: {
@@ -67,19 +67,17 @@ const SettingNavigator = createStackNavigator(
   {
     Setting: SettingScreen,
     MyAccount: AccountScreen,
-    Notification : NotificationScreen,
-    OutLetLocation : OutletLocationsScreen,
+    Notification: NotificationScreen,
+    OutLetLocation: OutletLocationsScreen,
   },
   {
     defaultNavigationOptions: defaultNavOptions,
   }
 );
 
-const LanguageNavigator = createStackNavigator(
-  {
-  Language : LanguageScreen
-  }
-)
+const LanguageNavigator = createStackNavigator({
+  Language: LanguageScreen,
+});
 
 const AboutNavigator = createStackNavigator(
   {
@@ -126,8 +124,8 @@ const AuthNavigator = createStackNavigator(
     SignUp: SignUpScreen,
     ForgotPassword: ForgotPasswordScreen,
     AccountDashboard: AccountDashboardScreen,
-    AccountVerification : AccountVerificationScreen,
-    Success : SuccessScreen
+    AccountVerification: AccountVerificationScreen,
+    Success: SuccessScreen,
   },
   {
     defaultNavigationOptions: defaultNavOptions,
@@ -138,53 +136,56 @@ const tabScreenConfig = {
   Dashboard: {
     screen: DashboardNavigator,
     navigationOptions: {
-      tabBarColor : {color:Colors.yellow},
-      tabBarLabel: (
-        <Text
-          style={{
-            color: Colors.yellow,
-          }}
-        >
-          {translate("home")}
-        </Text>
-      ),
-      tabBarOptions: {
-        activeTintColor: Colors.yellow,
-        labelStyle: {
-          fontSize: 10,
-          color: Colors.yellow,
-        },
+      tabBarColor: { color: Colors.yellow },
+      activeColor: Colors.yellow,
+      inactiveColor: Colors.white,
+      tabBarLabel: (tabInfo) => {
+        return (
+          <Text
+            style={{
+              color: tabInfo.tintColor,
+              alignItems: "center",
+              justifyContent: "center",
+              alignSelf:"center",
+              fontSize: 10,
+            }}
+          >
+            {translate("home")}
+          </Text>
+        );
       },
       tabBarIcon: (tabInfo) => {
-        return <Ionicons name="ios-apps" size={20} color={tabInfo.tintColor} />;
+        return <Ionicons name="ios-apps" size={20} color={tabInfo.tintColor} style={{marginBottom:-8}} />;
       },
     },
   },
   Promotion: {
     screen: PromotionNavigator,
     navigationOptions: {
-      tabBarLabel: (
-        <Text
-          style={{
-            color: Colors.yellow,
-          }}
-        >
-          {translate("promotions")}
-        </Text>
-      ),
-      tabBarOptions: {
-        activeTintColor: Colors.white,
-        labelStyle: {
-          fontSize: 10,
-          color: Colors.primary,
-        },
+      tabBarLabel: (tabInfo) => {
+        return (
+          <Text
+            style={{
+              color: tabInfo.tintColor,
+              alignItems: "center",
+              justifyContent: "center",
+              alignSelf:"center",
+              fontSize: 10,
+            }}
+          >
+            {translate("promotions")}
+          </Text>
+        );
       },
+      activeColor: Colors.yellow,
+      inactiveColor: Colors.white,
       tabBarIcon: (tabInfo) => {
         return (
           <Ionicons
             name="ios-briefcase-outline"
             size={20}
             color={tabInfo.tintColor}
+            style={{marginBottom:-8}}
           />
         );
       },
@@ -193,28 +194,30 @@ const tabScreenConfig = {
   Help: {
     screen: HelpNavigator,
     navigationOptions: {
-      tabBarLabel: (
-        <Text
-          style={{
-            color: Colors.yellow,
-          }}
-        >
-          {translate("help")}
-        </Text>
-      ),
-      tabBarOptions: {
-        activeTintColor: Colors.primary,
-        labelStyle: {
-          fontSize: 10,
-          color: Colors.white,
-        },
+      tabBarLabel: (tabInfo) => {
+        return (
+          <Text
+            style={{
+              color: tabInfo.tintColor,
+              alignItems: "center",
+              justifyContent: "center",
+              alignSelf:"center",
+              fontSize: 10,
+            }}
+          >
+            {translate("help")}
+          </Text>
+        );
       },
+      activeColor: Colors.yellow,
+      inactiveColor: Colors.white,
       tabBarIcon: (tabInfo) => {
         return (
           <Ionicons
             name="help-circle-outline"
             size={20}
             color={tabInfo.tintColor}
+            style={{marginBottom:-8}}
           />
         );
       },
@@ -223,52 +226,44 @@ const tabScreenConfig = {
   Setting: {
     screen: SettingNavigator,
     navigationOptions: {
-      tabBarLabel: (
-        <Text
-          style={{
-            color: Colors.yellow,
-          }}
-        >
-          Setting
-        </Text>
-      ),
-      tabBarOptions: {
-        activeTintColor: Colors.primary,
-        labelStyle: {
-          fontSize: 10,
-          color: Colors.primary,
-        },
+      tabBarLabel: (tabInfo) => {
+        return (
+          <Text
+            style={{
+              color: tabInfo.tintColor,
+              alignItems: "center",
+              justifyContent: "center",
+              alignSelf:"center",
+              fontSize: 10,
+            }}
+          >
+            {translate("setting")}
+          </Text>
+        );
       },
+      activeColor: Colors.yellow,
+      inactiveColor: Colors.white,
       tabBarIcon: (tabInfo) => {
         return (
-          <Ionicons
-            name="settings-sharp"
-            size={20}
-            color={tabInfo.tintColor}
-          />
+          <Ionicons name="settings-sharp" size={20} color={tabInfo.tintColor}  style={{marginBottom:-8}}/>
         );
       },
     },
   },
 };
 
-
 const MainTabNavigator =
-  Platform.OS === "android"
-    ? createMaterialBottomTabNavigator(tabScreenConfig, {
-        activeColor: Colors.yellow,
-        inactiveColor: Colors.yellow,
-        showLabel : true,
-        labeled : true,
-        barStyle: {
-          backgroundColor: Colors.primary,
-          // fontFamily: ShareStyles.MyanmarFontBold
-        },
-      })
-    : createBottomTabNavigator(tabScreenConfig, {
+  createBottomTabNavigator(tabScreenConfig, {
         tabBarOptions: {
-          activeTintColor: "#3B3B3B",
-          labeled:true
+          activeTintColor: Colors.yellow,
+          inactiveTintColor: Colors.white,
+          labeled: true,
+          style: {
+            backgroundColor: Colors.primary,
+            justifyContent:"center",
+            alignItems:"center",
+            paddingBottom:5
+          },
         },
       });
 
@@ -279,7 +274,7 @@ const Navigator = createSwitchNavigator(
     Main: MainTabNavigator,
     MyAccount: AccountNavigator,
     TermAndCondition: TermAndConditionNavigator,
-    Language : LanguageNavigator
+    Language: LanguageNavigator,
   },
   {
     initialRouteName: "Auth",

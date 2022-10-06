@@ -11,6 +11,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { TouchableHighlight,View } from "react-native";
 import { Linking } from "react-native";
 import styles from "./styles";
+import { translate } from "react-native-translate";
 
 export default HelpScreen = ({navigation}) => {
   return (
@@ -29,7 +30,7 @@ export default HelpScreen = ({navigation}) => {
           color="white"
           onPress={()=>{navigation.navigate("Faq")}}
         >
-          FAQs
+          {translate("faq")}
         </Button>
         <Button
           px={10}
@@ -40,7 +41,7 @@ export default HelpScreen = ({navigation}) => {
           bg="primary"
           color="white"
         >
-          Hotline
+          {translate("hotline")}
         </Button>
         <Button
           onPress={()=>{Linking.openURL("viber://contact?number=09123456789")}}
@@ -49,7 +50,7 @@ export default HelpScreen = ({navigation}) => {
           bg="primary"
           color="white"
         >
-          Viber Message
+          {translate("vibermsg")}
         </Button>
       </VStack>
     </ContainerFluid>

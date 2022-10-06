@@ -71,7 +71,7 @@ NotificationScreen.navigationOptions = (props) => {
           alignItems: "center",
         }}
       >
-        <Text style={{fontSize:22,color:Colors.white}}>Notifications</Text>
+        <Text style={{fontSize:22,color:Colors.white,padding:10}}>{translate("notification")}</Text>
       </View>
     ),
     headerLeft: () => (
@@ -90,46 +90,5 @@ NotificationScreen.navigationOptions = (props) => {
         </TouchableOpacity>
       </View>
     ),
-
-    // headerRight: () => (
-    //   <Box w="90%" alignItems="center">
-    //     <Menu
-    //       w="140"
-    //       trigger={(triggerProps) => {
-    //         return (
-    //           <Pressable
-    //             accessibilityLabel="More options menu"
-    //             {...triggerProps}
-    //           >
-    //             <Ionicons
-    //               size={38}
-    //               style={{ color: Colors.white,marginRight:15 }}
-    //               name="menu"
-    //             ></Ionicons>
-    //           </Pressable>
-    //         );
-    //       }}
-    //     >
-    //       <Menu.Item
-    //         onPress={() =>
-    //           props.navigation.navigate("MyAccount")
-    //         }
-    //       >
-    //         {translate("myaccount")}
-    //       </Menu.Item>
-    //       <Menu.Item onPress={() => props.navigation.navigate("AboutUs")}>
-    //         {translate("aboutus")}
-    //       </Menu.Item>
-    //       <Menu.Item
-    //         onPress={() => props.navigation.navigate("TermAndCondition")}
-    //       >
-    //         {translate("termandcondition")}
-    //       </Menu.Item>
-    //       <Menu.Item onPress={() => props.navigation.navigate("Faq")}>
-    //         {translate("faq")}
-    //       </Menu.Item>
-    //     </Menu>
-    //   </Box>
-    // ),
   };
 };

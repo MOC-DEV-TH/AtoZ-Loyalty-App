@@ -21,6 +21,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import Text, { Heading } from "../../../components/Typography";
 import Colors from "../../../constants/Colors";
 import styles from "./styles";
+import { translate } from "react-native-translate";
 
 
 export default OutletLocationsScreen = (props) => {
@@ -100,7 +101,7 @@ OutletLocationsScreen.navigationOptions = (props) => {
           alignItems: "center",
         }}
       >
-        <Text style={{fontSize:20,color:Colors.white}}>Outlet Locations</Text>
+        <Text style={{fontSize:20,color:Colors.white,padding:10}}>{translate("outletlocation")}</Text>
       </SafeAreaView>
     ),
     headerLeft: () => (

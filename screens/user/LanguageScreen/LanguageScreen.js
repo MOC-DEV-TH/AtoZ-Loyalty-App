@@ -135,7 +135,7 @@ export default LanguageScreen = (props) => {
                     fontFamily: translate("headingFont"),
                   }}
                 >
-                  Save
+                  {translate("save")}
                 </Text>
               </View>
             </TouchableOpacity>
@@ -163,7 +163,7 @@ LanguageScreen.navigationOptions = (props) => {
           alignItems: "center",
         }}
       >
-        <Text style={{ fontSize: 22, color: Colors.white }}>Language</Text>
+        <Text style={{ fontSize: 22, color: Colors.white,padding:10 }}>{translate("language")}</Text>
       </View>
     ),
     headerLeft: () => (

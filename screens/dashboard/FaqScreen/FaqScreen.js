@@ -179,7 +179,6 @@ export default FAQScreen = (props) => {
             </VStack>
           </Box>
           {/* end of Block */}
-
           <Box
             mt={30}
           >
@@ -199,7 +198,6 @@ export default FAQScreen = (props) => {
                   </CollapseBodyInner>
                 </CollapseBody>
               </Collapse>
-
               <Collapse disabled={true} isExpanded={true}>
                 <CollapseHeader>
                   <CollapseHeaderInner title={translate("howdoredeempoint")} />
@@ -267,8 +265,6 @@ export default FAQScreen = (props) => {
               </Collapse>
             </VStack>
           </Box>
-          {/* end of Block */}
-
           <Box
             mt={30}
           >
@@ -293,9 +289,6 @@ export default FAQScreen = (props) => {
             </VStack>
           </Box>
           {/* end of Block */}
-
-
-
           <Box
             mt={30}
           >
@@ -346,9 +339,6 @@ export default FAQScreen = (props) => {
             </VStack>
           </Box>
           {/* end of Block */}
-
-
-
           <Box
             mt={30}
           >
@@ -373,9 +363,6 @@ export default FAQScreen = (props) => {
             </VStack>
           </Box>
           {/* end of Block */}
-
-
-
 
           <Box
             mt={30}
@@ -417,9 +404,6 @@ export default FAQScreen = (props) => {
             </VStack>
           </Box>
           {/* end of Block */}
-
-
-
           <Box
             mt={30}
           >
@@ -444,8 +428,6 @@ export default FAQScreen = (props) => {
             </VStack>
           </Box>
           {/* end of Block */}
-
-
 
           <Box
             mt={30}
@@ -639,7 +621,7 @@ FAQScreen.navigationOptions = (props) => {
           alignItems: "center",
         }}
       >
-        <Text style={{fontSize:22,color:Colors.white}}>FAQs</Text>
+        <Text style={{fontSize:22,color:Colors.white,padding:10}}>{translate("faq")}</Text>
       </View>
     ),
     headerLeft: () => (

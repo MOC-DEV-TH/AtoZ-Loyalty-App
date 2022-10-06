@@ -40,6 +40,7 @@ export default SignUpScreen = (props) => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isFocus, setIsFocus] = useState(false);
   const [city, setCity] = useState(null);
+  const [cityKey,setCityKey] = useState(0);
   const [township, setTownship] = useState(null);
   const [isTownshipFocus, setIsTownshipFocus] = useState(false);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
@@ -58,7 +59,10 @@ export default SignUpScreen = (props) => {
     shallowEqual
   );
   const cityDDLData = allDDLData.city;
-  const townshipDDLData = allDDLData.township;
+
+  const townshipDDLData = allDDLData.township.filter(
+    (item) => item.division == cityKey
+  );
 
   const response_status = useSelector(
     (state) => state.user.status,
@@ -314,6 +318,7 @@ export default SignUpScreen = (props) => {
                 onBlur={() => setIsFocus(false)}
                 onChange={(item) => {
                   setCity(item);
+                  setCityKey(item.key);
                   setIsFocus(false);
                 }}
                 renderLeftIcon={() => (

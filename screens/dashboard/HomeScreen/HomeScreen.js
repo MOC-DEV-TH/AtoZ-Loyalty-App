@@ -14,7 +14,7 @@ import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import * as homeActions from "../../../store/actions/home";
 import React, { useState, useCallback, useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
-import i18n from "../../../I18n/i18n";
+// import i18n from "../../../I18n/i18n";
 import styles from "./styles";
 import { HStack, VStack, Pressable, Menu, Box } from "native-base";
 import Colors from "../../../constants/Colors";
@@ -151,7 +151,8 @@ export default HomeScreen = (props) => {
           <Text
             style={{ color: Colors.white, fontWeight: "bold", fontSize: 18 }}
           >
-            Available Points
+            {translate("availablePoint")}
+
           </Text>
          <TouchableOpacity onPress={()=>onPressAvailablePoint()}>
          <Image
@@ -178,7 +179,7 @@ export default HomeScreen = (props) => {
             fontSize:22
           }}
         >
-          {availablePoints+" Points"} 
+          {availablePoints+" " + translate("point")} 
         </Box>
       </VStack>
       </View>
