@@ -40,7 +40,7 @@ export default StyleSheet.create({
     justifyContent:"space-between",
     borderWidth: .5,
     borderColor: Colors.primary,
-    height: 40,
+    // height: 40,
     borderRadius: 5 ,
     padding:12,
   },
@@ -50,9 +50,10 @@ export default StyleSheet.create({
     backgroundColor: '#fff',
     borderWidth: .5,
     borderColor: Colors.primary,
-    height: 40,
+    // height: 40,
     borderRadius: 5 ,
     padding:12,
+    alignItems:"center"
 },
 
   input: {

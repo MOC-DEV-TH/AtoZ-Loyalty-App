@@ -33,7 +33,7 @@ export default GetStartScreen = (props) => {
         >
           {translate("getstart")}
         </Button> */}
-        <Button bg={Colors.yellow} justifyContent={"center"} fontSize="lg" color="primary" onPress={() => getStart()} mt={40}>Get Started</Button>
+        <Button bg={Colors.yellow} justifyContent={"center"} role="button" color="primary" onPress={() => getStart()} mt={40}>Get Started</Button>
       </View>
     </SafeAreaView>
   );

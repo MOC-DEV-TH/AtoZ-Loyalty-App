@@ -81,7 +81,7 @@ export default OutletLocationsScreen = (props) => {
             <ActivityIndicator size="large" />
           ) : (
             <FlatList
-            style={{marginTop:15,marginBottom:15}}
+            style={{paddingTop:20,paddingBottom:20}}
              data={getLocations} renderItem={renderItem}  showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false}/>
           )}

@@ -1,7 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import {
   StyleSheet,
-  Text,
   Image,
   View,
   TouchableOpacity,
@@ -24,6 +23,7 @@ import AsyncStorageKey from "../../../constants/AsyncStorageKey";
 import SessionExpireAlert from "../../../components/SessionExpireAlert";
 import SeeMore from 'react-native-see-more-inline';
 import ReadMore from '@fawazahmed/react-native-read-more';
+import Text from "../../../components/Typography";
 
 export default PromotionScreen = (props) => {
   const dispatch = useDispatch();

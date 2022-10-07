@@ -1,6 +1,7 @@
 import { StyleSheet } from "react-native";
 import Colors from "../../../constants/Colors";
 import {Dimensions} from 'react-native';
+import { translate } from "react-native-translate";
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -45,6 +46,7 @@ export default StyleSheet.create({
     marginBottom:5
   },
   description:{
+    fontFamily:translate("bodyFont"),
     textAlign:"justify",
     color:Colors.primary,
   },

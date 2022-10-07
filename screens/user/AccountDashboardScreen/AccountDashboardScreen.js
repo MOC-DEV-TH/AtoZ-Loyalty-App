@@ -82,7 +82,7 @@ export default AccountDashboardScreen = (props) => {
         >
           {translate("login")}
         </Button> */}
-        <Button width="250" fontSize="lg" mt={2} onPress={() => onLoginPress()}>{translate("login")}</Button>
+        <Button width="250" role="button" mt={2} onPress={() => onLoginPress()}>{translate("login")}</Button>
       </View>
 
       <View style={{ margin: 30 }}>
@@ -103,7 +103,7 @@ export default AccountDashboardScreen = (props) => {
         >
           {translate("register")}
         </Button> */}
-        <Button width="250" fontSize="lg" mt={2} onPress={() => onRegisterPress()}>{translate("register")}</Button>
+        <Button width="250" role="button" mt={2} onPress={() => onRegisterPress()}>{translate("register")}</Button>
       </View>
 
       {/* <View

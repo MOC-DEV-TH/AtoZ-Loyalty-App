@@ -1,7 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import {
   StyleSheet,
-  Text,
   Image,
   View,
   TouchableOpacity,
@@ -17,6 +16,7 @@ import { Menu, Pressable, Box, Center,HStack, VStack } from "native-base";
 import { useEffect, useCallback, useState } from "react";
 import { translate } from "react-native-translate";
 import * as SQLite from "expo-sqlite";
+import Text from "../../../components/Typography";
 
 //open database
 const db = SQLite.openDatabase("db.aToz");

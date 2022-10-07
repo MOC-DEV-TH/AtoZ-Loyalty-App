@@ -9,7 +9,6 @@ import {
   SafeAreaView,
   TextInput,
   Platform,
-  Button,
   KeyboardAvoidingView,
 } from "react-native";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
@@ -27,6 +26,7 @@ import moment from "moment";
 import styles from "./styles";
 import { translate } from "react-native-translate";
 import LogoBanner from "../../../components/LogoBanner";
+import Button from "../../../components/Button";
 
 export default SignUpScreen = (props) => {
   const [phone, setPhone] = useState(0);
@@ -174,6 +174,7 @@ export default SignUpScreen = (props) => {
                       alignSelf: "center",
                       height: 20,
                       textAlign: "center",
+                      width:"100%"
                     }}
                     placeholder={translate("name")}
                     placeholderTextColor="#aaaaaa"
@@ -200,7 +201,7 @@ export default SignUpScreen = (props) => {
                 ></Icon>
 
                 <View style={{ flex: 1 }}>
-                  <TouchableOpacity onPress={() => showDatePicker()}>
+                  <TouchableOpacity onPress={() => showDatePicker()} style={{ width:"100%" }}>
                     <TextInput
                       style={{
                         alignSelf: "center",
@@ -230,6 +231,7 @@ export default SignUpScreen = (props) => {
                       alignSelf: "center",
                       height: 20,
                       textAlign: "center",
+                      width:"100%"
                     }}
                     placeholder={translate("nrc")}
                     placeholderTextColor="#aaaaaa"
@@ -287,6 +289,7 @@ export default SignUpScreen = (props) => {
                       alignSelf: "center",
                       height: 20,
                       textAlign: "center",
+                      width:"100%"
                     }}
                     placeholder={translate("address")}
                     placeholderTextColor="#aaaaaa"
@@ -372,6 +375,7 @@ export default SignUpScreen = (props) => {
                       alignSelf: "center",
                       height: 20,
                       textAlign: "center",
+                      width:"100%"
                     }}
                     placeholder={translate("ph")}
                     placeholderTextColor="#aaaaaa"
@@ -391,12 +395,13 @@ export default SignUpScreen = (props) => {
                   mr={3}
                 ></Icon>
 
-                <View>
+                <View style={{flex:1}}>
                   <TextInput
                     style={{
                       alignSelf: "flex-start",
                       height: 20,
                       textAlign: "center",
+                      width:"100%"
                     }}
                     placeholder={translate("typepwd")}
                     placeholderTextColor="#aaaaaa"
@@ -434,12 +439,13 @@ export default SignUpScreen = (props) => {
                   mr={3}
                 ></Icon>
 
-                <View>
+                <View style={{flex:1}}>
                   <TextInput
                     style={{
                       alignSelf: "center",
                       height: 20,
                       textAlign: "center",
+                      width:"100%"
                     }}
                     placeholder={translate("confirmpwd")}
                     placeholderTextColor="#aaaaaa"
@@ -496,12 +502,9 @@ export default SignUpScreen = (props) => {
                 </TouchableOpacity>
               </View>
 
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => onSignUpPress()}
-              >
-                <Text style={styles.buttonTitle}>{translate("register")}</Text>
-              </TouchableOpacity>
+              <Button role="button" justifyContent="center" onPress={() => onSignUpPress()} mt={30}>{translate("register")}</Button>
+              
+
             </View>
           </View>
         </View>

@@ -2,7 +2,6 @@ import { StatusBar } from "expo-status-bar";
 import {
   FlatList,
   StyleSheet,
-  Text,
   View,
   Image,
   TouchableOpacity,
@@ -23,6 +22,7 @@ import Slider from "../../../model/slider";
 import Global from "../../../constants/Global";
 import { translate } from "react-native-translate";
 import SessionExpireAlert from "../../../components/SessionExpireAlert";
+import Text from "../../../components/Typography";
 
 export default HomeScreen = (props) => {
   const sliderList = [];
