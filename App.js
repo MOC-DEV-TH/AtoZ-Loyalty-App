@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef,useCallback } from "react";
 import {
   StyleSheet,
   Text,
@@ -29,7 +29,6 @@ import myAccountReducer from "./store/reducers/myAccount";
 import pointHistoryReducer from "./store/reducers/point_history";
 import { extendTheme, NativeBaseProvider } from "native-base";
 import * as TaskManager from "expo-task-manager";
-const BACKGROUND_NOTIFICATION_TASK = "BACKGROUND-NOTIFICATION-TASK";
 import Colors from "./constants/Colors";
 import { setLocalization, translate } from "react-native-translate";
 import en from "./locales/en";
@@ -46,16 +45,6 @@ LogBox.ignoreAllLogs();
 //open database
 const db = SQLite.openDatabase("db.aToz");
 
-TaskManager.defineTask(
-  BACKGROUND_NOTIFICATION_TASK,
-  ({ data, error, executionInfo }) => {
-    addToDatabase(db,data.title, data.body);
-    console.log("Received a notification in the background!");
-  }
-);
-
-Notifications.registerTaskAsync(BACKGROUND_NOTIFICATION_TASK);
-
 const rootReducer = combineReducers({
   auth: authReducer,
   myAccount: myAccountReducer,
@@ -65,9 +54,6 @@ const rootReducer = combineReducers({
   user : userReducer
 });
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
-
-
-
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -79,6 +65,56 @@ Notifications.setNotificationHandler({
 
 
 export default function App() {
+  const BACKGROUND_NOTIFICATION_TASK = "BACKGROUND-NOTIFICATION-TASK";
+  const [expoPushToken, setExpoPushToken] = useState("");
+  let [alert,setShowAlert] = useState(false)
+  const responseListener = useRef();
+  const lastNotificationResponse = Notifications.useLastNotificationResponse();
+
+  useEffect(() => {
+
+    TaskManager.defineTask(
+      BACKGROUND_NOTIFICATION_TASK,
+      ({ data, error, executionInfo }) => {
+        console.log("Received a notification in the background!");
+        addToDatabase(db,data.title, data.body);
+      }
+    );
+  
+
+    if (lastNotificationResponse) {
+      handleNewNotification(
+        lastNotificationResponse.notification.request.trigger.remoteMessage
+      );
+    }
+  }, [lastNotificationResponse]);
+  //init notification
+  useEffect(() => {
+    Notifications.registerTaskAsync(BACKGROUND_NOTIFICATION_TASK);
+
+    registerForPushNotificationsAsync().then((token) => {
+      setExpoPushToken(token);
+    });
+    // This listener is fired whenever a notification is received while the app is foregrounded
+    const foregroundReceivedNotificationSubscription = Notifications.addNotificationReceivedListener(
+      (notification) => {
+        handleNewNotification(notification.request.trigger.remoteMessage);
+      }
+    );
+
+    // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
+    responseListener.current = Notifications.addNotificationResponseReceivedListener(
+      (response) => {
+        console.log(Notifications);
+      }
+    );
+
+    return () => {
+      foregroundReceivedNotificationSubscription.remove();
+      Notifications.unregisterTaskAsync(BACKGROUND_NOTIFICATION_TASK);
+      Notifications.removeNotificationSubscription(responseListener.current);
+    };
+  }, []);
   
     
   const [fontsLoaded] = useFonts({
@@ -101,23 +137,6 @@ export default function App() {
   //   }
   // }, [fontsLoaded]);
 
-
-  const [isChecking, setIsChecking] = useState(true);
-  const [expoPushToken, setExpoPushToken] = useState("");
-  const [notification, setNotification] = useState(false);
-  let [alert,setShowAlert] = useState(false)
-  const notificationListener = useRef();
-  const responseListener = useRef();
-  const lastNotificationResponse = Notifications.useLastNotificationResponse();
-
-
-  useEffect(() => {
-    if (lastNotificationResponse) {
-      handleNewNotification(
-        lastNotificationResponse.notification.request.trigger.remoteMessage
-      );
-    }
-  }, [lastNotificationResponse]);
 
   const handleNewNotification = async (notificationObject) => {
     try {
@@ -170,43 +189,7 @@ export default function App() {
     return;
   }, []);
 
-  //delay splash screen
-  useEffect(() => {});
-  const asyncDoThings = async () => {
-    return () => {
-      clearTimeout(timeout);
-    };
-  };
-
-  //init notification
-  useEffect(() => {
-    Notifications.registerTaskAsync(BACKGROUND_NOTIFICATION_TASK);
-
-    registerForPushNotificationsAsync().then((token) => {
-      setExpoPushToken(token);
-    });
-
-    Notifications.registerTaskAsync(BACKGROUND_NOTIFICATION_TASK);
-    // This listener is fired whenever a notification is received while the app is foregrounded
-    const foregroundReceivedNotificationSubscription = Notifications.addNotificationReceivedListener(
-      (notification) => {
-        handleNewNotification(notification.request.trigger.remoteMessage);
-      }
-    );
-
-    // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
-    responseListener.current = Notifications.addNotificationResponseReceivedListener(
-      (response) => {
-        console.log(response);
-      }
-    );
-
-    return () => {
-      foregroundReceivedNotificationSubscription.remove();
-      Notifications.unregisterTaskAsync(BACKGROUND_NOTIFICATION_TASK);
-      Notifications.removeNotificationSubscription(responseListener.current);
-    };
-  }, []);
+  
 
   //check language
   useEffect(() => {

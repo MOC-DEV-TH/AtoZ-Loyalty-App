@@ -123,9 +123,7 @@ export default LoginScreen = (props) => {
               />
             </View>
           </View>
-
           <View style={{ height: 20 }}></View>
-
           <View style={styles.PasswordSectionStyle}>
             <Icon
               style={{ color: Colors.primary }}
