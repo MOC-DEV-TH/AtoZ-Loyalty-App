@@ -16,7 +16,7 @@ const en = {
   dob: "Date of Birth",
   nrc: "NRC No.",
   address: "Address",
-  city: "City",
+  city: "State and Region",
   township:"Township",
   ph: "Phone Number",
   gender : "Gender *",

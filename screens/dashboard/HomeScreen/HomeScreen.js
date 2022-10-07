@@ -23,6 +23,8 @@ import Global from "../../../constants/Global";
 import { translate } from "react-native-translate";
 import SessionExpireAlert from "../../../components/SessionExpireAlert";
 import Text from "../../../components/Typography";
+import { ImageSlider } from "react-native-image-slider-banner";
+
 
 export default HomeScreen = (props) => {
   const sliderList = [];
@@ -128,13 +130,21 @@ export default HomeScreen = (props) => {
   );
 
   for (const item of promotionSlider) {
-    sliderList.push(new Slider(Global.baseImageUrl + item.image_en));
+    sliderList.push({img: Global.baseImageUrl + item.image_en});
   }
 
   return (
     <SafeAreaView style={styles.container}>
       <View>
-        <Slideshow dataSource={sliderList} />
+        {/* <Slideshow dataSource={sliderList} /> */}
+        <ImageSlider
+          data={sliderList}
+          caroselImageStyle={{ height: 180 }}
+          autoPlay={true}
+          onItemChanged={(item) => console.log("item", item)}
+          closeIconColor="#fff"
+          activeIndicatorStyle={{width:10,height:10}}
+        />
       </View>
       <SessionExpireAlert showAlert={alert} onConfirmPressed={onConfirm} />
       <View

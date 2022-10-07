@@ -37,14 +37,14 @@ export default HelpScreen = ({navigation}) => {
           Icon={
             <MaterialCommunityIcons name="phone-dial" size={24} color="white" />
           }
-          onPress={()=>{Linking.openURL("tel:09123456789")}}
+          onPress={()=>{Linking.openURL("tel:017640370")}}
           bg="primary"
           color="white"
         >
           {translate("hotline")}
         </Button>
         <Button
-          onPress={()=>{Linking.openURL("viber://contact?number=09123456789")}}
+          onPress={()=>{Linking.openURL("viber://contact?number=017640370")}}
           px={10}
           Icon={<FontAwesome5 name="viber" size={24} color="white" />}
           bg="primary"

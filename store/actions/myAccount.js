@@ -91,7 +91,8 @@ export const updateAccount = (oldPassword, newPassword) => {
       const respData = await response.json();
       console.log("register user response");
       console.log(respData);
-      alert(respData.description);
+      // alert(respData.description);
+      alert("Success! Login again with New Password");
     } catch (err) {
       throw err;
     }

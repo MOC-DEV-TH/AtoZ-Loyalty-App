@@ -73,7 +73,7 @@ export default SignUpScreen = (props) => {
   );
   useEffect(() => {
     if (response_status == "Success") {
-      props.navigation.navigate("AccountVerification", {
+      props.navigation.replace("AccountVerification", {
         phoneNo: parseInt(phone),
       });
     }
@@ -506,7 +506,7 @@ export default SignUpScreen = (props) => {
                 </TouchableOpacity>
               </View>
 
-              <Button role="button" justifyContent="center" onPress={() => onSignUpPress()} mt={30}>{translate("register")}</Button>
+              <Button role="button" justifyContent="center" onPress={() => onSignUpPress()} mt={30} isDisabled={(isChecked) ? false : true} >{translate("register")}</Button>
               
 
             </View>

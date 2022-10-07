@@ -24,7 +24,7 @@
         "backgroundColor": "#034ea1"
       },
       "bundleIdentifier": "com.atoz.client",
-      "buildNumber" : "1.0.0",
+      "buildNumber": "1.0.0",
       "supportsTablet": false,
       "googleServicesFile": "./GoogleService-Info.plist",
       "infoPlist": {
@@ -40,18 +40,27 @@
         "resizeMode": "contain",
         "backgroundColor": "#034ea1"
       },
-      "package" : "com.atoz.client",
+      "package": "com.atoz.client",
       "googleServicesFile": "./google-services.json",
-      "versionCode" : 1,
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/favicon.png",
         "backgroundColor": "#ffcc00"
       },
-      "useNextNotificationsApi" : true,
-      "permissions": [ "ACCESS_FINE_LOCATION", "ACCESS_COARSE_LOCATION", "FOREGROUND_SERVICE"]
+      "useNextNotificationsApi": true,
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "FOREGROUND_SERVICE"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "e9082c48-1651-42c9-97c3-03ade330ca68"
+      }
     }
   }
 }

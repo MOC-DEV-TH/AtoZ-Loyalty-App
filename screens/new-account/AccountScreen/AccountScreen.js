@@ -139,7 +139,7 @@ export default AccountScreen = (props) => {
 
   const onPressSave = () => {
     if (currentPassword != "" || newPassword != "") {
-      dispatch(myAccountActions.updateAccount(currentPassword, newPassword));
+      dispatch(myAccountActions.updateAccount(currentPassword, newPassword, props.navigation.navigate("AccountDashboard")));
     }
   };
   const onConfirm = () => {
@@ -404,7 +404,7 @@ export default AccountScreen = (props) => {
                   </Box>
 
                   <HStack justifyContent={"flex-end"} mt={5}>
-                    <TouchableOpacity onPress={() => onPressSave()}>
+                    <TouchableOpacity onPress={() => onPressSave(props.navigation)}>
                       <View
                         style={{
                           backgroundColor: Colors.yellow,

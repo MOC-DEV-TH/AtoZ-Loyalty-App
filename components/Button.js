@@ -10,10 +10,11 @@ export default function Button(props){
     const btnFontSize = (props.role == "button") ? 'lg' : props.fontSize;
 
     return (
-        <TouchableOpacity onPress={props.onPress}>
+        <TouchableOpacity onPress={props.onPress} disabled={(props.isDisabled) ? true : false}>
            <HStack bg={(props.bg) ? props.bg : "yellow"} px={props.px} height={44} alignItems={"center"} borderRadius={30} justifyContent={(props.justifyContent) ? props.justifyContent : contentAlign}
            mt={(props.mt) ? props.mt : 0} mb={(props.mb) ? props.mb : 0} my={(props.my) ? props.my : 0} 
            width={(props.width) ? props.width : "100%"}
+           opacity={(props.isDisabled) ? .5 : 1}
            >
             {
                 (props.Icon) ? (
