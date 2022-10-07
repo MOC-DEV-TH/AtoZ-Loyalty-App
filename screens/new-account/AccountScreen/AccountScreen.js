@@ -11,7 +11,6 @@ import {
   Stack,
   FormControl,
   Pressable,
-  Heading,
   Image,
   Icon,
   KeyboardAvoidingView,
@@ -43,7 +42,7 @@ import {
   CollapseBody,
   AccordionList,
 } from "accordion-collapse-react-native";
-import Text from "../../../components/Typography";
+import Text, { Heading } from "../../../components/Typography";
 
 const CollapseHeaderInner = ({ title, icon }) => {
   return (

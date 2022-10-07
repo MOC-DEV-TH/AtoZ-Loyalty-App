@@ -149,7 +149,7 @@ export default HomeScreen = (props) => {
       <VStack>
       <HStack pb={7} justifyContent={"space-between"}>
           <Text
-            style={{ color: Colors.white, fontWeight: "bold", fontSize: 18 }}
+            style={{ color: Colors.white, fontWeight: "bold", fontSize: 18,padding:10 }}
           >
             {translate("availablePoint")}
 

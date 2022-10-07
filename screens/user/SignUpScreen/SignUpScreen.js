@@ -48,16 +48,19 @@ export default SignUpScreen = (props) => {
   const [gender, setGender] = useState(null);
   const [isGenderFocus, setIsGenderFocus] = useState(false);
   const dispatch = useDispatch();
-
+ 
   const genderData = [
     { label: 'M', value: 'Male' },
     { label: 'F', value: 'Female' },
   ];
-
+  
   const allDDLData = useSelector(
     (state) => state.auth.allDropDownData,
     shallowEqual
   );
+  if(allDDLData !=null){
+    
+  }
   const cityDDLData = allDDLData.city;
 
   const townshipDDLData = allDDLData.township.filter(
@@ -157,6 +160,7 @@ export default SignUpScreen = (props) => {
                 fontSize: 20,
                 alignSelf: "center",
                 color: Colors.primary,
+                padding:10
               }}
             >
               {translate("accountregistration")}
@@ -257,7 +261,7 @@ export default SignUpScreen = (props) => {
                 maxHeight={300}
                 labelField="value"
                 valueField="value"
-                placeholder={!isGenderFocus ? "Gender *" : "..."}
+                placeholder={!isGenderFocus ? translate('gender') : "..."}
                 value={gender}
                 onFocus={() => setIsGenderFocus(true)}
                 onBlur={() => setIsGenderFocus(false)}

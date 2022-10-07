@@ -112,6 +112,7 @@ export default LoginScreen = (props) => {
                   alignSelf: "center",
                   width: "100%",
                   textAlign: "center",
+                  justifyContent: "center",
                   height: 40,
                 }}
                 placeholder={translate("userid")}
@@ -168,6 +169,7 @@ export default LoginScreen = (props) => {
                 color: Colors.primary,
                 alignSelf: "center",
                 marginTop: 60,
+                padding:10
               }}
             >
               {translate("createnewaccount")}

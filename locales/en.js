@@ -19,6 +19,7 @@ const en = {
   city: "City",
   township:"Township",
   ph: "Phone Number",
+  gender : "Gender *",
   typepwd: "Type Password",
   confirmpwd: "Confirmed Password",
   agreetermandconditions: "I’ve read and agreed on Terms & Conditions",

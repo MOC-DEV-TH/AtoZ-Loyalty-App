@@ -60,6 +60,7 @@ const my = {
   availablePoint : 'ရနိုင်သောပွိုင့်',
   hotdeal : 'အထူးလျှော့ဈေးများ',
   inbox : 'ဝင်စာများ',
+  gender : "လိင် *",
   surewanttologout : 'ထွက်ခွာရန် သေချာပါသလား',
   yes : 'ထွက်ခွာပါမည်',
   cancel : 'မထွက်ခွာတော့ပါ',

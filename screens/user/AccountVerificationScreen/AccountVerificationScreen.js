@@ -106,7 +106,7 @@ export default AccountVerificationScreen = (navData) => {
       "message",
       "You had successfully register in our system your otp is {otp}.This otp is valid only for 1min"
     );
-    formData.append("expiry", "1");
+    formData.append("expiry", 1);
 
     const response = await fetch("https://api.smsbrix.com/v1/otp/send", {
       method: "POST",

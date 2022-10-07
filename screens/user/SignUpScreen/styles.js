@@ -27,6 +27,7 @@ export default StyleSheet.create({
     fontSize: 16,
     color:Colors.placeHolderTextColor,
     textAlign:"center",
+    padding:6
   },
   selectedTextStyle: {
     fontSize: 16,

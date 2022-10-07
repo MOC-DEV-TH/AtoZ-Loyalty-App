@@ -9,7 +9,7 @@ import {
 import styles from "./styles";
 import Colors from "../../../constants/Colors";
 import ContainerFluid from "../../../components/ContainerFluid";
-import { VStack, HStack, Button } from "native-base";
+import { VStack, HStack } from "native-base";
 import { setLocalization, translate } from "react-native-translate";
 import { useState, useEffect, useCallback } from "react";
 import { getStoreData } from "../../../AsyncStorage/AsyncStorage";
@@ -17,6 +17,8 @@ import AsyncStorageKey from "../../../constants/AsyncStorageKey";
 import { storeData } from "../../../AsyncStorage/AsyncStorage";
 import my from "../../../locales/my";
 import en from "../../../locales/en";
+import Button from "../../../components/Button";
+
 
 export default LanguageScreen = (props) => {
   const [touchEng, setTouchEng] = useState(false);
@@ -63,11 +65,13 @@ export default LanguageScreen = (props) => {
       return {
         color: Colors.white,
         fontWeight: "bold",
+        padding:10
       };
     } else {
       return {
         color: Colors.primary,
         fontWeight: "bold",
+        padding:10
       };
     }
   };
@@ -117,28 +121,9 @@ export default LanguageScreen = (props) => {
           </TouchableOpacity>
 
           <HStack justifyContent={"flex-end"} mt={5}>
-            <TouchableOpacity onPress={() => onPressSave()}>
-              <View
-                style={{
-                  backgroundColor: Colors.yellow,
-                  width: 150,
-                  height: 48,
-                  borderRadius: 24,
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <Text
-                  style={{
-                    color: Colors.primary,
-                    textTransform: "uppercase",
-                    fontFamily: translate("headingFont"),
-                  }}
-                >
-                  {translate("save")}
-                </Text>
-              </View>
-            </TouchableOpacity>
+
+            <Button onPress={() => onPressSave()} role="button" justifyContent="center">{translate("save")}</Button>
+
           </HStack>
         </VStack>
         {showLoading ? <View style={styles.loading}><ActivityIndicator size={"large"} color={Colors.primary}/></View>  : undefined}
