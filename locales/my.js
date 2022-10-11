@@ -58,7 +58,7 @@ const my = {
   aboutloyalty : 'Loyalty Program အကြောင်း',
   outletlocation : 'ဆိုင်ခွဲတည်နေရာများ',
   pointavailable : 'ပွိုင့်ရှိပါသည်',
-  availablePoint : 'ရနိုင်သောပွိုင့်',
+  availablePoint : 'ရနိုင်သောပွိုင့်များ',
   hotdeal : 'အထူးလျှော့ဈေးများ',
   inbox : 'ဝင်စာများ',
   gender : "လိင် *",

@@ -29,4 +29,12 @@ export default StyleSheet.create({
     width:'100%',
     resizeMode: "contain",
   },
+  slide: {
+    justifyContent: "center",
+    alignItems: "center",
+    with:"100%",
+    height:"100%",
+    resizeMode: "cover",
+    backgroundColor: Colors.primary
+  },
 })
