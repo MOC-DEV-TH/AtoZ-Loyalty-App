@@ -123,6 +123,19 @@ export default LoginScreen = (props) => {
                 autoCapitalize="none"
               />
             </View>
+            <Pressable style={{opacity: 0}}>
+              <Icon
+                style={{ color: Colors.primary }}
+                as={
+                  <MaterialIcons
+                    name={showPassword ? "visibility" : "visibility-off"}
+                    size={24}
+                    color="black"
+                  />
+                }
+                mr={0}
+              ></Icon>
+            </Pressable>
           </View>
           <View style={{ height: 20 }}></View>
           <View style={styles.PasswordSectionStyle}>

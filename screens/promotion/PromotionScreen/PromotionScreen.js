@@ -24,6 +24,7 @@ import SessionExpireAlert from "../../../components/SessionExpireAlert";
 import SeeMore from 'react-native-see-more-inline';
 import ReadMore from '@fawazahmed/react-native-read-more';
 import Text from "../../../components/Typography";
+import ContainerFluid from "../../../components/ContainerFluid";
 
 export default PromotionScreen = (props) => {
   const dispatch = useDispatch();
@@ -140,7 +141,7 @@ export default PromotionScreen = (props) => {
   };
 
   return (
-    <View style={styles.container}>
+    <ContainerFluid standardTop={true}>
       <View style={styles.button}>
         <Text style={styles.text}>{translate("hotdeal")}</Text>
       </View>
@@ -172,7 +173,7 @@ export default PromotionScreen = (props) => {
       )
       }
       
-    </View>
+    </ContainerFluid>
   );
 };
 
@@ -190,7 +191,7 @@ PromotionScreen.navigationOptions = (props) => {
         <TouchableOpacity>
           <Image
             style={styles.headerIcon}
-            source={require("../../../assets/app_logo_blue.png")}
+            source={require("../../../assets/logo.png")}
           />
         </TouchableOpacity>
       </View>
@@ -199,7 +200,7 @@ PromotionScreen.navigationOptions = (props) => {
     headerRight: () => (
       <TouchableOpacity onPress={()=>props.navigation.navigate("Notification")}>
           <Image
-            style={{height:20,width:20,marginRight:15}}
+            style={{height:20,width:20,marginRight:18}}
             source={require("../../../assets/notification_icon.png")}
           />
         </TouchableOpacity>

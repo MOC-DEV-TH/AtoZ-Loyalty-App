@@ -8,10 +8,9 @@ export default StyleSheet.create({
     
   },
   headerIcon: {
-    width: 100,
-    height: 120,
+    width: 120,
+    height: 80,
     resizeMode: "contain",
-    marginLeft: 10,
-    marginRight: 10,
+    marginLeft:18
   }
 });

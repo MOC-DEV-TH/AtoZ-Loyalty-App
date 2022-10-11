@@ -5,6 +5,8 @@ export const SET_MEMBER_INFO = "SET_MEMBER_INFO";
 export const SET_RESPONSE_CODE = "SET_RESPONSE_CODE";
 export const SET_EMPTY_RESPONSE_CODE = "SET_EMPTY_RESPONSE_CODE";
 export const SET_OUTLET_LOCATIONS_INFO = "SET_OUTLET_LOCATIONS_INFO";
+import { translate } from "react-native-translate";
+
 
 export const setEmptyResponseCode = () => {
   return (dispatch) => {
@@ -92,7 +94,7 @@ export const updateAccount = (oldPassword, newPassword) => {
       console.log("register user response");
       console.log(respData);
       // alert(respData.description);
-      alert("Success! Login again with New Password");
+      alert(translate("changepwdmsg"));
     } catch (err) {
       throw err;
     }

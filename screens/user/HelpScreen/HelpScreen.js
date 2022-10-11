@@ -15,9 +15,9 @@ import { translate } from "react-native-translate";
 
 export default HelpScreen = ({navigation}) => {
   return (
-    <ContainerFluid pt={30}>
+    <ContainerFluid standardTop={true}>
       <VStack space={4}>
-        <Button
+        {/* <Button
           px={10}
           Icon={
             <MaterialCommunityIcons
@@ -31,7 +31,7 @@ export default HelpScreen = ({navigation}) => {
           onPress={()=>{navigation.navigate("Faq")}}
         >
           {translate("faq")}
-        </Button>
+        </Button> */}
         <Button
           px={10}
           Icon={
@@ -41,7 +41,18 @@ export default HelpScreen = ({navigation}) => {
           bg="primary"
           color="white"
         >
-          {translate("hotline")}
+          Hotline 1
+        </Button>
+        <Button
+          px={10}
+          Icon={
+            <MaterialCommunityIcons name="phone-dial" size={24} color="white" />
+          }
+          onPress={()=>{Linking.openURL("tel:09448999995")}}
+          bg="primary"
+          color="white"
+        >
+          Hotline 2
         </Button>
         <Button
           onPress={()=>{Linking.openURL("viber://contact?number=017640370")}}
@@ -71,7 +82,7 @@ HelpScreen.navigationOptions = (props) => {
         <TouchableOpacity>
           <Image
             style={styles.headerIcon}
-            source={require("../../../assets/app_logo_blue.png")}
+            source={require("../../../assets/logo.png")}
           />
         </TouchableOpacity>
       </View>
@@ -80,7 +91,7 @@ HelpScreen.navigationOptions = (props) => {
     headerRight: () => (
       <TouchableOpacity onPress={()=>props.navigation.navigate("Notification")}>
           <Image
-            style={{height:20,width:20,marginRight:15}}
+            style={{height:20,width:20,marginRight:18}}
             source={require("../../../assets/notification_icon.png")}
           />
         </TouchableOpacity>

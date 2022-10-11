@@ -11,18 +11,17 @@ export default StyleSheet.create({
     padding:10
   },
   headerIcon: {
-    width: 100,
-    height: 120,
+    width: 120,
+    height: 80,
     resizeMode: "contain",
-    marginLeft: 10,
-    marginRight: 10,
+    marginLeft:18
   },
   button: {
     backgroundColor: Colors.yellow,
     height: 40,
     paddingLeft:25,
     paddingRight:25,
-    marginTop:20,
+    marginTop:30,
     borderRadius: 20,
     alignSelf: "center",
     alignItems: "center",

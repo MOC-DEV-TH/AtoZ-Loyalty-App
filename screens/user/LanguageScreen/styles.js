@@ -11,8 +11,8 @@ export default StyleSheet.create({
     width: 30,
     height: 30,
     resizeMode: "contain",
-    marginLeft: 10,
-    marginRight: 10,
+    marginLeft: 18,
+    marginRight: 18,
   },
   item: {
     backgroundColor: "#f9c2ff",

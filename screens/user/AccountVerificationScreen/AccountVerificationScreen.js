@@ -164,7 +164,7 @@ export default AccountVerificationScreen = (navData) => {
           <Text
             style={{ color: Colors.primary, fontSize: 18, fontWeight: "bold" }}
           >
-            {otpFailStatus ? "Verification Failed" : "Yo're almost done!"}
+            {otpFailStatus ? "Verification Failed" : "You’re almost done!"}
           </Text>
           <Text
             style={{
@@ -174,7 +174,7 @@ export default AccountVerificationScreen = (navData) => {
               margin: 25,
             }}
           >
-            {otpFailStatus ? "Invalid OTP\nPlease try again" : 'Please verify your phone number\nby typing 4 digits via SMS.'}
+            {otpFailStatus ? "Invalid OTP\nPlease try again" : 'Please verify your phone number\nby typing 6 digits via SMS.'}
           </Text>
           <CodeField
             ref={ref}

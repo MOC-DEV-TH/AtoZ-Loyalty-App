@@ -98,7 +98,7 @@ export default LanguageScreen = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ContainerFluid mt={8} style={{flex:1}}>
+      <ContainerFluid mt={8} px={18} style={{flex:1}}>
         <VStack space={4}>
           <TouchableOpacity
             onPress={() => {

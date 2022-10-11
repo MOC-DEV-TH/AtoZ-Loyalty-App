@@ -17,6 +17,7 @@ import { useEffect, useCallback, useState } from "react";
 import { translate } from "react-native-translate";
 import * as SQLite from "expo-sqlite";
 import Text from "../../../components/Typography";
+import ContainerFluid from "../../../components/ContainerFluid";
 
 //open database
 const db = SQLite.openDatabase("db.aToz");
@@ -46,7 +47,7 @@ export default NotificationScreen = (props) => {
 };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <ContainerFluid>
       <View style={styles.button}>
         <Text style={styles.text}>{translate("inbox")}</Text>
       </View>
@@ -57,7 +58,7 @@ export default NotificationScreen = (props) => {
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
         />
-    </SafeAreaView>
+    </ContainerFluid>
   );
 };
 

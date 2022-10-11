@@ -125,7 +125,7 @@ SettingScreen.navigationOptions = (props) => {
         <TouchableOpacity>
           <Image
             style={styles.headerIcon}
-            source={require("../../../assets/app_logo_blue.png")}
+            source={require("../../../assets/logo.png")}
           />
         </TouchableOpacity>
       </View>
@@ -134,7 +134,7 @@ SettingScreen.navigationOptions = (props) => {
     headerRight: () => (
       <TouchableOpacity onPress={()=>props.navigation.navigate("Notification")}>
           <Image
-            style={{height:20,width:20,marginRight:15}}
+            style={{height:20,width:20,marginRight:18}}
             source={require("../../../assets/notification_icon.png")}
           />
         </TouchableOpacity>

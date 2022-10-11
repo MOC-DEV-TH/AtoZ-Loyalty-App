@@ -491,17 +491,17 @@ export default SignUpScreen = (props) => {
                   color={isChecked ? Colors.primary : undefined}
                   onValueChange={setChecked}
                 />
-                <Text style={{ color: Colors.primary, marginLeft: 10 }}>
+                {/* <Text style={{ color: Colors.primary, marginLeft: 10 }}>
                   {translate("agreeon")}
-                </Text>
+                </Text> */}
                 <TouchableOpacity onPress={onPressTermAndCondition}>
                   <Text
                     style={{
                       color: Colors.primary,
-                      textDecorationLine: "underline",
+                      paddingLeft: 10,
                     }}
                   >
-                    {translate("termandcondition")}
+                    {translate("agreetermandconditions")}
                   </Text>
                 </TouchableOpacity>
               </View>

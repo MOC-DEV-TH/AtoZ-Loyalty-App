@@ -137,13 +137,13 @@ const tabScreenConfig = {
     screen: DashboardNavigator,
     navigationOptions: {
       tabBarColor: { color: Colors.yellow },
-      activeColor: Colors.yellow,
+      activeColor: Colors.white,
       inactiveColor: Colors.white,
       tabBarLabel: (tabInfo) => {
         return (
           <Text
             style={{
-              color: tabInfo.tintColor,
+              color: Colors.white,
               alignItems: "center",
               justifyContent: "center",
               alignSelf:"center",
@@ -166,7 +166,7 @@ const tabScreenConfig = {
         return (
           <Text
             style={{
-              color: tabInfo.tintColor,
+              color: Colors.white,
               alignItems: "center",
               justifyContent: "center",
               alignSelf:"center",
@@ -198,7 +198,7 @@ const tabScreenConfig = {
         return (
           <Text
             style={{
-              color: tabInfo.tintColor,
+              color: Colors.white,
               alignItems: "center",
               justifyContent: "center",
               alignSelf:"center",
@@ -230,7 +230,7 @@ const tabScreenConfig = {
         return (
           <Text
             style={{
-              color: tabInfo.tintColor,
+              color: Colors.white,
               alignItems: "center",
               justifyContent: "center",
               alignSelf:"center",

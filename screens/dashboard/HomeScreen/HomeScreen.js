@@ -35,27 +35,29 @@ export default HomeScreen = (props) => {
   const renderItem = ({ item }) => {
     return (
       <View style={{ width: "48%", marginTop: 15 }}>
-        <VStack style={{ flex: 1 }}>
-          <Image
-            resizeMode="stretch"
-            style={{ height: 120 }}
-            source={{ uri: Global.baseImageUrl + item.image_en }}
-            alt="ads image"
-          />
-          <HStack
-            style={{
-              justifyContent: "space-between",
-              height: 30,
-              backgroundColor: Colors.yellow,
-              alignItems: "center",
-              paddingLeft: 10,
-              paddingRight: 10,
-            }}
-          >
-            <Text style={{ color: Colors.primary }}>{item.name}</Text>
-            <Text style={{ color: Colors.white, fontWeight: "bold" }}></Text>
-          </HStack>
-        </VStack>
+        <TouchableOpacity onPress={()=>{props.navigation.navigate('Promotion', { screen: 'PromotionNavigator' })}}>
+          <VStack style={{ flex: 1 }}>
+            <Image
+              resizeMode="stretch"
+              style={{ height: 120 }}
+              source={{ uri: Global.baseImageUrl + item.image_en }}
+              alt="ads image"
+            />
+            <HStack
+              style={{
+                justifyContent: "space-between",
+                height: 30,
+                backgroundColor: Colors.yellow,
+                alignItems: "center",
+                paddingLeft: 10,
+                paddingRight: 10,
+              }}
+            >
+              <Text style={{ color: Colors.primary }}>{item.name}</Text>
+              <Text style={{ color: Colors.white, fontWeight: "bold" }}></Text>
+            </HStack>
+          </VStack>
+        </TouchableOpacity>
       </View>
     );
   };
@@ -225,7 +227,7 @@ HomeScreen.navigationOptions = (props) => {
         <TouchableOpacity>
           <Image
             style={styles.headerIcon}
-            source={require("../../../assets/app_logo_blue.png")}
+            source={require("../../../assets/logo.png")}
           />
         </TouchableOpacity>
       </View>
@@ -234,7 +236,7 @@ HomeScreen.navigationOptions = (props) => {
     headerRight: () => (
       <TouchableOpacity onPress={()=>props.navigation.navigate("Notification")}>
           <Image
-            style={{height:20,width:20,marginRight:15}}
+            style={{height:20,width:20,marginRight:18}}
             source={require("../../../assets/notification_icon.png")}
           />
         </TouchableOpacity>

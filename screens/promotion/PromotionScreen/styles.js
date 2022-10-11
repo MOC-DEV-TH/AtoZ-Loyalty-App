@@ -12,22 +12,21 @@ export default StyleSheet.create({
     padding:10
   },
   headerIcon: {
-    width: 100,
-    height: 120,
+    width: 120,
+    height: 80,
     resizeMode: "contain",
-    marginLeft: 10,
-    marginRight: 10,
+    marginLeft:18
   },
   button: {
     backgroundColor: Colors.yellow,
     height: 40,
     paddingLeft:20,
     paddingRight:20,
-    marginTop:10,
     borderRadius: 20,
     alignSelf: "center",
     alignItems: "center",
     justifyContent: "center",
+    marginBottom: 18,
   },
   text: {
     alignSelf: "center",
@@ -53,10 +52,11 @@ export default StyleSheet.create({
 
   vContainer:{
     width:windowWidth - 150,
+    paddingLeft: 10
   },
 
   flatList:{
-    marginTop:10,
+    marginBottom:10,
     justifyContent:'space-between',
     alignItems:'flex-start',
   }
