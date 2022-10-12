@@ -158,7 +158,7 @@ export default HomeScreen = (props) => {
         }}
       >
       <VStack>
-      <HStack pb={7} justifyContent={"space-between"}>
+      <HStack pb={7} justifyContent={"space-between"} alignItems="center">
           <Text
             style={{ color: Colors.white, fontWeight: "bold", fontSize: 18,padding:10 }}
           >
