@@ -1,7 +1,7 @@
 import Global from "../../constants/Global";
 import AppVersion from "../../constants/AppVersion";
 import DropDownVO from "../../model/dropDown";
-import { getStoreData } from "../../AsyncStorage/AsyncStorage";
+import { getStoreData, storeData } from "../../AsyncStorage/AsyncStorage";
 import AsyncStorageKey from "../../constants/AsyncStorageKey";
 
 export const AUTHENTICATE = "AUTHENTICATE";
@@ -46,6 +46,9 @@ export const login = (userID, password, expoToken) => {
 
     if (respData.response_code == "003") {
       alert(respData.description);
+    }
+    else if(respData.status==="Success"){
+       storeData(AsyncStorageKey.USER_ID,userID)
     }
 
     dispatch(

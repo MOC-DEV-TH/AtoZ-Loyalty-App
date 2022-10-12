@@ -66,7 +66,7 @@ Notifications.setNotificationHandler({
 });
 
 
-export default function App() {
+export default App = (props) => {
   const BACKGROUND_NOTIFICATION_TASK = "BACKGROUND-NOTIFICATION-TASK";
   const [expoPushToken, setExpoPushToken] = useState("");
   let [alert,setShowAlert] = useState(false)

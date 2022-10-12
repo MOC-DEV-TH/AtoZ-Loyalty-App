@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   Text,
   TouchableOpacity,
@@ -30,13 +30,22 @@ export default LoginScreen = (props) => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [expoToken,setExpoToken] = useState("")
-
+  const [firstTimeUserID,setFirstTimeUserId] = useState("")
 
   useEffect(()=>{
     getStoreData(AsyncStorageKey.EXPO_TOKEN).then((value)=>{
       setExpoToken(value)
     })
   })
+
+  useEffect(()=>{
+    getStoreData(AsyncStorageKey.USER_ID).then((value)=>{
+      if(value!=null){
+        setFirstTimeUserId(value)
+      }
+    })
+  })
+
 
   const onPressCreateNewAccount = () => {
     props.navigation.navigate("SignUp");
@@ -115,6 +124,7 @@ export default LoginScreen = (props) => {
                   justifyContent: "center",
                   height: 40,
                 }}
+                defaultValue={firstTimeUserID}
                 placeholder={translate("userid")}
                 placeholderTextColor="#aaaaaa"
                 onChangeText={(text) => setUserId(text)}
