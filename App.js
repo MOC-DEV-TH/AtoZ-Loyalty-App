@@ -27,6 +27,7 @@ import homeReducer from "./store/reducers/home";
 import promotionReducer from "./store/reducers/promotions";
 import myAccountReducer from "./store/reducers/myAccount";
 import pointHistoryReducer from "./store/reducers/point_history";
+import notificationReducer from "./store/reducers/notification";
 import { extendTheme, NativeBaseProvider } from "native-base";
 import * as TaskManager from "expo-task-manager";
 import Colors from "./constants/Colors";
@@ -43,7 +44,7 @@ console.disableYellowBox = true;
 LogBox.ignoreAllLogs();
 
 //open database
-const db = SQLite.openDatabase("db.aToz");
+//const db = SQLite.openDatabase("db.aToz");
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -51,7 +52,8 @@ const rootReducer = combineReducers({
   promotion: promotionReducer,
   homeScreen: homeReducer,
   pointHistory: pointHistoryReducer,
-  user : userReducer
+  user : userReducer,
+  notification : notificationReducer
 });
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
@@ -77,7 +79,7 @@ export default function App() {
       BACKGROUND_NOTIFICATION_TASK,
       ({ data, error, executionInfo }) => {
         console.log("Received a notification in the background!");
-        addToDatabase(db,data.title, data.body);
+        //addToDatabase(db,data.title, data.body);
       }
     );
   
@@ -148,7 +150,7 @@ export default function App() {
         data: JSON.parse(notificationObject.data.body),
       };
       console.log(newNotification.title);
-      addToDatabase(db,newNotification.title, newNotification.body);
+      //addToDatabase(db,newNotification.title, newNotification.body);
       await Notifications.setBadgeCountAsync(1);
     } catch (error) {
       console.error(error);
@@ -157,11 +159,11 @@ export default function App() {
 
 
   useEffect(()=>{
-    checkDatabaseForFirstTime(db)
+    //checkDatabaseForFirstTime(db)
   })
 
   useEffect(()=>{
-    retrieveNotification(db)
+    //retrieveNotification(db)
   })
 
   //Set the locale once at the beginning of your app.
@@ -189,7 +191,6 @@ export default function App() {
     return;
   }, []);
 
-  
 
   //check language
   useEffect(() => {

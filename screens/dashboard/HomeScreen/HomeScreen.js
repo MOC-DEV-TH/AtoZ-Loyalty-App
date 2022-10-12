@@ -85,8 +85,7 @@ export default HomeScreen = (props) => {
 
   const loadPromotionData = useCallback(async () => {
     setIsLoading(true);
-    try {
-      dispatch(homeActions.getHomePromotions());
+    try { dispatch(homeActions.getHomePromotions());
     } catch (error) {
       setError(error.message);
     }

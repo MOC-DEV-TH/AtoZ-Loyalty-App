@@ -7,17 +7,18 @@ import AsyncStorageKey from "../../constants/AsyncStorageKey";
 export const AUTHENTICATE = "AUTHENTICATE";
 export const SET_ALL_DROP_DOWN = "SET_DROP_DOWN";
 
-export const authenticate = (token, userID) => {
+export const authenticate = (token, userID, createDate) => {
   return (dispatch) => {
     dispatch({
       type: AUTHENTICATE,
       token: token,
       userID: userID,
+      createDate: createDate,
     });
   };
 };
 
-export const login = (userID, password,expoToken) => {
+export const login = (userID, password, expoToken) => {
   return async (dispatch) => {
     const response = await fetch(Global.baseUrl + "/login", {
       method: "POST",
@@ -29,7 +30,7 @@ export const login = (userID, password,expoToken) => {
         user_id: userID,
         password: password,
         app_version: AppVersion.app_version,
-        expo_token : expoToken
+        expo_token: expoToken,
       }),
     });
 
@@ -47,7 +48,13 @@ export const login = (userID, password,expoToken) => {
       alert(respData.description);
     }
 
-    dispatch(authenticate(respData.details.token, respData.details.user_id));
+    dispatch(
+      authenticate(
+        respData.details.token,
+        respData.details.user_id,
+        respData.details.created_date
+      )
+    );
   };
 };
 
