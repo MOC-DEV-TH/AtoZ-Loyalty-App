@@ -55,7 +55,7 @@ export default HelpScreen = ({navigation}) => {
           Hotline 2
         </Button>
         <Button
-          onPress={()=>{Linking.openURL("viber://contact?number=017640370")}}
+          onPress={()=>{Linking.openURL("viber://contact?number=959448999995")}}
           px={10}
           Icon={<FontAwesome5 name="viber" size={24} color="white" />}
           bg="primary"
