@@ -142,7 +142,7 @@ export default HomeScreen = (props) => {
           autoPlay={false}
           onItemChanged={(item) => console.log("item", item)}
           closeIconColor="#fff"
-          activeIndicatorStyle={{width:10,height:10}}
+          activeIndicatorStyle={{width:10,height:10,backgroundColor:Colors.yellow}}
           indicatorContainerStyle={{marginBottom:-20}}
           caroselImageStyle={{ resizeMode: 'cover', height: 180 }}
         />

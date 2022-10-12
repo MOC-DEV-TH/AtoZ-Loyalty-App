@@ -85,7 +85,7 @@ export default PointHistoryScreen = (props) => {
     if (item.rows) {
       items = item.rows.map((row) => {
         return (
-          <Text style={{ padding: 12, alignSelf: "center" }}>{row.desc}</Text>
+          <Text style={{ paddingHorizontal:16, paddingVertical: 12 }}>{row.desc}</Text>
         );
       });
     }
@@ -96,7 +96,6 @@ export default PointHistoryScreen = (props) => {
             style={{
               color: Colors.primary,
               fontSize: 18,
-              alignItems: "center",
               fontWeight: "bold",
             }}
           >
@@ -119,8 +118,8 @@ export default PointHistoryScreen = (props) => {
             color: Colors.primary,
             fontSize: 24,
             fontWeight: "bold",
-            alignSelf: "center",
-            padding:20
+            padding:20,
+            textAlign:"center"
           }}
         >
          {available_point} {translate("pointavailable")}
