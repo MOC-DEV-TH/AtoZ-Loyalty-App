@@ -15,32 +15,26 @@ import React, { useState, useCallback, useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 // import i18n from "../../../I18n/i18n";
 import styles from "./styles";
-import { HStack, VStack, Pressable, Menu, Box, ScrollView } from "native-base";
+import { HStack, VStack, Pressable, Menu, Box } from "native-base";
 import Colors from "../../../constants/Colors";
 import Slider from "../../../model/slider";
 import Global from "../../../constants/Global";
 import { translate } from "react-native-translate";
 import SessionExpireAlert from "../../../components/SessionExpireAlert";
 import Text from "../../../components/Typography";
-import Swiper from "react-native-swiper";
+import { ImageSlider } from "react-native-image-slider-banner";
+
 
 export default HomeScreen = (props) => {
   const sliderList = [];
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   let [alert, setShowAlert] = useState(false);
-  const [isRefreshing, setIsRefreshing] = useState(true);
 
   const renderItem = ({ item }) => {
     return (
       <View style={{ width: "48%", marginTop: 15 }}>
-        <TouchableOpacity
-          onPress={() => {
-            props.navigation.navigate("Promotion", {
-              screen: "PromotionNavigator",
-            });
-          }}
-        >
+        <TouchableOpacity onPress={()=>{props.navigation.navigate('Promotion', { screen: 'PromotionNavigator' })}}>
           <VStack style={{ flex: 1 }}>
             <Image
               resizeMode="stretch"
@@ -123,8 +117,8 @@ export default HomeScreen = (props) => {
   });
 
   const onPressAvailablePoint = () => {
-    props.navigation.push("PointHistory");
-  };
+    props.navigation.push("PointHistory")
+  }
 
   promotionData.map((data) => {});
   const promotionSlider = promotionData.filter(
@@ -135,106 +129,86 @@ export default HomeScreen = (props) => {
     (item) => item.ads_type == "Display Ads"
   );
 
-  console.log("promotionSlider", promotionSlider);
-
   for (const item of promotionSlider) {
-    sliderList.push({ img: Global.baseImageUrl + item.image_en });
+    sliderList.push({img: Global.baseImageUrl + item.image_en});
   }
-
-  useEffect(
-   ()=>{
-   // if (sliderList.length > 0) {
-      setIsRefreshing(false);
-    //}
-    console.log(sliderList.lenght);
-   }
-  , [sliderList])
-  
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
-        {isRefreshing ? (
-          <ActivityIndicator size="large" />
-        ) : (
-          <Swiper
-            style={styles.wrapper}
-            height={250}
-            showsButtons={true}
-            loop={false}
-            activeDotColor={Colors.primary}
+      <View>
+        {/* <Slideshow dataSource={sliderList} /> */}
+        <ImageSlider
+          data={sliderList}
+          autoPlay={false}
+          onItemChanged={(item) => console.log("item", item)}
+          closeIconColor="#fff"
+          activeIndicatorStyle={{width:10,height:10}}
+          indicatorContainerStyle={{marginBottom:-20}}
+          caroselImageStyle={{ resizeMode: 'cover', height: 180 }}
+        />
+      </View>
+      <SessionExpireAlert showAlert={alert} onConfirmPressed={onConfirm} />
+      <View
+        style={{
+          backgroundColor: Colors.primary,
+          fontWeight: "bold",
+          padding: 10,
+          paddingTop:20,
+          paddingBottom:20
+        }}
+      >
+      <VStack>
+      <HStack pb={7} justifyContent={"space-between"} alignItems="center">
+          <Text
+            style={{ color: Colors.white, fontWeight: "bold", fontSize: 18,padding:10 }}
           >
-            {sliderList.map((data) => (
-              <Image source={{ uri: data.img }} style={styles.slide}></Image>
-            ))}
-          </Swiper>
-        )}
+            {translate("availablePoint")}
 
-        <SessionExpireAlert showAlert={alert} onConfirmPressed={onConfirm} />
-        <View
-          style={{
-            backgroundColor: Colors.primary,
+          </Text>
+         <TouchableOpacity onPress={()=>onPressAvailablePoint()}>
+         <Image
+            style={{ height: 20, width: 20 }}
+            resizeMode="contain"
+            source={require("../../../assets/right_arrow_circle.png")}
+          />
+         </TouchableOpacity>
+        </HStack>
+        <Box
+          alignSelf="center"
+          alignItems="center"
+          bg="primary.500"
+          p={3}
+          borderColor="white"
+          borderWidth="3"
+          borderRadius={12}
+          width="100%"
+          _text={{
+            fontSize: "lg",
             fontWeight: "bold",
-            padding: 10,
-            paddingTop: 20,
-            paddingBottom: 20,
+            color: "warmGray.50",
+            letterSpacing: "lg",
+            fontSize:22
           }}
         >
-          <VStack>
-            <HStack pb={7} justifyContent={"space-between"}>
-              <Text
-                style={{
-                  color: Colors.white,
-                  fontWeight: "bold",
-                  fontSize: 18,
-                  padding: 10,
-                }}
-              >
-                {translate("availablePoint")}
-              </Text>
-              <TouchableOpacity onPress={() => onPressAvailablePoint()}>
-                <Image
-                  style={{ height: 20, width: 20 }}
-                  resizeMode="contain"
-                  source={require("../../../assets/right_arrow_circle.png")}
-                />
-              </TouchableOpacity>
-            </HStack>
-            <Box
-              alignSelf="center"
-              alignItems="center"
-              bg="primary.500"
-              p={3}
-              borderColor="white"
-              borderWidth="3"
-              borderRadius={12}
-              width="100%"
-              _text={{
-                fontSize: "lg",
-                fontWeight: "bold",
-                color: "warmGray.50",
-                letterSpacing: "lg",
-                fontSize: 22,
-              }}
-            >
-              {availablePoints + " " + translate("point")}
-            </Box>
-          </VStack>
-        </View>
-
-        <FlatList
-          data={ads_data}
-          numColumns={2}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id}
-          contentContainerStyle={{
-            paddingLeft: 10,
-            paddingRight: 10,
-            paddingBottom: 15,
-          }}
-          columnWrapperStyle={{ justifyContent: "space-between" }}
-        />
-      </ScrollView>
+          {availablePoints+" " + translate("point")} 
+        </Box>
+      </VStack>
+      </View>
+      
+      <FlatList
+        data={ads_data}
+        numColumns={2}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id}
+        contentContainerStyle={{
+          paddingLeft: 10,
+          paddingRight: 10,
+          paddingBottom :15
+        }}
+        columnWrapperStyle={{ justifyContent: "space-between" }}
+      />
+      
+      
     </SafeAreaView>
   );
 };
@@ -259,14 +233,12 @@ HomeScreen.navigationOptions = (props) => {
     ),
 
     headerRight: () => (
-      <TouchableOpacity
-        onPress={() => props.navigation.navigate("Notification")}
-      >
-        <Image
-          style={{ height: 20, width: 20, marginRight: 18 }}
-          source={require("../../../assets/notification_icon.png")}
-        />
-      </TouchableOpacity>
+      <TouchableOpacity onPress={()=>props.navigation.navigate("Notification")}>
+          <Image
+            style={{height:20,width:20,marginRight:18}}
+            source={require("../../../assets/notification_icon.png")}
+          />
+        </TouchableOpacity>
       // <Box w="90%" alignItems="center">
       //   <Menu
       //     w="140"

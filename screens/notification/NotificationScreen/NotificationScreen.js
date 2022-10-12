@@ -57,7 +57,7 @@ useEffect(() => {
 
  const renderItem = ({ item }) => {
   return (
-    <VStack style={{marginTop:10}}>
+    <VStack style={{marginTop:10,backgroundColor:"#f9f9f9",borderRadius:8,padding:10}}>
         <Text style={{fontSize:17,fontWeight:"bold",color:Colors.primary}}>{item.title}</Text>
         <Text style={{color:Colors.primary}}>
         {item.message}
