@@ -42,9 +42,10 @@ export default LoginScreen = (props) => {
     getStoreData(AsyncStorageKey.USER_ID).then((value)=>{
       if(value!=null){
         setFirstTimeUserId(value)
+        setUserId(value)
       }
     })
-  })
+  }, [])
 
 
   const onPressCreateNewAccount = () => {
