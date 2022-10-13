@@ -204,8 +204,8 @@ export default SignUpScreen = (props) => {
                     />
                   }
                 ></Icon>
-                <TouchableOpacity onPress={() => showDatePicker()} style={{ width:"100%", height:40,position:"absolute", zIndex:2 }}></TouchableOpacity>
                 <View style={{ flex: 1}}>
+                <TouchableOpacity onPress={() => showDatePicker()} style={{ width:"100%", height:40,position:"absolute", zIndex:2 }}></TouchableOpacity>
                     <TextInput
                       style={{
                         alignSelf: "center",
