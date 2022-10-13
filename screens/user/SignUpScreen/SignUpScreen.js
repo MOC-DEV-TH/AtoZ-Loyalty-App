@@ -152,6 +152,7 @@ export default SignUpScreen = (props) => {
               mode="date"
               onConfirm={handleConfirm}
               onCancel={hideDatePicker}
+              display={Platform.OS === "ios" ? "inline" : "default"}
             />
             <View style={{ height: 20 }} />
             <Text
@@ -203,9 +204,8 @@ export default SignUpScreen = (props) => {
                     />
                   }
                 ></Icon>
-
-                <View style={{ flex: 1 }}>
-                  <TouchableOpacity onPress={() => showDatePicker()} style={{ width:"100%" }}>
+                <TouchableOpacity onPress={() => showDatePicker()} style={{ width:"100%", height:40,position:"absolute", zIndex:2 }}></TouchableOpacity>
+                <View style={{ flex: 1}}>
                     <TextInput
                       style={{
                         alignSelf: "center",
@@ -220,7 +220,6 @@ export default SignUpScreen = (props) => {
                       underlineColorAndroid="transparent"
                       autoCapitalize="none"
                     />
-                  </TouchableOpacity>
                 </View>
               </View>
 
