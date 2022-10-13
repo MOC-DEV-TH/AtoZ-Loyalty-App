@@ -32,7 +32,7 @@ const defaultNavOptions = {
   headerStyle: {
     backgroundColor:
       Platform.OS === "android" ? Colors.primary : Colors.primary,
-    height: 80,
+    height: Platform.OS === "android" ? 80 : 120,
     shadowColor: "transparent", // this covers iOS
     elevation: 0,
   },
@@ -262,7 +262,8 @@ const MainTabNavigator =
             backgroundColor: Colors.primary,
             justifyContent:"center",
             alignItems:"center",
-            paddingBottom:5
+            paddingBottom:10,
+            height:Platform.OS === "android" ? 55 :30
           },
         },
       });

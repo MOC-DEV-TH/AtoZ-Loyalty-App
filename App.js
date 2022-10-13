@@ -72,6 +72,7 @@ export default App = (props) => {
   let [alert,setShowAlert] = useState(false)
   const responseListener = useRef();
   const lastNotificationResponse = Notifications.useLastNotificationResponse();
+  const navRef = useRef();
 
   useEffect(() => {
 
@@ -108,6 +109,7 @@ export default App = (props) => {
     responseListener.current = Notifications.addNotificationResponseReceivedListener(
       (response) => {
         console.log(Notifications);
+        
       }
     );
 
@@ -250,7 +252,7 @@ export default App = (props) => {
       <Provider store={store}>
         <NativeBaseProvider theme={theme}>
           <View style={{ flex: 1 }}>
-            <NavigationContainer />
+            <NavigationContainer notification={"Data"} />
           </View>
         </NativeBaseProvider>
       </Provider>

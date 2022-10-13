@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "523222142219",
-    "project_id": "atoz-d5e94",
-    "storage_bucket": "atoz-d5e94.appspot.com"
+    "project_number": "721070110887",
+    "project_id": "atoz-ff3bf",
+    "storage_bucket": "atoz-ff3bf.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:523222142219:android:f13c8b483f10bdf389a60e",
+        "mobilesdk_app_id": "1:721070110887:android:bc50853101d0e6de8fc382",
         "android_client_info": {
           "package_name": "com.atoz.client"
         }
       },
       "oauth_client": [
         {
-          "client_id": "523222142219-mfcrqhlpctsjaemm7r8i9do50d774le8.apps.googleusercontent.com",
+          "client_id": "721070110887-bd0mq0jve9em5kb0jm95p6et4df103jq.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBPfFCJfImZEFTAKB-t64m2wK0yLHvxBy4"
+          "current_key": "AIzaSyBvV-wR_VqQgjrtYzCZwliXP4qAKu_SjFY"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "523222142219-mfcrqhlpctsjaemm7r8i9do50d774le8.apps.googleusercontent.com",
+              "client_id": "721070110887-bd0mq0jve9em5kb0jm95p6et4df103jq.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

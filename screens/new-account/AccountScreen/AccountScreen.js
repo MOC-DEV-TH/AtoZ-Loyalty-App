@@ -36,6 +36,7 @@ import en from "../../../locales/en";
 import AwesomeAlert from "react-native-awesome-alerts";
 import SessionExpireAlert from "../../../components/SessionExpireAlert";
 import AsyncStorageKey from "../../../constants/AsyncStorageKey";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import {
   Collapse,
   CollapseHeader,
@@ -159,7 +160,7 @@ export default AccountScreen = (props) => {
 
   return (
     <SafeAreaView>
-      <ScrollView>
+      <KeyboardAwareScrollView>
         <Box alignItems={"center"} pt={30} pb={45}>
           <FontAwesome name="user-circle-o" size={50} color={Colors.primary} />
           <Box maxW="250" w="100%" mt={25}>
@@ -432,7 +433,7 @@ export default AccountScreen = (props) => {
             </Collapse>
           </VStack>
         </ContainerFluid>
-      </ScrollView>
+      </KeyboardAwareScrollView>
     </SafeAreaView>
   );
 };

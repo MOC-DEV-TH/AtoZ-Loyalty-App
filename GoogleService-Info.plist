@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>523222142219-fcjs2qelgndi71lpc9tnrrqgs0cd3bna.apps.googleusercontent.com</string>
+	<string>721070110887-6jqragmk2t4adp3o96vedn6kbu2ddo9c.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.523222142219-fcjs2qelgndi71lpc9tnrrqgs0cd3bna</string>
+	<string>com.googleusercontent.apps.721070110887-6jqragmk2t4adp3o96vedn6kbu2ddo9c</string>
 	<key>API_KEY</key>
-	<string>AIzaSyBo3dusr_oIy2aEXbDvpWOAdkiohmHSiYQ</string>
+	<string>AIzaSyCB4WooEuPsXYa6_c5JjXj3_S9BEsJDJVI</string>
 	<key>GCM_SENDER_ID</key>
-	<string>523222142219</string>
+	<string>721070110887</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.atoz.client</string>
 	<key>PROJECT_ID</key>
-	<string>atoz-d5e94</string>
+	<string>atoz-ff3bf</string>
 	<key>STORAGE_BUCKET</key>
-	<string>atoz-d5e94.appspot.com</string>
+	<string>atoz-ff3bf.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:523222142219:ios:bf9d1d49819e3ac889a60e</string>
+	<string>1:721070110887:ios:7ba014e3d38c6e3b8fc382</string>
 </dict>
 </plist>

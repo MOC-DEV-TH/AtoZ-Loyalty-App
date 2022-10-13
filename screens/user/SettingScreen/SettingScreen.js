@@ -50,7 +50,7 @@ export default SettingScreen = ({ navigation }) => {
         onConfirmPressed={onPressConfirm}
       />
 
-      <SafeAreaView style={{ flex: 1 }}>
+      <ContainerFluid standardTop={true}>
         <View style={styles.button}>
           <Text
             style={styles.text}
@@ -106,7 +106,7 @@ export default SettingScreen = ({ navigation }) => {
             </Button>
           </VStack>
         </ContainerFluid>
-      </SafeAreaView>
+      </ContainerFluid>
     </>
   );
 };

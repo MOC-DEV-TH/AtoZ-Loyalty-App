@@ -28,6 +28,10 @@
       "supportsTablet": false,
       "googleServicesFile": "./GoogleService-Info.plist",
       "infoPlist": {
+        "UIBackgroundModes": [
+          "fetch",
+          "remote-notification"
+        ],
         "NSLocationWhenInUseUsageDescription": "Allow a-to-z client app to use your location for better job assignment",
         "NSLocationUsageDescription": "Allow a-to-z client app to use your location for better job assignment",
         "NSLocationAlwaysUsageDescription": "Allow a-to-z client app to use your location for better job assignment",
