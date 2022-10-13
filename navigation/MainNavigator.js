@@ -27,6 +27,9 @@ import OutletLocationsScreen from "../screens/user/OutletLocationsScreen/OutletL
 import { translate } from "react-native-translate";
 import LanguageScreen from "../screens/user/LanguageScreen/LanguageScreen";
 import { Box } from "native-base";
+import { MaterialIcons } from '@expo/vector-icons'; 
+
+
 
 const defaultNavOptions = {
   headerStyle: {
@@ -182,12 +185,8 @@ const tabScreenConfig = {
       inactiveColor: Colors.white,
       tabBarIcon: (tabInfo) => {
         return (
-          <Ionicons
-            name="ios-briefcase-outline"
-            size={20}
-            color={tabInfo.tintColor}
-            style={{marginBottom:-8}}
-          />
+          <MaterialIcons name="campaign" size={26} color={tabInfo.tintColor}
+          style={{marginBottom:-8}} />
         );
       },
     },
@@ -214,12 +213,8 @@ const tabScreenConfig = {
       inactiveColor: Colors.white,
       tabBarIcon: (tabInfo) => {
         return (
-          <Ionicons
-            name="help-circle-outline"
-            size={20}
-            color={tabInfo.tintColor}
-            style={{marginBottom:-8}}
-          />
+          <Ionicons name="md-help-circle" size={22} color={tabInfo.tintColor}
+          style={{marginBottom:-8}} />
         );
       },
     },

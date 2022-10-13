@@ -37,7 +37,7 @@ export default HelpScreen = ({navigation}) => {
           Icon={
             <MaterialCommunityIcons name="phone-dial" size={24} color="white" />
           }
-          onPress={()=>{Linking.openURL("tel:017640370")}}
+          onPress={()=>{Linking.openURL("tel:017640371")}}
           bg="primary"
           color="white"
         >

@@ -15,14 +15,15 @@ import React, { useState, useCallback, useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 // import i18n from "../../../I18n/i18n";
 import styles from "./styles";
-import { HStack, VStack, Pressable, Menu, Box } from "native-base";
+import { HStack, VStack, Pressable, Menu, Box, ScrollView } from "native-base";
 import Colors from "../../../constants/Colors";
 import Slider from "../../../model/slider";
 import Global from "../../../constants/Global";
 import { translate } from "react-native-translate";
 import SessionExpireAlert from "../../../components/SessionExpireAlert";
 import Text from "../../../components/Typography";
-import { ImageSlider } from "react-native-image-slider-banner";
+import { ImageSlider } from "react-native-image-slider-banner"; 
+
 
 
 export default HomeScreen = (props) => {
@@ -135,6 +136,8 @@ export default HomeScreen = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      
+      <ScrollView>
       <View>
         {/* <Slideshow dataSource={sliderList} /> */}
         <ImageSlider
@@ -144,7 +147,7 @@ export default HomeScreen = (props) => {
           closeIconColor="#fff"
           activeIndicatorStyle={{width:10,height:10,backgroundColor:Colors.yellow}}
           indicatorContainerStyle={{marginBottom:-20}}
-          caroselImageStyle={{ resizeMode: 'cover', height: 180 }}
+          caroselImageStyle={{ resizeMode: 'cover', height: 240 }}
         />
       </View>
       <SessionExpireAlert showAlert={alert} onConfirmPressed={onConfirm} />
@@ -153,12 +156,11 @@ export default HomeScreen = (props) => {
           backgroundColor: Colors.primary,
           fontWeight: "bold",
           padding: 10,
-          paddingTop:20,
           paddingBottom:20
         }}
       >
       <VStack>
-      <HStack pb={7} justifyContent={"space-between"} alignItems="center">
+      <HStack justifyContent={"space-between"} alignItems="center" mb={2}>
           <Text
             style={{ color: Colors.white, fontWeight: "bold", fontSize: 18,padding:10 }}
           >
@@ -200,6 +202,7 @@ export default HomeScreen = (props) => {
         numColumns={2}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
+        scrollEnabled={false}
         contentContainerStyle={{
           paddingLeft: 10,
           paddingRight: 10,
@@ -207,6 +210,7 @@ export default HomeScreen = (props) => {
         }}
         columnWrapperStyle={{ justifyContent: "space-between" }}
       />
+      </ScrollView>
       
       
     </SafeAreaView>
