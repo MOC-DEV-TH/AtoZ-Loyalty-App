@@ -155,7 +155,8 @@ const tabScreenConfig = {
         );
       },
       tabBarIcon: (tabInfo) => {
-        return <Ionicons name="ios-apps" size={20} color={tabInfo.tintColor} style={{marginBottom:-8}} />;
+        return <Ionicons name="home-sharp" size={20} color={tabInfo.tintColor} style={{marginBottom:-8}} />;
+        
       },
     },
   },
