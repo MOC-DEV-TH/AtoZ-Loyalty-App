@@ -79,7 +79,7 @@ HelpScreen.navigationOptions = (props) => {
           alignItems: "center",
         }}
       >
-        <TouchableOpacity>
+        <TouchableOpacity onPress={()=>{props.navigation.navigate('Home', { screen: 'DashboardNavigator' })}}>
           <Image
             style={styles.headerIcon}
             source={require("../../../assets/logo.png")}
