@@ -6,6 +6,7 @@ export const SET_RESPONSE_CODE = "SET_RESPONSE_CODE";
 export const SET_EMPTY_RESPONSE_CODE = "SET_EMPTY_RESPONSE_CODE";
 export const SET_OUTLET_LOCATIONS_INFO = "SET_OUTLET_LOCATIONS_INFO";
 import { translate } from "react-native-translate";
+import { Alert } from "react-native";
 
 
 export const setEmptyResponseCode = () => {
@@ -15,6 +16,7 @@ export const setEmptyResponseCode = () => {
     });
   };
 };
+
 
 export const getMemberInfo = () => {
   return async (dispatch, getState) => {
@@ -65,7 +67,7 @@ export const getMemberInfo = () => {
   };
 };
 
-export const updateAccount = (oldPassword, newPassword) => {
+export const updateAccount = (oldPassword, newPassword,props) => {
   return async (dispatch, getState) => {
     const token = getState().auth.token;
     const userId = getState().auth.userId;
@@ -93,8 +95,13 @@ export const updateAccount = (oldPassword, newPassword) => {
       const respData = await response.json();
       console.log("register user response");
       console.log(respData);
-      // alert(respData.description);
-      alert(translate("changepwdmsg"));
+      if(respData.status==="Success"){
+        showAlert(respData.description,props)
+      }
+      else{
+        alert(respData.description);
+      }
+      //alert(translate("changepwdmsg"));
     } catch (err) {
       throw err;
     }
@@ -134,3 +141,23 @@ export function getOutletLocationsInfo(language){
 
   }
 }
+
+const showAlert = (desc,props) =>
+  Alert.alert(
+    "Alert",
+    desc,
+    [
+      {
+        text: "Ok",
+        onPress: () => props.navigation.navigate("AccountDashboard"),
+        style: "ok",
+      },
+    ],
+    {
+      cancelable: true,
+      onDismiss: () =>
+        Alert.alert(
+          "This alert was dismissed by tapping outside of the alert dialog."
+        ),
+    }
+  );

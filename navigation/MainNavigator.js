@@ -26,7 +26,7 @@ import SettingScreen from "../screens/user/SettingScreen/SettingScreen";
 import OutletLocationsScreen from "../screens/user/OutletLocationsScreen/OutletLocationsScreen";
 import { translate } from "react-native-translate";
 import LanguageScreen from "../screens/user/LanguageScreen/LanguageScreen";
-import { Box } from "native-base";
+
 
 const defaultNavOptions = {
   headerStyle: {
@@ -286,6 +286,7 @@ const AppNavigator = createAppContainer(Navigator);
 
 export default class MainNavigator extends React.Component {
   render() {
-    return <AppNavigator></AppNavigator>;
+    return <AppNavigator>
+    </AppNavigator>;
   }
 }

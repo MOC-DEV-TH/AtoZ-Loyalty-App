@@ -1,5 +1,7 @@
 import MainNavigator from "./MainNavigator";
+
 const NavigationContainer = (props) => {
-    return <MainNavigator />;
+  
+    return <MainNavigator/>;
 };
 export default NavigationContainer;

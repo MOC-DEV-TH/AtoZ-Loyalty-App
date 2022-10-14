@@ -140,13 +140,17 @@ export default AccountScreen = (props) => {
 
   const onPressSave = () => {
     if (currentPassword != "" || newPassword != "") {
-      dispatch(myAccountActions.updateAccount(currentPassword, newPassword, props.navigation.navigate("AccountDashboard")));
+      dispatch(myAccountActions.updateAccount(currentPassword, newPassword,props));
     }
   };
   const onConfirm = () => {
     dispatch(myAccountActions.setEmptyResponseCode());
     props.navigation.navigate("AccountDashboard");
     setSessionAlert(false);
+  };
+
+  const navigateToAccountDashboard = () => {
+    props.navigation.navigate("AccountDashboard");
   };
 
   const responseCode = useSelector(

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef,useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
   StyleSheet,
   Text,
@@ -7,14 +7,13 @@ import {
   SafeAreaView,
   StatusBar,
   Platform,
-  LogBox
+  LogBox,
 } from "react-native";
 import "react-native-gesture-handler";
 import { Provider } from "react-redux";
 import ReduxThunk from "redux-thunk";
 import { applyMiddleware, combineReducers, createStore } from "redux";
 import { registerRootComponent } from "expo";
-import NavigationContainer from "./navigation/NavigationContainer";
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
 import { getStoreData, storeData } from "./AsyncStorage/AsyncStorage";
@@ -38,7 +37,11 @@ import * as SQLite from "expo-sqlite";
 import { checkDatabaseForFirstTime } from "./persistence/database";
 import { retrieveNotification } from "./persistence/database";
 import { addToDatabase } from "./persistence/database";
-import { useFonts } from 'expo-font';
+import { useFonts } from "expo-font";
+import navigationRef from "./navigation/RootNavigation";
+import MainNavigator from "./navigation/MainNavigator";
+import NavigationContainer from "./navigation/NavigationContainer";
+
 
 console.disableYellowBox = true;
 LogBox.ignoreAllLogs();
@@ -52,8 +55,8 @@ const rootReducer = combineReducers({
   promotion: promotionReducer,
   homeScreen: homeReducer,
   pointHistory: pointHistoryReducer,
-  user : userReducer,
-  notification : notificationReducer
+  user: userReducer,
+  notification: notificationReducer,
 });
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
@@ -65,32 +68,15 @@ Notifications.setNotificationHandler({
   }),
 });
 
-
 export default App = (props) => {
   const BACKGROUND_NOTIFICATION_TASK = "BACKGROUND-NOTIFICATION-TASK";
   const [expoPushToken, setExpoPushToken] = useState("");
-  let [alert,setShowAlert] = useState(false)
-  const responseListener = useRef();
+  let [alert, setShowAlert] = useState(false);
   const lastNotificationResponse = Notifications.useLastNotificationResponse();
-  const navRef = useRef();
+  const [notification, setNotification] = useState(false);
+  const responseListener = useRef();
+  const notificationListener = useRef();
 
-  useEffect(() => {
-
-    TaskManager.defineTask(
-      BACKGROUND_NOTIFICATION_TASK,
-      ({ data, error, executionInfo }) => {
-        console.log("Received a notification in the background!");
-        //addToDatabase(db,data.title, data.body);
-      }
-    );
-  
-
-    if (lastNotificationResponse) {
-      handleNewNotification(
-        lastNotificationResponse.notification.request.trigger.remoteMessage
-      );
-    }
-  }, [lastNotificationResponse]);
   //init notification
   useEffect(() => {
     Notifications.registerTaskAsync(BACKGROUND_NOTIFICATION_TASK);
@@ -108,8 +94,8 @@ export default App = (props) => {
     // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
     responseListener.current = Notifications.addNotificationResponseReceivedListener(
       (response) => {
-        console.log(Notifications);
-        
+        navigationRef.navigate("SignIn");
+        console.log("Noti Recieved")
       }
     );
 
@@ -119,13 +105,12 @@ export default App = (props) => {
       Notifications.removeNotificationSubscription(responseListener.current);
     };
   }, []);
-  
-    
+
   const [fontsLoaded] = useFonts({
-    "En-Heading-Font": require('./assets/fonts/Helvetica/HelveticaLTStd-Bold.otf'),
-    "En-Body-Font": require('./assets/fonts/Helvetica/HelveticaLTStd-Light.otf'),
-    "My-Heading-Font": require('./assets/fonts/Padauk/Padauk-Bold.ttf'),
-    "My-Body-Font": require('./assets/fonts/Padauk/Padauk-Regular.ttf'),
+    "En-Heading-Font": require("./assets/fonts/Helvetica/HelveticaLTStd-Bold.otf"),
+    "En-Body-Font": require("./assets/fonts/Helvetica/HelveticaLTStd-Light.otf"),
+    "My-Heading-Font": require("./assets/fonts/Padauk/Padauk-Bold.ttf"),
+    "My-Body-Font": require("./assets/fonts/Padauk/Padauk-Regular.ttf"),
   });
 
   // useEffect(() => {
@@ -141,7 +126,6 @@ export default App = (props) => {
   //   }
   // }, [fontsLoaded]);
 
-
   const handleNewNotification = async (notificationObject) => {
     try {
       const newNotification = {
@@ -151,6 +135,7 @@ export default App = (props) => {
         body: notificationObject.data.message,
         data: JSON.parse(notificationObject.data.body),
       };
+      navigationRef.navigate("SignIn");
       console.log(newNotification.title);
       //addToDatabase(db,newNotification.title, newNotification.body);
       await Notifications.setBadgeCountAsync(1);
@@ -158,20 +143,6 @@ export default App = (props) => {
       console.error(error);
     }
   };
-
-
-  useEffect(()=>{
-    //checkDatabaseForFirstTime(db)
-  })
-
-  useEffect(()=>{
-    //retrieveNotification(db)
-  })
-
-  //Set the locale once at the beginning of your app.
-  useEffect(() => {
-    i18n.local = Localization.locale;
-  });
 
   //request permission
   useEffect(() => {
@@ -193,7 +164,6 @@ export default App = (props) => {
     return;
   }, []);
 
-
   //check language
   useEffect(() => {
     getStoreData(AsyncStorageKey.LANGUAGE).then((value) => {
@@ -210,7 +180,7 @@ export default App = (props) => {
   // is font ready?
   if (!fontsLoaded) {
     return null;
-  }else{
+  } else {
     const theme = extendTheme({
       useSystemColorMode: true,
       components: {
@@ -221,7 +191,7 @@ export default App = (props) => {
         },
       },
       colors: {
-        ...Colors
+        ...Colors,
       },
       fontConfig: {
         EnFont: {
@@ -242,26 +212,22 @@ export default App = (props) => {
         },
       },
       fonts: {
-        enFont: 'EnFont',
-        myFont: 'MyFont',
-        body: 'MyFont'
+        enFont: "EnFont",
+        myFont: "MyFont",
+        body: "MyFont",
       },
     });
-
     return (
       <Provider store={store}>
         <NativeBaseProvider theme={theme}>
           <View style={{ flex: 1 }}>
-            <NavigationContainer notification={"Data"} />
+            <NavigationContainer/>
           </View>
         </NativeBaseProvider>
       </Provider>
     );
-
   }
-
-  
-}
+};
 registerRootComponent(App);
 
 async function sendPushNotification(expoPushToken) {
@@ -283,7 +249,6 @@ async function sendPushNotification(expoPushToken) {
     body: JSON.stringify(message),
   });
 }
-
 async function registerForPushNotificationsAsync() {
   let token;
   if (Device.isDevice) {
@@ -300,8 +265,8 @@ async function registerForPushNotificationsAsync() {
       return;
     }
     token = (await Notifications.getExpoPushTokenAsync()).data;
-    console.log("ExpoToken::::"+token);
-    storeData(AsyncStorageKey.EXPO_TOKEN,token);
+    console.log("ExpoToken::::" + token);
+    storeData(AsyncStorageKey.EXPO_TOKEN, token);
   } else {
     alert("Must use physical device for Push Notifications");
   }
