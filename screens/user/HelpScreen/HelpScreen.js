@@ -37,7 +37,7 @@ export default HelpScreen = ({navigation}) => {
           Icon={
             <MaterialCommunityIcons name="phone-dial" size={24} color="white" />
           }
-          onPress={()=>{Linking.openURL("tel:017640370")}}
+          onPress={()=>{Linking.openURL("tel:017640371")}}
           bg="primary"
           color="white"
         >
@@ -79,7 +79,7 @@ HelpScreen.navigationOptions = (props) => {
           alignItems: "center",
         }}
       >
-        <TouchableOpacity>
+        <TouchableOpacity onPress={()=>{props.navigation.navigate('Home', { screen: 'DashboardNavigator' })}}>
           <Image
             style={styles.headerIcon}
             source={require("../../../assets/logo.png")}
