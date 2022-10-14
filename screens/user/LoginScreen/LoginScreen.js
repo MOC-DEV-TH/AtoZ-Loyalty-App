@@ -108,7 +108,6 @@ export default LoginScreen = (props) => {
     <KeyboardAwareScrollView style={styles.container}>
       <View>
         <LogoBanner minHeight={200} statusBarHeight={true}></LogoBanner>
-         <View><Text>{expoToken}</Text></View>
         <View style={{ margin: 30 }}>
           <View style={styles.SectionStyle}>
             <Icon
