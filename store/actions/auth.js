@@ -48,7 +48,11 @@ export const login = (userID, password, expoToken) => {
       alert(respData.description);
     }
     else if(respData.status==="Success"){
-       storeData(AsyncStorageKey.USER_ID,userID)
+       storeData(AsyncStorageKey.USER_ID,userID);
+    }
+    
+    if(respData.status==="Success"){
+      storeData(AsyncStorageKey.IS_LOGIN,"1");
     }
 
     dispatch(

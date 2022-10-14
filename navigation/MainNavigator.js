@@ -28,6 +28,7 @@ import { translate } from "react-native-translate";
 import LanguageScreen from "../screens/user/LanguageScreen/LanguageScreen";
 import { Box } from "native-base";
 import { MaterialIcons } from '@expo/vector-icons'; 
+import NotificationService from "../service/NotificationService";
 
 
 
@@ -49,7 +50,6 @@ const defaultNavOptions = {
 const DashboardNavigator = createStackNavigator(
   {
     Home: HomeScreen,
-    Notification: NotificationScreen,
   },
   {
     defaultNavigationOptions: defaultNavOptions,
@@ -77,17 +77,26 @@ const AccountNavigator = createStackNavigator(
 const SettingNavigator = createStackNavigator(
   {
     Setting: SettingScreen,
-    MyAccount: AccountScreen,
-    Notification: NotificationScreen,
-    OutLetLocation: OutletLocationsScreen,
   },
   {
     defaultNavigationOptions: defaultNavOptions,
   }
 );
-
 const LanguageNavigator = createStackNavigator({
   Language: LanguageScreen,
+},{
+  defaultNavigationOptions: defaultNavOptions,
+});
+
+const MyAccountNavigator = createStackNavigator({
+  MyAccount: AccountScreen,
+},{
+  defaultNavigationOptions: defaultNavOptions,
+});
+const OutLetNavigator = createStackNavigator({
+  OutLetLocation: OutletLocationsScreen,
+},{
+  defaultNavigationOptions: defaultNavOptions,
 });
 
 const AboutNavigator = createStackNavigator(
@@ -110,8 +119,7 @@ const TermAndConditionNavigator = createStackNavigator(
 
 const PromotionNavigator = createStackNavigator(
   {
-    Promotion: PromotionScreen,
-    Notification: NotificationScreen,
+    Promotion: PromotionScreen
   },
   {
     defaultNavigationOptions: defaultNavOptions,
@@ -120,7 +128,6 @@ const PromotionNavigator = createStackNavigator(
 const HelpNavigator = createStackNavigator(
   {
     Help: HelpScreen,
-    Notification: NotificationScreen,
     Faq: FaqScreen,
   },
   {
@@ -137,6 +144,15 @@ const AuthNavigator = createStackNavigator(
     AccountDashboard: AccountDashboardScreen,
     AccountVerification: AccountVerificationScreen,
     Success: SuccessScreen,
+  },
+  {
+    defaultNavigationOptions: defaultNavOptions,
+  }
+);
+
+const NotificationNavigator = createStackNavigator(
+  {
+    Notification: NotificationScreen,
   },
   {
     defaultNavigationOptions: defaultNavOptions,
@@ -280,18 +296,14 @@ const Navigator = createSwitchNavigator(
     MyAccount: AccountNavigator,
     TermAndCondition: TermAndConditionNavigator,
     Language: LanguageNavigator,
-    PointHistory : PointHistoryNavigator
+    PointHistory : PointHistoryNavigator,
+    Notification : NotificationNavigator,
+    MyAccount : MyAccountNavigator,
+    OutLetLocation : OutLetNavigator
   },
   {
     initialRouteName: "Auth",
   }
 );
+export default createAppContainer(Navigator);
 
-const AppNavigator = createAppContainer(Navigator);
-
-export default class MainNavigator extends React.Component {
-  render() {
-    return <AppNavigator>
-    </AppNavigator>;
-  }
-}

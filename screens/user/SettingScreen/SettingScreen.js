@@ -14,12 +14,15 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import AwesomeAlert from "react-native-awesome-alerts";
 import { useState } from "react";
 import styles from "./styles";
+import { storeData } from "../../../AsyncStorage/AsyncStorage";
+import AsyncStorageKey from "../../../constants/AsyncStorageKey";
 
 export default SettingScreen = ({ navigation }) => {
   let [showAlert, setShowAlert] = useState(false);
 
   function onPressConfirm() {
     setShowAlert(false);
+    storeData(AsyncStorageKey.IS_LOGIN,"0")
     navigation.navigate("AccountDashboard");
   }
 
@@ -131,13 +134,13 @@ SettingScreen.navigationOptions = (props) => {
       </View>
     ),
 
-    headerRight: () => (
-      <TouchableOpacity onPress={()=>props.navigation.navigate("Notification")}>
-          <Image
-            style={{height:20,width:20,marginRight:18}}
-            source={require("../../../assets/notification_icon.png")}
-          />
-        </TouchableOpacity>
-    ),
+    // headerRight: () => (
+    //   <TouchableOpacity onPress={()=>props.navigation.navigate("Notification")}>
+    //       <Image
+    //         style={{height:20,width:20,marginRight:18}}
+    //         source={require("../../../assets/notification_icon.png")}
+    //       />
+    //     </TouchableOpacity>
+    // ),
   };
 };

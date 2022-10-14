@@ -197,13 +197,13 @@ PromotionScreen.navigationOptions = (props) => {
       </View>
     ),
 
-    headerRight: () => (
-      <TouchableOpacity onPress={()=>props.navigation.navigate("Notification")}>
-          <Image
-            style={{height:20,width:20,marginRight:18}}
-            source={require("../../../assets/notification_icon.png")}
-          />
-        </TouchableOpacity>
-    ),
+    // headerRight: () => (
+    //   <TouchableOpacity onPress={()=>props.navigation.navigate("Notification")}>
+    //       <Image
+    //         style={{height:20,width:20,marginRight:18}}
+    //         source={require("../../../assets/notification_icon.png")}
+    //       />
+    //     </TouchableOpacity>
+    // ),
   };
 };

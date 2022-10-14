@@ -5,6 +5,7 @@ import styles from "./styles";
 import { translate } from "react-native-translate";
 import Colors from "../../../constants/Colors";
 import Button from "../../../components/Button";
+import NotificationService from "../../../service/NotificationService";
 
 export default GetStartScreen = (props) => {
   const getStart = () => {

@@ -39,7 +39,6 @@ import { retrieveNotification } from "./persistence/database";
 import { addToDatabase } from "./persistence/database";
 import { useFonts } from "expo-font";
 import navigationRef from "./navigation/RootNavigation";
-import MainNavigator from "./navigation/MainNavigator";
 import NavigationContainer from "./navigation/NavigationContainer";
 
 
@@ -71,40 +70,7 @@ Notifications.setNotificationHandler({
 export default App = (props) => {
   const BACKGROUND_NOTIFICATION_TASK = "BACKGROUND-NOTIFICATION-TASK";
   const [expoPushToken, setExpoPushToken] = useState("");
-  let [alert, setShowAlert] = useState(false);
-  const lastNotificationResponse = Notifications.useLastNotificationResponse();
-  const [notification, setNotification] = useState(false);
-  const responseListener = useRef();
-  const notificationListener = useRef();
 
-  //init notification
-  useEffect(() => {
-    Notifications.registerTaskAsync(BACKGROUND_NOTIFICATION_TASK);
-
-    registerForPushNotificationsAsync().then((token) => {
-      setExpoPushToken(token);
-    });
-    // This listener is fired whenever a notification is received while the app is foregrounded
-    const foregroundReceivedNotificationSubscription = Notifications.addNotificationReceivedListener(
-      (notification) => {
-        handleNewNotification(notification.request.trigger.remoteMessage);
-      }
-    );
-
-    // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
-    responseListener.current = Notifications.addNotificationResponseReceivedListener(
-      (response) => {
-        navigationRef.navigate("SignIn");
-        console.log("Noti Recieved")
-      }
-    );
-
-    return () => {
-      foregroundReceivedNotificationSubscription.remove();
-      Notifications.unregisterTaskAsync(BACKGROUND_NOTIFICATION_TASK);
-      Notifications.removeNotificationSubscription(responseListener.current);
-    };
-  }, []);
 
   const [fontsLoaded] = useFonts({
     "En-Heading-Font": require("./assets/fonts/Helvetica/HelveticaLTStd-Bold.otf"),
@@ -144,6 +110,11 @@ export default App = (props) => {
     }
   };
 
+  useEffect(()=>{
+    registerForPushNotificationsAsync().then((token) => {
+          setExpoPushToken(token);
+        });
+  })
   //request permission
   useEffect(() => {
     const requestPermissionsAsync = async () => {
@@ -163,6 +134,10 @@ export default App = (props) => {
     requestPermissionsAsync();
     return;
   }, []);
+
+  useEffect(()=>{
+    storeData(AsyncStorageKey.IS_LOGIN,"0")
+  },[])
 
   //check language
   useEffect(() => {

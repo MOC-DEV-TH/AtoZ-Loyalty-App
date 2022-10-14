@@ -5,5 +5,6 @@ export default{
     LANGUAGE_CHINESE : "chn",
 
     EXPO_TOKEN : "expo_token",
-    USER_ID : "user_id"
+    USER_ID : "user_id",
+    IS_LOGIN : "isLogin"
 }

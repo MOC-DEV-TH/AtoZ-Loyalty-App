@@ -465,7 +465,7 @@ AccountScreen.navigationOptions = (props) => {
           alignItems: "center",
         }}
       >
-        <TouchableOpacity onPress={() => props.navigation.goBack()}>
+        <TouchableOpacity onPress={()=>props.navigation.navigate("Setting")}>
           <Image
             style={styles.headerIcon}
             source={require("../../../assets/left_arrow_circle.png")}
