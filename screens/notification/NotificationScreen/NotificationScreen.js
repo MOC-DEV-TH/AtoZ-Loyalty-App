@@ -20,6 +20,7 @@ import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import Text from "../../../components/Typography";
 import ContainerFluid from "../../../components/ContainerFluid";
 import * as notificationActions from "../../../store/actions/notification";
+import { BackHandler } from 'react-native';
 
 
 //open database
@@ -37,6 +38,17 @@ export default NotificationScreen = (props) => {
 //       ) 
 //   })
 //  })
+function handleBackButtonClick() {
+  props.navigation.navigate("Home")
+  return true;
+}
+
+useEffect(() => {
+  BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+  return () => {
+    BackHandler.removeEventListener('hardwareBackPress', handleBackButtonClick);
+  };
+}, []);
 
 const notificationData = useSelector(
   (state) => state.notification.notification_data,
@@ -73,7 +85,7 @@ useEffect(() => {
       </View>
       <FlatList
           showsVerticalScrollIndicator={false}
-          style={{marginTop:60}}
+          style={{marginTop:60,marginBottom:20}}
           onRefresh={loadNotificationData}
           refreshing={isRefreshing}
           data={notificationData}

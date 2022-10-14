@@ -22,7 +22,7 @@ import Text, { Heading } from "../../../components/Typography";
 import Colors from "../../../constants/Colors";
 import styles from "./styles";
 import { translate } from "react-native-translate";
-
+import { BackHandler } from 'react-native';
 
 export default OutletLocationsScreen = (props) => {
   const dispatch = useDispatch();
@@ -32,6 +32,18 @@ export default OutletLocationsScreen = (props) => {
 
   const [language, setLanguage] = useState("");
   const [isRefreshing, setIsRefreshing] = useState(false);
+
+  function handleBackButtonClick() {
+    props.navigation.navigate("Setting")
+    return true;
+  }
+  
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', handleBackButtonClick);
+    };
+  }, []);
 
   useEffect(() => {
     getStoreData(AsyncStorageKey.LANGUAGE).then((value) => {

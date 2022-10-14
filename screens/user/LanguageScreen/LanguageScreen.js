@@ -18,12 +18,24 @@ import { storeData } from "../../../AsyncStorage/AsyncStorage";
 import my from "../../../locales/my";
 import en from "../../../locales/en";
 import Button from "../../../components/Button";
-
+import { BackHandler } from 'react-native';
 
 export default LanguageScreen = (props) => {
   const [touchEng, setTouchEng] = useState(false);
   const [touchMy, setTouchMy] = useState(false);
   const [showLoading, setShowLoading] = useState(false);
+
+  function handleBackButtonClick() {
+    props.navigation.navigate("Setting")
+    return true;
+  }
+  
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', handleBackButtonClick);
+    };
+  }, []);
 
   useEffect(() => {
     getStoreData(AsyncStorageKey.LANGUAGE).then((value) => {

@@ -44,6 +44,7 @@ import {
   AccordionList,
 } from "accordion-collapse-react-native";
 import Text, { Heading } from "../../../components/Typography";
+import { BackHandler } from 'react-native';
 
 const CollapseHeaderInner = ({ title, icon }) => {
   return (
@@ -98,7 +99,18 @@ export default AccountScreen = (props) => {
   function onPressCancel() {
     setShowAlert(false);
   }
-
+  function handleBackButtonClick() {
+    props.navigation.navigate("Setting")
+    return true;
+  }
+  
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', handleBackButtonClick);
+    };
+  }, []);
+  
   useEffect(() => {
     getStoreData(AsyncStorageKey.LANGUAGE).then((value) => {
       setLocale(value);

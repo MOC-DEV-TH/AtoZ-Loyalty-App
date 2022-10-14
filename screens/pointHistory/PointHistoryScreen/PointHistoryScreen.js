@@ -20,6 +20,7 @@ import Colors from "../../../constants/Colors";
 import { Menu, Pressable, Box } from "native-base";
 import { translate } from "react-native-translate";
 import SessionExpireAlert from "../../../components/SessionExpireAlert";
+import { BackHandler } from 'react-native';
 
 export default PointHistoryScreen = (props) => {
   const dispatch = useDispatch();
@@ -48,6 +49,18 @@ export default PointHistoryScreen = (props) => {
       willFocusSub.remove();
     };
   }, [loadPointHistoryData]);
+
+  function handleBackButtonClick() {
+    props.navigation.navigate("Home")
+    return true;
+  }
+  
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', handleBackButtonClick);
+    };
+  }, []);
 
   const onConfirm = () => {
     dispatch(pointHistoryActions.setEmptyResponseCode());
