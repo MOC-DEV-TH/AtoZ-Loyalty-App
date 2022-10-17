@@ -144,6 +144,7 @@ const AuthNavigator = createStackNavigator(
     AccountDashboard: AccountDashboardScreen,
     AccountVerification: AccountVerificationScreen,
     Success: SuccessScreen,
+    TermAndCondition: TermsAndConditionsScreen,
   },
   {
     defaultNavigationOptions: defaultNavOptions,
@@ -294,7 +295,6 @@ const Navigator = createSwitchNavigator(
     Auth: AuthNavigator,
     Main: MainTabNavigator,
     MyAccount: AccountNavigator,
-    TermAndCondition: TermAndConditionNavigator,
     Language: LanguageNavigator,
     PointHistory : PointHistoryNavigator,
     Notification : NotificationNavigator,

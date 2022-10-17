@@ -199,7 +199,7 @@ TermsAndCondition.navigationOptions = (props) => {
             alignItems: "center",
           }}
         >
-          <TouchableOpacity onPress={()=>props.navigation.navigate("SignUp")}>
+          <TouchableOpacity onPress={()=>props.navigation.goBack()}>
             <Image
               style={styles.headerIcon}
               source={require("../../../assets/left_arrow_circle.png")}
