@@ -97,7 +97,7 @@ export default LanguageScreen = (props) => {
           props.navigation.navigate("Home");
         });
       }, 2000);
-    } else if (touchMy) {
+    } else  {
       setTimeout(() => {
         setShowLoading(false);
         setLocalization(my);

@@ -139,18 +139,6 @@ export default App = (props) => {
     storeData(AsyncStorageKey.IS_LOGIN,"0")
   },[])
 
-  //check language
-  useEffect(() => {
-    getStoreData(AsyncStorageKey.LANGUAGE).then((value) => {
-      if (value == AsyncStorageKey.LANGUAGE_MM) {
-        setLocalization(my);
-      } else if (value == AsyncStorageKey.LANGUAGE_ENG) {
-        setLocalization(en);
-      } else {
-        setLocalization(en);
-      }
-    });
-  }, []);
 
   // is font ready?
   if (!fontsLoaded) {

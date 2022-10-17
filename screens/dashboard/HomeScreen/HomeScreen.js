@@ -25,13 +25,10 @@ import Text from "../../../components/Typography";
 import { ImageSlider } from "react-native-image-slider-banner"; 
 
 
-
 export default HomeScreen = (props) => {
-  const sliderList = [];
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   let [alert, setShowAlert] = useState(false);
-
   const renderItem = ({ item }) => {
     return (
       <View style={{ width: "48%", marginTop: 15 }}>
@@ -61,6 +58,7 @@ export default HomeScreen = (props) => {
       </View>
     );
   };
+  const sliderList = [];
 
   useEffect(() => {
     console.log("Reload");
@@ -121,7 +119,6 @@ export default HomeScreen = (props) => {
     props.navigation.push("PointHistory")
   }
 
-  promotionData.map((data) => {});
   const promotionSlider = promotionData.filter(
     (item) => item.ads_type == "Slider"
   );
@@ -130,25 +127,30 @@ export default HomeScreen = (props) => {
     (item) => item.ads_type == "Display Ads"
   );
 
-  for (const item of promotionSlider) {
-    sliderList.push({img: Global.baseImageUrl + item.image_en});
-  }
+    for (const item of promotionSlider) {
+      sliderList.push({img: Global.baseImageUrl + item.image_en});
+    }
+
+    console.log("Slider Length",sliderList.length)
 
   return (
     <SafeAreaView style={styles.container}>
-      
       <ScrollView>
       <View>
-        {/* <Slideshow dataSource={sliderList} /> */}
-        <ImageSlider
+      {sliderList.length > 0
+       ? <ImageSlider
           data={sliderList}
-          autoPlay={false}
+          autoPlay={true}
           onItemChanged={(item) => console.log("item", item)}
           closeIconColor="#fff"
+          preview={false}
+          timer={4000}
           activeIndicatorStyle={{width:10,height:10,backgroundColor:Colors.yellow}}
           indicatorContainerStyle={{marginBottom:-20}}
           caroselImageStyle={{ resizeMode: 'cover', height: 240 }}
         />
+        : undefined
+      }
       </View>
       <SessionExpireAlert showAlert={alert} onConfirmPressed={onConfirm} />
       <View
