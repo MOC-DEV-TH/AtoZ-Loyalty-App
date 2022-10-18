@@ -344,7 +344,7 @@ export default SignUpScreen = (props) => {
                 placeholderStyle={styles.placeholderStyle}
                 selectedTextStyle={styles.selectedTextStyle}
                 iconStyle={styles.iconStyle}
-                data={townshipDDLData}
+                data={townshipDDLData!=null ? townshipDDLData : undefined}
                 maxHeight={300}
                 labelField="value"
                 valueField="value"
