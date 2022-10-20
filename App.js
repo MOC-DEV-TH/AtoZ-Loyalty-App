@@ -18,8 +18,6 @@ import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
 import { getStoreData, storeData } from "./AsyncStorage/AsyncStorage";
 import AsyncStorageKey from "./constants/AsyncStorageKey";
-import i18n from "./I18n/i18n";
-import * as Localization from "expo-localization";
 import authReducer from "./store/reducers/auth";
 import userReducer from "./store/reducers/users";
 import homeReducer from "./store/reducers/home";

@@ -142,7 +142,7 @@ export default SignUpScreen = (props) => {
 
   return (
     <>
-      <KeyboardAwareScrollView>
+      <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
           <View>
             <LogoBanner minHeight={200} statusBarHeight={true}></LogoBanner>

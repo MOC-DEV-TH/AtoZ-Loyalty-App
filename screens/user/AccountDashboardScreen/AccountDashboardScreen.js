@@ -5,8 +5,6 @@ import Colors from "../../../constants/Colors";
 import { MaterialIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import * as authActions from "../../../store/actions/auth";
-import * as Localization from "expo-localization";
-import i18n from "../../../I18n/i18n";
 import React, { useState, useEffect } from "react";
 import { storeData } from "../../../AsyncStorage/AsyncStorage";
 import { setLocalization,translate } from 'react-native-translate';

@@ -8,11 +8,20 @@
       "distribution": "internal"
     },
     "preview": {
-      "distribution": "internal"
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk"
+      }
     },
     "production": {}
   },
   "submit": {
-    "production": {}
+    "production": {
+      "ios": {
+        "appleId": "cutie.theingi2011@gmail.com",
+        "ascAppId": "6443871677",
+        "appleTeamId": "DZ9VJ2V5MG"
+      }
+    }
   }
 }

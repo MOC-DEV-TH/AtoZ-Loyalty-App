@@ -87,18 +87,20 @@ export default OutletLocationsScreen = (props) => {
 
   return (
     <>
-      <SafeAreaView>
+  
         <ContainerFluid>
           {isRefreshing ? (
             <ActivityIndicator size="large" />
           ) : (
+            <View style={{flex:1}}>
             <FlatList
             style={{paddingTop:20,paddingBottom:20}}
              data={getLocations} renderItem={renderItem}  showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false}/>
+            </View>
           )}
         </ContainerFluid>
-      </SafeAreaView>
+    
     </>
   );
 };

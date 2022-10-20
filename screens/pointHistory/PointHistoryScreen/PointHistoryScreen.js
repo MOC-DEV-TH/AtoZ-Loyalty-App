@@ -141,6 +141,7 @@ export default PointHistoryScreen = (props) => {
           <ActivityIndicator size="large" />
         ) : (
           <FlatList
+            showsVerticalScrollIndicator={false}
             onRefresh={loadPointHistoryData}
             refreshing={isRefreshing}
             style={styles.container}

@@ -11,6 +11,7 @@ export default function ContainerFluid(props){
 
 const styles = StyleSheet.create({
     containerBox:{
+        flex:1,
         paddingLeft: 18,
         paddingRight: 18,
     }

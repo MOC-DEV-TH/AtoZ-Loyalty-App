@@ -24,7 +24,6 @@ import Global from "../../../constants/Global";
 import { translate } from "react-native-translate";
 import SessionExpireAlert from "../../../components/SessionExpireAlert";
 import Text from "../../../components/Typography";
-import { ImageSlider } from "react-native-image-slider-banner";
 import Carousel from "react-native-banner-carousel";
 
 export default HomeScreen = (props) => {

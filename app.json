@@ -2,15 +2,17 @@
   "expo": {
     "name": "AtoZ",
     "slug": "AtoZ",
-    "version": "1.0.1",
+    "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "plugins": [
       [
-        "expo-notifications",
+        "expo-build-properties",
         {
-          "icon": "./assets/icon.png"
+          "ios": {
+            "useFrameworks": "static"
+          }
         }
       ]
     ],
@@ -32,7 +34,7 @@
         "backgroundColor": "#034ea1"
       },
       "bundleIdentifier": "com.atoz.client",
-      "buildNumber": "1.0.0",
+      "buildNumber": "3",
       "supportsTablet": false,
       "googleServicesFile": "./GoogleService-Info.plist",
       "infoPlist": {
@@ -71,7 +73,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "e9082c48-1651-42c9-97c3-03ade330ca68"
+        "projectId": "8e79206b-a207-4d76-93ac-7bfd41d2fbaf"
       }
     }
   }

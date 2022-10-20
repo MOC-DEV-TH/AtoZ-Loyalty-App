@@ -12,7 +12,7 @@ import i18n from "../../../I18n/i18n";
 import { Ionicons } from "@expo/vector-icons";
 import styles from "./styles";
 import Colors from "../../../constants/Colors";
-import { HStack, VStack, Menu, Pressable, Box } from "native-base";
+import { HStack, VStack, Menu, Pressable, Box, ScrollView } from "native-base";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import * as promotionActions from "../../../store/actions/promotions";
 import { useEffect, useCallback, useState } from "react";
@@ -21,27 +21,27 @@ import { translate } from "react-native-translate";
 import { getStoreData } from "../../../AsyncStorage/AsyncStorage";
 import AsyncStorageKey from "../../../constants/AsyncStorageKey";
 import SessionExpireAlert from "../../../components/SessionExpireAlert";
-import SeeMore from 'react-native-see-more-inline';
-import ReadMore from '@fawazahmed/react-native-read-more';
+import SeeMore from "react-native-see-more-inline";
+import ReadMore from "@fawazahmed/react-native-read-more";
 import Text from "../../../components/Typography";
 import ContainerFluid from "../../../components/ContainerFluid";
 
 export default PromotionScreen = (props) => {
   const dispatch = useDispatch();
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [language,setLanguage] = useState("");
+  const [language, setLanguage] = useState("");
   const [alert, setShowAlert] = useState(false);
 
   useEffect(() => {
     console.log("Will Focus");
     const willFocusSub = props.navigation.addListener(
       "willFocus",
-      loadPromotionData,
+      loadPromotionData
     );
     return () => {
       willFocusSub.remove();
     };
-  }, [loadPromotionData,checkLanguage]);
+  }, [loadPromotionData, checkLanguage]);
 
   const loadPromotionData = useCallback(async () => {
     setIsRefreshing(true);
@@ -53,45 +53,45 @@ export default PromotionScreen = (props) => {
 
   useEffect(() => {
     loadPromotionData();
-  }, [loadPromotionData,checkLanguage]);
+  }, [loadPromotionData, checkLanguage]);
 
   //check language
   const checkLanguage = useCallback(async () => {
     getStoreData(AsyncStorageKey.LANGUAGE).then((value) => {
       if (value == AsyncStorageKey.LANGUAGE_MM) {
-        setLanguage(value)
+        setLanguage(value);
       } else if (value == AsyncStorageKey.LANGUAGE_ENG) {
-        setLanguage(value)
+        setLanguage(value);
       } else {
-        setLanguage("en")
+        setLanguage("en");
       }
     });
   }, []);
 
   useEffect(() => {
-    checkLanguage()
+    checkLanguage();
   }, []);
 
   const onConfirm = () => {
     dispatch(promotionActions.setEmptyResponseCode());
     props.navigation.navigate("AccountDashboard");
-    setShowAlert(false)
-  }
+    setShowAlert(false);
+  };
 
   const responseCode = useSelector(
     (state) => state.promotion.response_code,
     shallowEqual
   );
 
-  const showSessionDialog = useCallback(()=>{
-    setShowAlert(true)
-  })
+  const showSessionDialog = useCallback(() => {
+    setShowAlert(true);
+  });
 
-  useEffect(()=>{
-    if(responseCode=="005"){
-      showSessionDialog()
+  useEffect(() => {
+    if (responseCode == "005") {
+      showSessionDialog();
     }
-  },)
+  });
 
   const promotionData = useSelector(
     (state) => state.promotion.promotions,
@@ -117,7 +117,7 @@ export default PromotionScreen = (props) => {
     );
   };
   const renderItemMM = ({ item }) => {
-    console.log("DescriptionMM"+item.descriptionmm)
+    console.log("DescriptionMM" + item.descriptionmm);
     return (
       <HStack style={styles.flatList}>
         <Image
@@ -129,7 +129,7 @@ export default PromotionScreen = (props) => {
         <VStack style={styles.vContainer}>
           <Text style={styles.title}>{item.namemm}</Text>
           <SeeMore numberOfLines={4} style={styles.description}>
-           {item.descriptionmm}
+            {item.descriptionmm}
           </SeeMore>
         </VStack>
       </HStack>
@@ -142,37 +142,41 @@ export default PromotionScreen = (props) => {
 
   return (
     <ContainerFluid standardTop={true}>
-      <View style={styles.button}>
-        <Text style={styles.text}>{translate("hotdeal")}</Text>
-      </View>
-      <SessionExpireAlert showAlert={alert} onConfirmPressed={onConfirm}/>
-      {language=="my" 
-      ? isRefreshing ? (
-        <ActivityIndicator size="large" />
-      ) : (
-        <FlatList
-          onRefresh={loadPromotionData}
-          refreshing={isRefreshing}
-          data={promotionData}
-          renderItem={renderItemMM}
-          ListEmptyComponent={renderListEmptyComponent}
-          keyExtractor={(item) => item.id}
-        />
-      ) :
-      isRefreshing ? (
-        <ActivityIndicator size="large" />
-      ) : (
-        <FlatList
-          onRefresh={loadPromotionData}
-          refreshing={isRefreshing}
-          data={promotionData}
-          renderItem={renderItem}
-          ListEmptyComponent={renderListEmptyComponent}
-          keyExtractor={(item) => item.id}
-        />
-      )
-      }
-      
+        <View style={styles.button}>
+          <Text style={styles.text}>{translate("hotdeal")}</Text>
+        </View>
+        <SessionExpireAlert showAlert={alert} onConfirmPressed={onConfirm} />
+        {language == "my" ? (
+          isRefreshing ? (
+            <ActivityIndicator size="large" />
+          ) : (
+            <View style={{flex:1}}>
+            <FlatList
+              onRefresh={loadPromotionData}
+              refreshing={isRefreshing}
+              data={promotionData}
+              renderItem={renderItemMM}
+              showsVerticalScrollIndicator={false}
+              ListEmptyComponent={renderListEmptyComponent}
+              keyExtractor={(item) => item.id}
+            />
+            </View>
+          )
+        ) : isRefreshing ? (
+          <ActivityIndicator size="large" />
+        ) : (
+          <View style={{flex:1}}>
+          <FlatList
+            onRefresh={loadPromotionData}
+            refreshing={isRefreshing}
+            data={promotionData}
+            renderItem={renderItem}
+            showsVerticalScrollIndicator={false}
+            ListEmptyComponent={renderListEmptyComponent}
+            keyExtractor={(item) => item.id}
+          />
+          </View>
+        )}
     </ContainerFluid>
   );
 };
@@ -188,7 +192,11 @@ PromotionScreen.navigationOptions = (props) => {
           alignItems: "center",
         }}
       >
-        <TouchableOpacity onPress={()=>{props.navigation.navigate('Home', { screen: 'DashboardNavigator' })}}>
+        <TouchableOpacity
+          onPress={() => {
+            props.navigation.navigate("Home", { screen: "DashboardNavigator" });
+          }}
+        >
           <Image
             style={styles.headerIcon}
             source={require("../../../assets/logo.png")}
