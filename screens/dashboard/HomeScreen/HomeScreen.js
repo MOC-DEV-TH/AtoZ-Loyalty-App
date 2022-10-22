@@ -9,7 +9,7 @@ import {
   TouchableHighlight,
   ActivityIndicator,
   Dimensions,
-  Animated
+  Animated,
 } from "react-native";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import * as homeActions from "../../../store/actions/home";
@@ -25,19 +25,40 @@ import { translate } from "react-native-translate";
 import SessionExpireAlert from "../../../components/SessionExpireAlert";
 import Text from "../../../components/Typography";
 import Carousel from "react-native-banner-carousel";
+import getEnvVars from "../../../environment";
+import AsyncStorageKey from "../../../constants/AsyncStorageKey";
+import { getStoreData } from "../../../AsyncStorage/AsyncStorage";
 
 export default HomeScreen = (props) => {
+  const { imageApiUrl } = getEnvVars();
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
+  const [language, setLanguage] = useState("");
   let [alert, setShowAlert] = useState(false);
-  const BannerWidth = Dimensions.get('window').width;
+  const BannerWidth = Dimensions.get("window").width;
   const BannerHeight = 240;
   const sliderList = [];
+
+  const checkLanguage = useCallback(async () => {
+    getStoreData(AsyncStorageKey.LANGUAGE).then((value) => {
+      if (value == AsyncStorageKey.LANGUAGE_MM) {
+        setLanguage(value);
+      } else if (value == AsyncStorageKey.LANGUAGE_ENG) {
+        setLanguage(value);
+      } else {
+        setLanguage("en");
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    checkLanguage();
+  },);
 
   useEffect(() => {
     console.log("Reload");
     loadPromotionData();
-  }, [loadPromotionData]);
+  }, [loadPromotionData,checkLanguage]);
 
   useEffect(() => {
     console.log("Will Focus");
@@ -102,22 +123,28 @@ export default HomeScreen = (props) => {
     (item) => item.ads_type == "Display Ads"
   );
 
-  for (const item of promotionSlider) {
-    sliderList.push({ img: Global.baseImageUrl + item.image_en });
+  if (language == "my") {
+    for (const item of promotionSlider) {
+      sliderList.push({ img: imageApiUrl + item.image_mm });
+    }
+  } else {
+    for (const item of promotionSlider) {
+      sliderList.push({ img: imageApiUrl + item.image_en });
+    }
   }
 
-  console.log("Slider Length", sliderList.length);
 
- const renderPage = (image, index) => {
-    console.log("ImageUrl",image.img)
+  const renderPage = (image, index) => {
+    console.log("EnglishImage")
+    console.log("ImageUrl", image.img);
     return (
-     
-        <Animated.Image
-          key={index}
-          style={{ width: BannerWidth, height: BannerHeight }} source={{ uri: image.img }} />
-      
-        );
-    };
+      <Animated.Image
+        key={index}
+        style={{ width: BannerWidth, height: BannerHeight }}
+        source={{ uri: image.img }}
+      />
+    );
+  };
   const renderItem = ({ item }) => {
     return (
       <View style={{ width: "48%", marginTop: 15 }}>
@@ -132,7 +159,7 @@ export default HomeScreen = (props) => {
             <Image
               resizeMode="stretch"
               style={{ height: 120 }}
-              source={{ uri: Global.baseImageUrl + item.image_en }}
+              source={{ uri: imageApiUrl + item.image_en }}
               alt="ads image"
             />
             <HStack
@@ -153,8 +180,45 @@ export default HomeScreen = (props) => {
       </View>
     );
   };
+  const renderItemMM = ({ item }) => {
+    console.log("MyanmarImage")
+    return (
+      <View style={{ width: "48%", marginTop: 15 }}>
+        <TouchableOpacity
+          onPress={() => {
+            props.navigation.navigate("Promotion", {
+              screen: "PromotionNavigator",
+            });
+          }}
+        >
+          <VStack style={{ flex: 1 }}>
+            <Image
+              resizeMode="stretch"
+              style={{ height: 120 }}
+              source={{ uri: imageApiUrl + item.image_mm }}
+              alt="ads image"
+            />
+            <HStack
+              style={{
+                justifyContent: "space-between",
+                height: 30,
+                backgroundColor: Colors.yellow,
+                alignItems: "center",
+                paddingLeft: 10,
+                paddingRight: 10,
+              }}
+            >
+              <Text style={{ color: Colors.primary }}>{item.namemm}</Text>
+              <Text style={{ color: Colors.white, fontWeight: "bold" }}></Text>
+            </HStack>
+          </VStack>
+        </TouchableOpacity>
+      </View>
+    );
+  };
 
-    {/* {sliderList.length > 0
+  {
+    /* {sliderList.length > 0
        ? <ImageSlider
           data={sliderList}
           autoPlay={true}
@@ -167,28 +231,32 @@ export default HomeScreen = (props) => {
           caroselImageStyle={{ resizeMode: 'cover', height: 240 }}
         />
         : undefined
-      } */}
+      } */
+  }
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <View>
-        {sliderList.length > 0 ?
-          <Carousel
-            autoplay={true}
-            autoplayTimeout={4000}
-            loop={true}
-            index={0}
-            pageSize={BannerWidth}
-            pageIndicatorStyle={{backgroundColor:Colors.white,height:8,width:8}}
-            activePageIndicatorStyle={{backgroundColor:Colors.yellow,}}
-            pageIndicatorContainerStyle={{marginBottom:10}}
-            pageIndicatorOffset={18}
-          >
-            {sliderList.map((image, index) => renderPage(image, index))}
-          </Carousel>
-          : undefined
-        }
+          {sliderList.length > 0 ? (
+            <Carousel
+              autoplay={true}
+              autoplayTimeout={4000}
+              loop={true}
+              index={0}
+              pageSize={BannerWidth}
+              pageIndicatorStyle={{
+                backgroundColor: Colors.white,
+                height: 8,
+                width: 8,
+              }}
+              activePageIndicatorStyle={{ backgroundColor: Colors.yellow }}
+              pageIndicatorContainerStyle={{ marginBottom: 10 }}
+              pageIndicatorOffset={18}
+            >
+              {sliderList.map((image, index) => renderPage(image, index))}
+            </Carousel>
+          ) : undefined}
         </View>
         <SessionExpireAlert showAlert={alert} onConfirmPressed={onConfirm} />
         <View
@@ -240,20 +308,35 @@ export default HomeScreen = (props) => {
             </Box>
           </VStack>
         </View>
-
-        <FlatList
-          data={ads_data}
-          numColumns={2}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id}
-          scrollEnabled={false}
-          contentContainerStyle={{
-            paddingLeft: 10,
-            paddingRight: 10,
-            paddingBottom: 15,
-          }}
-          columnWrapperStyle={{ justifyContent: "space-between" }}
-        />
+        {language == "my" ? (
+          <FlatList
+            data={ads_data}
+            numColumns={2}
+            renderItem={renderItemMM}
+            keyExtractor={(item) => item.id}
+            scrollEnabled={false}
+            contentContainerStyle={{
+              paddingLeft: 10,
+              paddingRight: 10,
+              paddingBottom: 15,
+            }}
+            columnWrapperStyle={{ justifyContent: "space-between" }}
+          />
+        ) : (
+          <FlatList
+            data={ads_data}
+            numColumns={2}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.id}
+            scrollEnabled={false}
+            contentContainerStyle={{
+              paddingLeft: 10,
+              paddingRight: 10,
+              paddingBottom: 15,
+            }}
+            columnWrapperStyle={{ justifyContent: "space-between" }}
+          />
+        )}
       </ScrollView>
     </SafeAreaView>
   );

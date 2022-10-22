@@ -1,4 +1,7 @@
 import Global from "../../constants/Global";
+import getEnvVars from "../../environment";
+
+const { apiUrl } = getEnvVars();
 
 export const STATUS = "STATUS";
 export const SET_EMPTY_STATUS = "SET_EMPTY_STATUS";
@@ -16,7 +19,7 @@ export const registerUser = (userObj) => {
   console.log(userObj);
   return async (dispatch) => {
     try {
-      const response = await fetch(Global.baseUrl + "/signup", {
+      const response = await fetch(apiUrl + "/signup", {
         method: "POST",
         headers: {
           Accept: "application/json",

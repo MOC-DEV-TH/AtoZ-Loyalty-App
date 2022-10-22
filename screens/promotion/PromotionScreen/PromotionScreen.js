@@ -25,8 +25,10 @@ import SeeMore from "react-native-see-more-inline";
 import ReadMore from "@fawazahmed/react-native-read-more";
 import Text from "../../../components/Typography";
 import ContainerFluid from "../../../components/ContainerFluid";
+import getEnvVars from "../../../environment";
 
 export default PromotionScreen = (props) => {
+  const { imageApiUrl } = getEnvVars();
   const dispatch = useDispatch();
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [language, setLanguage] = useState("");
@@ -104,7 +106,7 @@ export default PromotionScreen = (props) => {
         <Image
           resizeMode="contain"
           style={styles.image}
-          source={{ uri: Global.baseImageUrl + item.image_en }}
+          source={{ uri: imageApiUrl + item.image_en }}
           alt="promotion image"
         />
         <VStack style={styles.vContainer}>
@@ -123,7 +125,7 @@ export default PromotionScreen = (props) => {
         <Image
           resizeMode="contain"
           style={styles.image}
-          source={{ uri: Global.baseImageUrl + item.image_mm }}
+          source={{ uri: imageApiUrl + item.image_mm }}
           alt="promotion image"
         />
         <VStack style={styles.vContainer}>

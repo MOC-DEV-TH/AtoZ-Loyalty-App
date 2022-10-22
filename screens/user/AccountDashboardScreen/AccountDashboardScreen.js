@@ -33,10 +33,7 @@ import Text from "../../../components/Typography";
 export default AccountDashboardScreen = (props) => {
   const dispatch = useDispatch();
   let [local, setLocal] = useState("en");
-  useEffect(() => {
-    dispatch(authActions.getAllDDL());
-  });
-
+ 
   const onPressChangeLanguage = () => {
       if(local=="en"){
         setLocal("my")

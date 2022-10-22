@@ -49,13 +49,13 @@ ForgotPasswordScreen.navigationOptions = (navData) => {
     headerStyle: {
       backgroundColor: "white",
     },
-    headerLeft: () => (
-      <TouchableOpacity onPress={() => navData.navigation.goBack()}>
-        <Image
-          style={{ height: 15, width: 20, marginLeft: 10 }}
-          source={require("../../../assets/back_arrow.png")}
-        />
-      </TouchableOpacity>
-    ),
+    // headerLeft: () => (
+    //   <TouchableOpacity onPress={() => navData.navigation.goBack()}>
+    //     <Image
+    //       style={{ height: 15, width: 20, marginLeft: 10 }}
+    //       source={require("../../../assets/back_arrow.png")}
+    //     />
+    //   </TouchableOpacity>
+    // ),
   };
 };

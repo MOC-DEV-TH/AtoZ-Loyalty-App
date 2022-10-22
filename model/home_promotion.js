@@ -10,7 +10,8 @@ class HomePromotion {
       created_date,
       created_by,
       modified_date,
-      modified_by
+      modified_by,
+      namemm
     ) {
       this.id = id;
       this.promo_id = promo_id;
@@ -23,6 +24,7 @@ class HomePromotion {
       this.created_by = created_by;
       this.modified_date = modified_date;
       this.modified_by = modified_by;
+      this.namemm = namemm;
     }
   }
   

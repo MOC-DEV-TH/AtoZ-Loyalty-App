@@ -1,6 +1,8 @@
 import AppVersion from "../../constants/AppVersion";
 import Global from "../../constants/Global";
+import getEnvVars from "../../environment";
 
+const { apiUrl } = getEnvVars();
 export const SET_NOTIFICATION_DATA = "SET_NOTIFICATION_DATA"
 
 export const getAllNotifications = () => {
@@ -8,14 +10,14 @@ export const getAllNotifications = () => {
     const token = getState().auth.token;
     const createDate = getState().auth.createDate;
     const response = await fetch(
-      Global.baseUrl +
+      apiUrl +
         "/get_notifications?app_version=" +
         AppVersion.app_version +"&created_date="+createDate,
       {
         method: "GET",
         headers: {
           "Content-type": "application/json",
-          token: token,
+          Authorization: token,
         },
       }
     );

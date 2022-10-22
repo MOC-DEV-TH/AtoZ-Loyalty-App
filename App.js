@@ -73,7 +73,6 @@ export default App = (props) => {
   const BACKGROUND_NOTIFICATION_TASK = "BACKGROUND-NOTIFICATION-TASK";
   const [expoPushToken, setExpoPushToken] = useState("");
 
-
   const [fontsLoaded] = useFonts({
     "En-Heading-Font": require("./assets/fonts/Helvetica/HelveticaLTStd-Bold.otf"),
     "En-Body-Font": require("./assets/fonts/Helvetica/HelveticaLTStd-Light.otf"),
@@ -140,7 +139,6 @@ export default App = (props) => {
   useEffect(()=>{
     storeData(AsyncStorageKey.IS_LOGIN,"0")
   },[])
-
 
   // is font ready?
   if (!fontsLoaded) {

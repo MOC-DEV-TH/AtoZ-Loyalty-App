@@ -3,7 +3,9 @@ import AppVersion from "../../constants/AppVersion";
 import DropDownVO from "../../model/dropDown";
 import { getStoreData, storeData } from "../../AsyncStorage/AsyncStorage";
 import AsyncStorageKey from "../../constants/AsyncStorageKey";
+import getEnvVars from "../../environment";
 
+const { apiUrl } = getEnvVars();
 export const AUTHENTICATE = "AUTHENTICATE";
 export const SET_ALL_DROP_DOWN = "SET_DROP_DOWN";
 
@@ -20,11 +22,11 @@ export const authenticate = (token, userID, createDate) => {
 
 export const login = (userID, password, expoToken) => {
   return async (dispatch) => {
-    const response = await fetch(Global.baseUrl + "/login", {
+    const response = await fetch(apiUrl + "/login", {
       method: "POST",
       headers: {
         "Content-type": "application/json",
-        security_key: Global.security_key,
+        "Authorization": Global.security_key,
       },
       body: JSON.stringify({
         user_id: userID,
@@ -67,7 +69,7 @@ export const login = (userID, password, expoToken) => {
 
 export const getAllDDL = () => {
   return async (dispatch) => {
-    const response = await fetch(Global.baseUrl + "/get_ddl_data", {
+    const response = await fetch(apiUrl + "/get_ddl_data", {
       method: "GET",
       headers: {
         "Content-type": "application/json",
@@ -89,9 +91,9 @@ export const getAllDDL = () => {
       respData.details.township,
       respData.details.city
     );
-    ddlData.status.map((data) => {
-      console.log("MemberLevel" + data.value);
-    });
+    // ddlData.city.map((data) => {
+    //   console.log("MemberLevel" + data.value);
+    // });
     dispatch({
       type: SET_ALL_DROP_DOWN,
       allDropDownData: ddlData,

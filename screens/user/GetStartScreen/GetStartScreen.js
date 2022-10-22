@@ -11,14 +11,20 @@ import AsyncStorageKey from "../../../constants/AsyncStorageKey";
 import { getStoreData } from "../../../AsyncStorage/AsyncStorage";
 import en from "../../../locales/en";
 import my from "../../../locales/my";
-
-
+import * as authActions from "../../../store/actions/auth";
+import { useDispatch } from "react-redux";
 
 export default GetStartScreen = (props) => {
+  const dispatch = useDispatch()
   const [isLoading,setIsLoading] = useState(true)
   const getStart = () => {
     props.navigation.navigate("AccountDashboard");
   };
+
+  useEffect(() => {
+    dispatch(authActions.getAllDDL());
+  },[]);
+
 //check language
 useEffect(() => {
   getStoreData(AsyncStorageKey.LANGUAGE).then((value) => {

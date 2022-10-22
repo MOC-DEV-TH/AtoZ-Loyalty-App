@@ -1,6 +1,9 @@
 import AppVersion from "../../constants/AppVersion";
 import Global from "../../constants/Global";
 import Promotion from "../../model/promotion";
+import getEnvVars from "../../environment";
+
+const { apiUrl } = getEnvVars();
 export const SET_PROMOTION = "SET_PROMOTION";
 export const SET_RESPONSE_CODE = "SET_RESPONSE_CODE"
 export const SET_EMPTY_RESPONSE_CODE = "SET_EMPTY_RESPONSE_CODE"
@@ -17,12 +20,12 @@ export const getPromotions = () => {
     const token = getState().auth.token;
     console.log("token", token);
     const response = await fetch(
-      Global.baseUrl + "/get_promotions?app_version=" + AppVersion.app_version,
+      apiUrl + "/get_promotions?app_version=" + AppVersion.app_version,
       {
         method: "GET",
         headers: {
           "Content-type": "application/json",
-          token: token,
+          Authorization: token,
         },
       }
     );

@@ -1,6 +1,8 @@
 import AppVersion from "../../constants/AppVersion";
 import Global from "../../constants/Global";
+import getEnvVars from "../../environment";
 
+const { apiUrl } = getEnvVars();
 export const SET_POINT_HISTORY = "SET_POINT_HISTORY";
 export const SET_RESPONSE_CODE = "SET_RESPONSE_CODE"
 export const SET_EMPTY_RESPONSE_CODE = "SET_EMPTY_RESPONSE_CODE"
@@ -18,14 +20,14 @@ export const getPointHistory = () => {
   return async (dispatch, getState) => {
     const token = getState().auth.token;
     const response = await fetch(
-      Global.baseUrl +
+      apiUrl +
         "/get_point_history?app_version=" +
         AppVersion.app_version,
       {
         method: "GET",
         headers: {
           "Content-type": "application/json",
-          token: token,
+          Authorization: token,
         },
       }
     );
