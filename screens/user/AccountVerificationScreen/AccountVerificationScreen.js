@@ -100,7 +100,7 @@ export default AccountVerificationScreen = (navData) => {
     let formData = new FormData();
     let base64 = require("base-64");
 
-    formData.append("senderid", "ATOZ");
+    formData.append("senderid", "AtoZ");
     formData.append("number", navData.navigation.getParam("phoneNo"));
     formData.append(
       "message",

@@ -5,7 +5,7 @@ import { getStoreData, storeData } from "../../AsyncStorage/AsyncStorage";
 import AsyncStorageKey from "../../constants/AsyncStorageKey";
 import getEnvVars from "../../environment";
 
-const { apiUrl } = getEnvVars();
+const { apiUrl,aut } = getEnvVars();
 export const AUTHENTICATE = "AUTHENTICATE";
 export const SET_ALL_DROP_DOWN = "SET_DROP_DOWN";
 
@@ -21,6 +21,7 @@ export const authenticate = (token, userID, createDate) => {
 };
 
 export const login = (userID, password, expoToken) => {
+  console.log(apiUrl)
   return async (dispatch) => {
     const response = await fetch(apiUrl + "/login", {
       method: "POST",
