@@ -26,6 +26,7 @@ import ReadMore from "@fawazahmed/react-native-read-more";
 import Text from "../../../components/Typography";
 import ContainerFluid from "../../../components/ContainerFluid";
 import getEnvVars from "../../../environment";
+import { Heading } from "native-base";
 
 export default PromotionScreen = (props) => {
   const { imageApiUrl } = getEnvVars();
@@ -110,7 +111,7 @@ export default PromotionScreen = (props) => {
           alt="promotion image"
         />
         <VStack style={styles.vContainer}>
-          <Text style={styles.title}>{item.name}</Text>
+        <Heading lineHeight={30} color={Colors.primary} fontSize={18}>{item.name}</Heading>
           <SeeMore numberOfLines={4} style={styles.description}>
             {item.description}
           </SeeMore>
@@ -129,7 +130,7 @@ export default PromotionScreen = (props) => {
           alt="promotion image"
         />
         <VStack style={styles.vContainer}>
-          <Text style={styles.title}>{item.namemm}</Text>
+        <Heading lineHeight={30} color={Colors.primary} fontSize={18}>{item.namemm}</Heading>
           <SeeMore numberOfLines={4} style={styles.description}>
             {item.descriptionmm}
           </SeeMore>

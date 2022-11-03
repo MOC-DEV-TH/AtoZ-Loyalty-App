@@ -10,24 +10,32 @@ import {
   ActivityIndicator,
   Dimensions,
   Animated,
+  Platform,
 } from "react-native";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import * as homeActions from "../../../store/actions/home";
 import React, { useState, useCallback, useEffect } from "react";
+import * as notificationActions from "../../../store/actions/notification";
 import { Ionicons } from "@expo/vector-icons";
-// import i18n from "../../../I18n/i18n";
 import styles from "./styles";
-import { HStack, VStack, Pressable, Menu, Box, ScrollView } from "native-base";
+import {
+  HStack,
+  VStack,
+  Pressable,
+  Menu,
+  Box,
+  ScrollView,
+  Badge,
+  Center,
+} from "native-base";
 import Colors from "../../../constants/Colors";
-import Slider from "../../../model/slider";
-import Global from "../../../constants/Global";
 import { translate } from "react-native-translate";
 import SessionExpireAlert from "../../../components/SessionExpireAlert";
 import Text from "../../../components/Typography";
 import Carousel from "react-native-banner-carousel";
 import getEnvVars from "../../../environment";
 import AsyncStorageKey from "../../../constants/AsyncStorageKey";
-import { getStoreData } from "../../../AsyncStorage/AsyncStorage";
+import { getStoreData, storeData } from "../../../AsyncStorage/AsyncStorage";
 
 export default HomeScreen = (props) => {
   const { imageApiUrl } = getEnvVars();
@@ -35,6 +43,7 @@ export default HomeScreen = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [language, setLanguage] = useState("");
   let [alert, setShowAlert] = useState(false);
+  let [notiCount, setNotiCount] = useState("0");
   const BannerWidth = Dimensions.get("window").width;
   const BannerHeight = 240;
   const sliderList = [];
@@ -51,14 +60,72 @@ export default HomeScreen = (props) => {
     });
   }, []);
 
+  const getNotificationCount = useCallback(async () => {
+    getStoreData(AsyncStorageKey.NOTI_COUNT).then((notificationValue) => {
+      console.log("New Notification Length", notificationValue);
+      getStoreData(AsyncStorageKey.LAST_NOTI_COUNT).then(
+        (lastNotificationValue) => {
+          if (lastNotificationValue != null) {
+            console.log("Last Notification Length", lastNotificationValue);
+            if (parseInt(notificationValue) >= parseInt(lastNotificationValue)) {
+              setNotiCount(
+                parseInt(notificationValue) - parseInt(lastNotificationValue)
+              );
+              storeData(
+                AsyncStorageKey.NOTI_COUNT,
+                (
+                  parseInt(notificationValue) - parseInt(lastNotificationValue)
+                ).toString()
+              );
+              console.log(
+                "Notification Length",
+                (
+                  parseInt(notificationValue) - parseInt(lastNotificationValue)
+                ).toString()
+              );
+            } else {
+              console.log("Default Notification Length", notificationValue);
+              setNotiCount(notificationValue);
+              storeData(
+                AsyncStorageKey.NOTI_COUNT,
+                notificationValue.toString()
+              );
+            }
+          } else {
+            console.log("New Notification Length", notificationValue);
+            setNotiCount(notificationValue);
+          }
+        }
+      );
+    });
+  }, []);
+
   useEffect(() => {
     checkLanguage();
-  },);
+  });
+
+  const notificationCount = useSelector(
+    (state) => state.notification.notificationCount
+  );
+
+  useEffect(() => {
+    if (notificationCount == 0) {
+      getNotificationCount();
+      console.log("Notification Count", notificationCount);
+    } else if (notificationCount == null) {
+      setNotiCount(0);
+      storeData(AsyncStorageKey.NOTI_COUNT, "0");
+    } else {
+      console.log("Dispatch Notification Count", notificationCount);
+      setNotiCount(notificationCount);
+      storeData(AsyncStorageKey.NOTI_COUNT, notificationCount);
+    }
+  }, [notificationCount]);
 
   useEffect(() => {
     console.log("Reload");
     loadPromotionData();
-  }, [loadPromotionData,checkLanguage]);
+  }, [loadPromotionData, checkLanguage]);
 
   useEffect(() => {
     console.log("Will Focus");
@@ -133,10 +200,7 @@ export default HomeScreen = (props) => {
     }
   }
 
-
   const renderPage = (image, index) => {
-    console.log("EnglishImage")
-    console.log("ImageUrl", image.img);
     return (
       <Animated.Image
         key={index}
@@ -181,7 +245,7 @@ export default HomeScreen = (props) => {
     );
   };
   const renderItemMM = ({ item }) => {
-    console.log("MyanmarImage")
+    console.log("MyanmarImage");
     return (
       <View style={{ width: "48%", marginTop: 15 }}>
         <TouchableOpacity
@@ -235,7 +299,73 @@ export default HomeScreen = (props) => {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
+      <SafeAreaView
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          backgroundColor:
+            Platform.OS === "android" ? Colors.primary : Colors.primary,
+          height: Platform.OS === "android" ? 80 : 120,
+        }}
+      >
+        <View>
+          <TouchableOpacity
+            onPress={() => {
+              props.navigation.navigate("Home", {
+                screen: "DashboardNavigator",
+              });
+            }}
+          >
+            <Image
+              style={styles.headerIcon}
+              source={require("../../../assets/logo.png")}
+            />
+          </TouchableOpacity>
+        </View>
+
+        <View style={{ alignItems: "center", justifyContent: "center" }}>
+          <TouchableOpacity
+            onPress={() => {
+              storeData(AsyncStorageKey.NOTI_COUNT, "0").then(() => {
+                props.navigation.navigate("Notification");
+              });
+            }}
+          >
+            <Image
+              style={{ height: 20, width: 20, marginRight: 18 }}
+              source={require("../../../assets/notification_icon.png")}
+            />
+            <View
+              style={{
+                height: 18,
+                width: 18,
+                borderRadius: 1000,
+                position: "absolute",
+                top: -7,
+                right: 12,
+                backgroundColor: "red",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Text
+                style={{
+                  color: Colors.white,
+                  alignSelf: "center",
+                  fontSize: 8,
+                  alignItems: "center",
+                  textAlign: "center",
+                  position: "absolute",
+                  top: -2,
+                }}
+              >
+                {notiCount}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
       <ScrollView>
         <View>
           {sliderList.length > 0 ? (
@@ -338,80 +468,53 @@ export default HomeScreen = (props) => {
           />
         )}
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
 HomeScreen.navigationOptions = (props) => {
   return {
     headerTitle: "",
-    headerLeft: () => (
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <TouchableOpacity
-          onPress={() => {
-            props.navigation.navigate("Home", { screen: "DashboardNavigator" });
-          }}
-        >
-          <Image
-            style={styles.headerIcon}
-            source={require("../../../assets/logo.png")}
-          />
-        </TouchableOpacity>
-      </View>
-    ),
+    headerStyle: {
+      height: 0,
+    },
 
-    headerRight: () => (
-      <TouchableOpacity
-        onPress={() => props.navigation.navigate("Notification")}
-      >
-        <Image
-          style={{ height: 20, width: 20, marginRight: 18 }}
-          source={require("../../../assets/notification_icon.png")}
-        />
-      </TouchableOpacity>
-      // <Box w="90%" alignItems="center">
-      //   <Menu
-      //     w="140"
-      //     trigger={(triggerProps) => {
-      //       return (
-      //         <Pressable
-      //           accessibilityLabel="More options menu"
-      //           {...triggerProps}
-      //         >
-      //           <Ionicons
-      //             size={38}
-      //             style={{ color: Colors.white, marginRight: 15 }}
-      //             name="menu"
-      //           ></Ionicons>
-      //         </Pressable>
-      //       );
-      //     }}
-      //   >
-      //     <Menu.Item
-      //       onPress={() =>
-      //         props.navigation.navigate("MyAccount", { screenName: "Home" })
-      //       }
-      //     >
-      //       {translate("myaccount")}
-      //     </Menu.Item>
-      //     <Menu.Item onPress={() => props.navigation.navigate("AboutUs")}>
-      //       {translate("aboutus")}
-      //     </Menu.Item>
-      //     <Menu.Item
-      //       onPress={() => props.navigation.navigate("TermAndCondition")}
-      //     >
-      //       {translate("termandcondition")}
-      //     </Menu.Item>
-      //     <Menu.Item onPress={() => props.navigation.navigate("Faq")}>
-      //       {translate("faq")}
-      //     </Menu.Item>
-      //   </Menu>
-      // </Box>
-    ),
+    // <Box w="90%" alignItems="center">
+    //   <Menu
+    //     w="140"
+    //     trigger={(triggerProps) => {
+    //       return (
+    //         <Pressable
+    //           accessibilityLabel="More options menu"
+    //           {...triggerProps}
+    //         >
+    //           <Ionicons
+    //             size={38}
+    //             style={{ color: Colors.white, marginRight: 15 }}
+    //             name="menu"
+    //           ></Ionicons>
+    //         </Pressable>
+    //       );
+    //     }}
+    //   >
+    //     <Menu.Item
+    //       onPress={() =>
+    //         props.navigation.navigate("MyAccount", { screenName: "Home" })
+    //       }
+    //     >
+    //       {translate("myaccount")}
+    //     </Menu.Item>
+    //     <Menu.Item onPress={() => props.navigation.navigate("AboutUs")}>
+    //       {translate("aboutus")}
+    //     </Menu.Item>
+    //     <Menu.Item
+    //       onPress={() => props.navigation.navigate("TermAndCondition")}
+    //     >
+    //       {translate("termandcondition")}
+    //     </Menu.Item>
+    //     <Menu.Item onPress={() => props.navigation.navigate("Faq")}>
+    //       {translate("faq")}
+    //     </Menu.Item>
+    //   </Menu>
+    // </Box>
   };
 };

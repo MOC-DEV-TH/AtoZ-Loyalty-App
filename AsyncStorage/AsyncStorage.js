@@ -5,7 +5,6 @@ export const storeData = async (key,value) => {
     try {
 
       await AsyncStorage.setItem( key,value)
-      console.log("store data"+value)
     } catch (e) {
       console.log("error save to storage!!")
     }
@@ -19,7 +18,6 @@ export const storeData = async (key,value) => {
     } catch(e) {
       console.log("Error reading value")
     }
-    console.log("language_value",value)
     return value
   }
 

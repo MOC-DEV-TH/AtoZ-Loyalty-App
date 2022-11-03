@@ -18,11 +18,12 @@ import { getStoreData } from "../../../AsyncStorage/AsyncStorage";
 import AsyncStorageKey from "../../../constants/AsyncStorageKey";
 import { useCallback } from "react";
 import { MaterialIcons } from '@expo/vector-icons'; 
-import Text, { Heading } from "../../../components/Typography";
+import Text from "../../../components/Typography";
 import Colors from "../../../constants/Colors";
 import styles from "./styles";
 import { translate } from "react-native-translate";
 import { BackHandler } from 'react-native';
+import { Heading } from "native-base";
 
 export default OutletLocationsScreen = (props) => {
   const dispatch = useDispatch();
@@ -76,9 +77,10 @@ export default OutletLocationsScreen = (props) => {
         <HStack mb={10} pr={10}>
           <MaterialIcons name="location-pin" size={20} color={Colors.primary} />
           <Box pl={2}>
-            <Heading size={"sm"} color="primary" mb={1}>{item.location}</Heading>
-            <Text>{item.address}</Text>
-            <Text>Phone Number : {item.phnumber}</Text>
+          <Heading lineHeight={30} color={Colors.primary} fontSize={18}>{item.location}</Heading>
+            
+            <Text style={styles.description}>{item.address}</Text>
+            <Text style={styles.description}>Phone Number : {item.phnumber}</Text>
           </Box>
         </HStack>
       </>

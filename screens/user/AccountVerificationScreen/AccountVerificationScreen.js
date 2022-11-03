@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch,useSelector,shallowEqual } from "react-redux";
 import OTPInput from "../../../components/OTPInput";
 import { ButtonContainer, ButtonText } from "./styles";
 import React, { useEffect, useRef, useCallback } from "react";
@@ -23,6 +23,7 @@ import {
   useClearByFocusCell,
 } from "react-native-confirmation-code-field";
 import { Box, Center } from "native-base";
+import { translate } from "react-native-translate";
 
 const RESEND_OTP_TIME_LIMIT = 60;
 let resendOtpTimerInterval;
@@ -39,7 +40,17 @@ export default AccountVerificationScreen = (navData) => {
   });
   const [resendButtonDisabledTime, setResendButtonDisabledTime] = useState(
     RESEND_OTP_TIME_LIMIT
-  );
+    );
+
+    const response_status = useSelector(
+      (state) => state.user.status,
+      shallowEqual
+    );
+    useEffect(() => {
+      if (response_status == "Success") {
+        navData.navigation.replace("Success");
+      }
+    });
 
   useEffect(() => {
     dispatch(userActions.setEmptyStatus());
@@ -47,7 +58,7 @@ export default AccountVerificationScreen = (navData) => {
 
   useEffect(() => {
      sendOTP();
-    console.log(navData.navigation.getParam("phoneNo"))
+    console.log("User Phone",parseInt(navData.navigation.getParam("userObj").phone))
   }, [sendOTP]);
 
   //resend otp timer
@@ -90,7 +101,7 @@ export default AccountVerificationScreen = (navData) => {
     const respData = await response.json();
     console.log("OTP Verification" + respData.status);
     if (respData.status == "Success") {
-      navData.navigation.replace("Success");
+      dispatch(userActions.registerUser(navData.navigation.getParam("userObj")));
     } else {
       setOtpFailStatus(true)
     }
@@ -101,10 +112,10 @@ export default AccountVerificationScreen = (navData) => {
     let base64 = require("base-64");
 
     formData.append("senderid", "AtoZ");
-    formData.append("number", navData.navigation.getParam("phoneNo"));
+    formData.append("number", parseInt(navData.navigation.getParam("userObj").phone));
     formData.append(
       "message",
-      "You had successfully register in our system your otp is {otp}.This otp is valid only for 1min"
+      "You had successfully register in our system your otp is {otp}.This OTP is valid only for 1min"
     );
     formData.append("expiry", 1);
 
@@ -162,9 +173,9 @@ export default AccountVerificationScreen = (navData) => {
         </Box>
         <View style={{ alignItems: "center" }}>
           <Text
-            style={{ color: Colors.primary, fontSize: 18, fontWeight: "bold" }}
+            style={{ color: Colors.primary, fontSize: 18, fontWeight: "bold",padding:5 }}
           >
-            {otpFailStatus ? "Verification Failed" : "You’re almost done!"}
+            {otpFailStatus ? translate("verification_fail") :translate("almost_done")}
           </Text>
           <Text
             style={{
@@ -172,9 +183,10 @@ export default AccountVerificationScreen = (navData) => {
               fontWeight: "bold",
               textAlign: "center",
               margin: 25,
+              padding:5
             }}
           >
-            {otpFailStatus ? "Invalid OTP\nPlease try again" : 'Please verify your phone number\nby typing 6 digits via SMS.'}
+            {otpFailStatus ? translate("invalid_otp") : translate("verify_by_phone_number")}
           </Text>
           <CodeField
             ref={ref}
@@ -208,22 +220,22 @@ export default AccountVerificationScreen = (navData) => {
               style={{
                 color:
                   submitButtonState == "false" ? Colors.white : Colors.primary,
-                fontWeight: "bold",
+                fontWeight: "bold",padding:5
               }}
             >
-              Submit
+              {translate("submit")}
             </ButtonText>
           </ButtonContainer>
           <View style={{ marginTop: 30 }} />
           {resendButtonDisabledTime > 0 ? (
-            <Text style={{marginRight:5}}>
-              Resend OTP in:
+            <Text style={{marginRight:5,padding:5}}>
+              {translate("resend_otp_in")}
               <Text style={{ fontWeight:"bold" ,paddingLeft:5, color:"black" }}>{resendButtonDisabledTime}s</Text>
               
             </Text>
           ) : (
             <TouchableOpacity onPress={()=>onResendOtpButtonPress()}>
-              <Text style={styles.otpResendButtonText}>Resend OTP</Text>
+              <Text style={styles.otpResendButtonText}>{translate("resend_otp")}</Text>
             </TouchableOpacity>
           )}
         </View>
@@ -256,7 +268,8 @@ const styles = StyleSheet.create({
     color: Colors.primary,
     textTransform: "none",
     textDecorationLine: "underline",
-    fontWeight:"bold"
+    fontWeight:"bold",
+    padding:5
   },
   title: { textAlign: "center", fontSize: 20 },
   codeFieldRoot: { marginTop: 0 },

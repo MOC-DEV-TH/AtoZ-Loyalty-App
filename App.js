@@ -8,6 +8,7 @@ import {
   StatusBar,
   Platform,
   LogBox,
+  YellowBox
 } from "react-native";
 import "react-native-gesture-handler";
 import { Provider } from "react-redux";
@@ -41,7 +42,7 @@ import NavigationContainer from "./navigation/NavigationContainer";
 
 console.disableYellowBox = true;
 LogBox.ignoreAllLogs();
-
+YellowBox.ignoreWarnings(['Animated: `useNativeDriver` was not specified. This is a required option and must be explicitly set to `true` or `false`']);
 LogBox.ignoreLogs([
     'ViewPropTypes will be removed from React Native. Migrate to ViewPropTypes exported from \'deprecated-react-native-prop-types\'.',
     'NativeBase: The contrast ratio of',

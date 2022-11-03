@@ -18,6 +18,7 @@ import {
   Link,
   Spacer,
   Button,
+  Flex,
 } from "native-base";
 import Img from "../../../components/Img";
 import { FontAwesome } from "@expo/vector-icons";
@@ -44,7 +45,7 @@ import {
   AccordionList,
 } from "accordion-collapse-react-native";
 import Text, { Heading } from "../../../components/Typography";
-import { BackHandler } from 'react-native';
+import { BackHandler } from "react-native";
 
 const CollapseHeaderInner = ({ title, icon }) => {
   return (
@@ -100,17 +101,20 @@ export default AccountScreen = (props) => {
     setShowAlert(false);
   }
   function handleBackButtonClick() {
-    props.navigation.navigate("Setting")
+    props.navigation.navigate("Setting");
     return true;
   }
-  
+
   useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    BackHandler.addEventListener("hardwareBackPress", handleBackButtonClick);
     return () => {
-      BackHandler.removeEventListener('hardwareBackPress', handleBackButtonClick);
+      BackHandler.removeEventListener(
+        "hardwareBackPress",
+        handleBackButtonClick
+      );
     };
   }, []);
-  
+
   useEffect(() => {
     getStoreData(AsyncStorageKey.LANGUAGE).then((value) => {
       setLocale(value);
@@ -152,7 +156,9 @@ export default AccountScreen = (props) => {
 
   const onPressSave = () => {
     if (currentPassword != "" || newPassword != "") {
-      dispatch(myAccountActions.updateAccount(currentPassword, newPassword,props));
+      dispatch(
+        myAccountActions.updateAccount(currentPassword, newPassword, props)
+      );
     }
   };
   const onConfirm = () => {
@@ -182,52 +188,61 @@ export default AccountScreen = (props) => {
           <Box maxW="250" w="100%" mt={25}>
             <VStack space={3}>
               <HStack alignItems="center">
-                <Text
-                  color="primary"
-                  w={"50%"}
-                  style={{ fontFamily: translate("bodyFont") }}
-                >
+                <Text color="primary" w={"50%"} style={styles.description}>
                   {translate("userid")}
                 </Text>
-                <Text
-                  color="primary"
-                  w={"50%"}
-                  style={{ fontFamily: translate("bodyFont") }}
-                >
+                <Text color="primary" w={"50%"} style={styles.description}>
                   {memberInfo.user_id}
                 </Text>
               </HStack>
               <HStack alignItems="center">
-                <Text
-                  color="primary"
-                  w={"50%"}
-                  style={{ fontFamily: translate("bodyFont") }}
-                >
+                <Text color="primary" w={"50%"} style={styles.description}>
                   {translate("pointcollected")}
                 </Text>
-                <Text
-                  color="primary"
-                  w={"50%"}
-                  style={{ fontFamily: translate("bodyFont") }}
-                >
+                <Text color="primary" w={"50%"} style={styles.description}>
                   {memberInfo.current_point}
                 </Text>
               </HStack>
               <HStack alignItems="center">
-                <Text
-                  color="primary"
-                  w={"50%"}
-                  style={{ fontFamily: translate("bodyFont") }}
-                >
+                <Text color="primary" w={"50%"} style={styles.description}>
                   {translate("membertype")}
                 </Text>
-                <Text
-                  color="primary"
-                  w={"50%"}
-                  style={{ fontFamily: translate("bodyFont") }}
-                >
-                  {memberInfo.member_level}
-                </Text>
+                <HStack w={"50%"}>
+                  <Text color="primary"  style={styles.description}>
+                    {memberInfo.member_level}
+                  </Text>
+               {memberInfo.isVIP === "1" ?
+               <HStack ml={"2"}>
+                    <Box
+                      style={{
+                        borderTopWidth: 13,
+                        borderTopColor: "transparent",
+                        borderRightWidth: 13,
+                        borderRightColor: Colors.yellow,
+                        borderBottomWidth: 13,
+                        borderBottomColor: "transparent",
+                      }}
+                    ></Box>
+                    <Flex
+                      style={{ backgroundColor: Colors.yellow }}
+                      justifyContent="center"
+                      pr={4}
+                      pl={2}
+                    >
+                      <Text
+                        style={{
+                          color:Colors.primary,
+                          paddingTop: 4,
+                          fontFamily: translate("headingFont"),
+                          fontWeight: "bold",
+                        }}
+                      >
+                        VIP
+                      </Text>
+                    </Flex>
+                  </HStack>
+                : undefined}   
+                </HStack>
               </HStack>
             </VStack>
           </Box>
@@ -259,55 +274,115 @@ export default AccountScreen = (props) => {
               <CollapseBody>
                 <VStack space={2} mt={5} px={2}>
                   <HStack alignItems={"center"}>
-                    <Text w={"40%"} color="primary" fontFamily={"enFont"}>
+                    <Text
+                      style={styles.description}
+                      w={"40%"}
+                      color="primary"
+                      fontFamily={"enFont"}
+                    >
                       {translate("name")}
                     </Text>
-                    <Text w={"60%"} color="primary" pl={5}>
+                    <Text
+                      style={styles.description}
+                      w={"60%"}
+                      color="primary"
+                      pl={5}
+                    >
                       {memberInfo.name}
                     </Text>
                   </HStack>
 
                   <HStack alignItems={"center"}>
-                    <Text w={"40%"} color="primary" fontFamily={"enFont"}>
+                    <Text
+                      style={styles.description}
+                      w={"40%"}
+                      color="primary"
+                      fontFamily={"enFont"}
+                    >
                       {translate("dob")}
                     </Text>
-                    <Text w={"60%"} color="primary" pl={5}>
+                    <Text
+                      style={styles.description}
+                      w={"60%"}
+                      color="primary"
+                      pl={5}
+                    >
                       {memberInfo.dob}
                     </Text>
                   </HStack>
 
                   <HStack alignItems={"center"}>
-                    <Text w={"40%"} color="primary" fontFamily={"enFont"}>
+                    <Text
+                      style={styles.description}
+                      w={"40%"}
+                      color="primary"
+                      fontFamily={"enFont"}
+                    >
                       {translate("nrc")}
                     </Text>
-                    <Text w={"60%"} color="primary" pl={5}>
+                    <Text
+                      style={styles.description}
+                      w={"60%"}
+                      color="primary"
+                      pl={5}
+                    >
                       {memberInfo.nrc}
                     </Text>
                   </HStack>
 
                   <HStack alignItems={"center"}>
-                    <Text w={"40%"} color="primary" fontFamily={"enFont"}>
+                    <Text
+                      style={styles.description}
+                      w={"40%"}
+                      color="primary"
+                      fontFamily={"enFont"}
+                    >
                       {translate("address")}
                     </Text>
-                    <Text w={"60%"} color="primary" pl={5}>
+                    <Text
+                      style={styles.description}
+                      w={"60%"}
+                      color="primary"
+                      pl={5}
+                    >
                       {memberInfo.address}
                     </Text>
                   </HStack>
 
                   <HStack alignItems={"center"}>
-                    <Text w={"40%"} color="primary" fontFamily={"enFont"}>
+                    <Text
+                      style={styles.description}
+                      w={"40%"}
+                      color="primary"
+                      fontFamily={"enFont"}
+                    >
                       {translate("city")}
                     </Text>
-                    <Text w={"60%"} color="primary" pl={5}>
+                    <Text
+                      style={styles.description}
+                      w={"60%"}
+                      color="primary"
+                      pl={5}
+                    >
                       {memberInfo.city}
                     </Text>
                   </HStack>
 
                   <HStack alignItems={"center"}>
-                    <Text w={"40%"} color="primary" fontFamily={"enFont"}>
+                    <Text
+                      style={styles.description}
+                      w={"40%"}
+                      color="primary"
+                      fontFamily={"enFont"}
+                    >
                       {translate("membersince")}
                     </Text>
-                    <Text w={"60%"} color="primary" pl={5}>
+                    <Text
+                      style={styles.description}
+                      w={"60%"}
+                      color="primary"
+                      pl={5}
+                    >
                       {memberInfo.created_date}
                     </Text>
                   </HStack>
@@ -340,6 +415,7 @@ export default AccountScreen = (props) => {
                 <VStack space={2} mt={5} px={2}>
                   <Box>
                     <Text
+                      style={styles.description}
                       color="primary"
                       mb={2}
                       fontWeight={"bold"}
@@ -383,6 +459,7 @@ export default AccountScreen = (props) => {
 
                   <Box>
                     <Text
+                      style={styles.description}
                       color="primary"
                       mb={2}
                       fontWeight={"bold"}
@@ -421,15 +498,17 @@ export default AccountScreen = (props) => {
                   </Box>
 
                   <HStack justifyContent={"flex-end"} mt={5}>
-                    <TouchableOpacity onPress={() => onPressSave(props.navigation)}>
+                    <TouchableOpacity
+                      onPress={() => onPressSave(props.navigation)}
+                    >
                       <View
                         style={{
                           backgroundColor: Colors.yellow,
-                          width:150,height:48,
+                          width: 150,
+                          height: 48,
                           borderRadius: 24,
-                          alignItems:"center",
-                          justifyContent:"center"
-                    
+                          alignItems: "center",
+                          justifyContent: "center",
                         }}
                       >
                         <Text
@@ -439,7 +518,7 @@ export default AccountScreen = (props) => {
                             fontFamily: translate("headingFont"),
                           }}
                         >
-                          {translate('save')}
+                          {translate("save")}
                         </Text>
                       </View>
                     </TouchableOpacity>
@@ -464,7 +543,7 @@ AccountScreen.navigationOptions = (props) => {
           alignItems: "center",
         }}
       >
-        <Text style={{ fontSize: 22, color: Colors.white,padding:10 }}>
+        <Text style={{ fontSize: 22, color: Colors.white, padding: 10 }}>
           {translate("myaccount")}
         </Text>
       </View>
@@ -477,7 +556,7 @@ AccountScreen.navigationOptions = (props) => {
           alignItems: "center",
         }}
       >
-        <TouchableOpacity onPress={()=>props.navigation.navigate("Setting")}>
+        <TouchableOpacity onPress={() => props.navigation.navigate("Setting")}>
           <Image
             style={styles.headerIcon}
             source={require("../../../assets/left_arrow_circle.png")}

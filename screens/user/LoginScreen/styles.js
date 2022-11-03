@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import Colors from "../../../constants/Colors";
+import { translate } from "react-native-translate";
 export default StyleSheet.create({
   container: {
     backgroundColor: "white",
@@ -51,15 +52,17 @@ PasswordSectionStyle: {
   button: {
     backgroundColor: Colors.yellow,
     height: 44,
-    borderRadius: 14,
+    borderRadius: 20,
     marginTop:10,
     alignItems: "center",
     justifyContent: "center",
   },
   buttonTitle: {
     color: Colors.primary,
-    fontSize: 16,
-    fontWeight: "bold",
+    fontSize: "lg",
+    fontWeight:"bold",
+    fontFamily:translate("headingFont"),
+    
   },
 
   rowContainer: {

@@ -67,17 +67,17 @@ export default SignUpScreen = (props) => {
     (item) => item.division == cityKey
   );
 
-  const response_status = useSelector(
-    (state) => state.user.status,
-    shallowEqual
-  );
-  useEffect(() => {
-    if (response_status == "Success") {
-      props.navigation.replace("AccountVerification", {
-        phoneNo: parseInt(phone),
-      });
-    }
-  });
+  // const response_status = useSelector(
+  //   (state) => state.user.status,
+  //   shallowEqual
+  // );
+  // useEffect(() => {
+  //   if (response_status == "Success") {
+  //     props.navigation.replace("AccountVerification", {
+  //       phoneNo: parseInt(phone),
+  //     });
+  //   }
+  // });
   const createUserObj = () => {
     const userObj = {
       name: name,
@@ -102,16 +102,26 @@ export default SignUpScreen = (props) => {
       phone === "" ||
       typePassword === "" ||
       confirmPassword === "" ||
+      nrc === "" ||
       gender == null
     ) {
       alert("Data must not empty");
-    } else {
-      try {
-        const userObj = createUserObj();
-        await dispatch(userActions.registerUser(userObj));
-      } catch (error) {
-        console.log("error : " + error.message);
-      }
+    }
+    else if (confirmPassword!=typePassword){
+      alert("Password does not match!")
+    }
+     else {
+      const userObj = createUserObj();
+       props.navigation.replace("AccountVerification", {
+        userObj: userObj,
+       });
+
+      // try {
+      //   const userObj = createUserObj();
+      //   await dispatch(userActions.registerUser(userObj));
+      // } catch (error) {
+      //   console.log("error : " + error.message);
+      // }
     }
   };
 

@@ -13,6 +13,7 @@ import en from "../../../locales/en";
 import my from "../../../locales/my";
 import * as authActions from "../../../store/actions/auth";
 import { useDispatch } from "react-redux";
+import * as Notifications from 'expo-notifications'
 
 export default GetStartScreen = (props) => {
   const dispatch = useDispatch()
@@ -24,6 +25,19 @@ export default GetStartScreen = (props) => {
   useEffect(() => {
     dispatch(authActions.getAllDDL());
   },[]);
+
+  useEffect(()=>{
+      const notificationInteractionSubscription = Notifications.addNotificationResponseReceivedListener(
+        response => {
+          // add the code to do what you need with the notification e.g. navigate to a specific screen
+          props.navigation.navigate()
+        }
+      )
+  
+      return () => {
+        notificationInteractionSubscription.remove()
+      }
+  })
 
 //check language
 useEffect(() => {

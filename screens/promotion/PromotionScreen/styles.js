@@ -48,6 +48,7 @@ export default StyleSheet.create({
     fontFamily:translate("bodyFont"),
     textAlign:"justify",
     color:Colors.primary,
+    fontWeight:"600",
   },
 
   vContainer:{

@@ -21,6 +21,9 @@ import Text from "../../../components/Typography";
 import ContainerFluid from "../../../components/ContainerFluid";
 import * as notificationActions from "../../../store/actions/notification";
 import { BackHandler } from 'react-native';
+import { Heading } from "native-base";
+import { storeData } from "../../../AsyncStorage/AsyncStorage";
+import AsyncStorageKey from "../../../constants/AsyncStorageKey";
 
 
 //open database
@@ -70,8 +73,8 @@ useEffect(() => {
  const renderItem = ({ item }) => {
   return (
     <VStack style={{marginTop:10,backgroundColor:"#f9f9f9",borderRadius:8,padding:10}}>
-        <Text style={{fontSize:17,fontWeight:"bold",color:Colors.primary}}>{item.title}</Text>
-        <Text style={{color:Colors.primary}}>
+       <Heading color={Colors.primary} fontSize={18}>{item.title}</Heading>
+        <Text style={styles.description}>
         {item.message}
         </Text>
     </VStack>

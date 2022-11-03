@@ -38,7 +38,7 @@ export const SplitBoxesFocused = styled(SplitBoxes)`
 
 export const ButtonContainer = styled.TouchableOpacity`
   background-color: #000000;
-  padding: 10px;
+  padding: 8px;
   justify-content: center;
   align-items: center;
   width: 265px;

@@ -257,5 +257,13 @@ const en = {
   terms_article5_juri_dispute_resolution: "5.7 DISPUTE RESOLUTION",
   terms_article5_juri_dispute_resolution_para1:
     "ROYAL ATOZ HOLDING CO.,LTD may elect to resolve any controversy or claim arising out of or relating to these Terms and Conditions, the Program. Any such controversy or claim shall be arbitrated on an individual basis and shall not be consolidated in any arbitration with any claim or controversy of any other party. The arbitration shall be conducted in Chicago, Illinois, and judgment on the arbitration award may be entered in any court having jurisdiction thereof. Either you or we may seek any interim or preliminary relief from a state or federal court of competent jurisdiction in the state of Illinois, necessary to protect the rights or the property of you or ROYAL ATOZ HOLDING CO.,LTD (or its agents, suppliers, and subcontractors), pending the completion of arbitration.",
+    almost_done : "You’re almost done!",
+    loyalty_program_submit_success : " Your Loyalty Program Membership\nAccount Creation has been\nsubmitted successfully.",
+    account_verification_process : "Account verification process is\nalready underway and\n\nyour Login credentials will be\nnotified via SMS after verification.",
+    verify_by_phone_number : "Please verify your phone number\nby typing 6 digits via SMS.",
+    invalid_otp : "Invalid OTP\nPlease try again",
+    verification_fail : "Verification Failed",
+    resend_otp : "Resend OTP",
+    resend_otp_in : "Resend OTP in:"
 };
 export default en;

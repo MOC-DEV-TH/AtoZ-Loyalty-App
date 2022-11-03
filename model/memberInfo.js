@@ -10,6 +10,7 @@ class MemberInfo {
       current_point,
       user_id,
       created_date,
+      isVIP
 
     ) {
       this.name = name;
@@ -21,7 +22,8 @@ class MemberInfo {
       this.member_level = member_level;
       this.current_point = current_point;
       this.user_id = user_id;
-      this.created_date = created_date
+      this.created_date = created_date;
+      this.isVIP = isVIP;
     }
   }
   

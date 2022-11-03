@@ -60,7 +60,8 @@ export const getMemberInfo = () => {
       respData.details.member_level,
       respData.details.current_point,
       respData.details.user_id,
-      respData.details.created_date
+      respData.details.created_date,
+      respData.details.isVIP
     );
     console.log(memberInfoObj);
     dispatch({

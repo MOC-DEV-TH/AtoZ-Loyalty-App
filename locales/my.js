@@ -30,7 +30,7 @@ const my = {
   accountverifyshortly : 'Account ID ကို မကြာမီ အကြောင်းကြား ပေးပို့ပေးပါမည်',
   userid : 'အကောင့်နံပါတ်',
   password : 'လျှို့ဝှက်နံပါတ်',
-  pointcollected : 'ရရှိပြီး ပွိုင့်အရေအတွက်',
+  pointcollected : 'ရရှိပြီးပွိုင့်အရေအတွက်',
   point : 'ပွိုင့်',
   home : 'ပင်မစာမျက်နှာ',
   backtohome : 'ပင်မစာမျက်နှာသို့',
@@ -247,5 +247,13 @@ const my = {
   terms_article5_juri_dispute_resolution: "5.7 DISPUTE RESOLUTION",
   terms_article5_juri_dispute_resolution_para1:
     "ROYAL ATOZ HOLDING CO.,LTD may elect to resolve any controversy or claim arising out of or relating to these Terms and Conditions, the Program. Any such controversy or claim shall be arbitrated on an individual basis and shall not be consolidated in any arbitration with any claim or controversy of any other party. The arbitration shall be conducted in Chicago, Illinois, and judgment on the arbitration award may be entered in any court having jurisdiction thereof. Either you or we may seek any interim or preliminary relief from a state or federal court of competent jurisdiction in the state of Illinois, necessary to protect the rights or the property of you or ROYAL ATOZ HOLDING CO.,LTD (or its agents, suppliers, and subcontractors), pending the completion of arbitration.",
+    almost_done : "လုပ်ဆောင်မှုပြီးဆုံးခါနီးပါပြီ",
+    loyalty_program_submit_success : "Loyalty အစီအစဉ် အဖွဲ့ဝင်အကောင့်ဖွင့်ရန်\nစာရင်းသွင်းမှု အောင်မြင်စွာ လုပ်ဆောင်ပြီးပါပြီ။",
+    account_verification_process : "အကောင့်အတည်ပြုခြင်းကို လုပ်ဆောင်လျက်ရှိပြီး\n\nအကောင့်ဝင်ရောင်နိုင်ရန်လိုအပ်သောအချက်\nအလက်များကို SMS မှတဆင့် ပေးပို့ပေးပါမည်။",
+    verify_by_phone_number : "သင့်ဖုန်းနံပါတ်သို့ပေးပို့ထားသော ဂဏန်း၆လုံးပါ\nOTP ကို ရိုက်ထည့်အတည်ပြုပေးပါ။",
+    invalid_otp : "OTP နံပါတ်မှားယွင်းနေပါသည််\nပြန်လည်ရိုက်ထည့်ပေးပါ",
+    verification_fail : "အတည်ပြုမှုမအောင်မြင်ပါ",
+    resend_otp : "OTP ပြန်ပို့ရန်",
+    resend_otp_in : "OTP ပြန်ပို့ရန်:",
 };
 export default my;

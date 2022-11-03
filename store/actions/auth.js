@@ -4,8 +4,11 @@ import DropDownVO from "../../model/dropDown";
 import { getStoreData, storeData } from "../../AsyncStorage/AsyncStorage";
 import AsyncStorageKey from "../../constants/AsyncStorageKey";
 import getEnvVars from "../../environment";
+import { debug } from "react-native-reanimated";
+import * as notificationActions from "../actions/notification";
+import { useDispatch } from "react-redux";
 
-const { apiUrl,aut } = getEnvVars();
+const { apiUrl, aut } = getEnvVars();
 export const AUTHENTICATE = "AUTHENTICATE";
 export const SET_ALL_DROP_DOWN = "SET_DROP_DOWN";
 
@@ -21,13 +24,14 @@ export const authenticate = (token, userID, createDate) => {
 };
 
 export const login = (userID, password, expoToken) => {
-  console.log(apiUrl)
-  return async (dispatch) => {
+  console.log(apiUrl);
+  return async (dispatch, getState) => {
+    const notificationData = getState().notification.notificationCount;
     const response = await fetch(apiUrl + "/login", {
       method: "POST",
       headers: {
         "Content-type": "application/json",
-        "Authorization": Global.security_key,
+        Authorization: Global.security_key,
       },
       body: JSON.stringify({
         user_id: userID,
@@ -49,13 +53,16 @@ export const login = (userID, password, expoToken) => {
 
     if (respData.response_code == "003") {
       alert(respData.description);
+    } else if (respData.status === "Success") {
+      storeData(AsyncStorageKey.USER_ID, userID);
     }
-    else if(respData.status==="Success"){
-       storeData(AsyncStorageKey.USER_ID,userID);
-    }
-    
-    if(respData.status==="Success"){
-      storeData(AsyncStorageKey.IS_LOGIN,"1");
+
+    if (respData.status === "Success") {
+      storeData(AsyncStorageKey.IS_LOGIN, "1"),
+        storeData(
+          AsyncStorageKey.NOTI_COUNT,
+          respData.details.noti_count.toString()
+        );
     }
 
     dispatch(

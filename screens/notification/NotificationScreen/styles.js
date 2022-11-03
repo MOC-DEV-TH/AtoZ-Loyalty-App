@@ -1,6 +1,7 @@
 import { Center } from "native-base";
 import { StyleSheet } from "react-native";
 import Colors from "../../../constants/Colors";
+import { translate } from "react-native-translate";
 
 export default StyleSheet.create({
   container: {
@@ -34,4 +35,15 @@ export default StyleSheet.create({
     fontSize: 17,
     padding:10
   },
+  description:{
+    fontFamily:translate("bodyFont"),
+    textAlign:"justify",
+    color:Colors.primary,
+    fontWeight:"600",
+  },
+  title:{
+    fontSize:17,
+    fontWeight:"900",
+    color:Colors.primary
+  }
 });

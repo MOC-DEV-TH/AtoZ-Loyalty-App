@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import Colors from "../../../constants/Colors";
 import {Dimensions} from 'react-native';
-
+import { translate } from "react-native-translate";
 const windowWidth = Dimensions.get('window').width;
 
 export default StyleSheet.create({
@@ -56,6 +56,12 @@ export default StyleSheet.create({
     marginTop:10,
     justifyContent:'space-between',
     alignItems:'flex-start',
-  }
+  },
+  description:{
+    fontFamily:translate("bodyFont"),
+    textAlign:"justify",
+    color:Colors.primary,
+    fontWeight:"600",
+  },
 
 });

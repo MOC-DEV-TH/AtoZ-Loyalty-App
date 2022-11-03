@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import Colors from "../../../constants/Colors";
+import { translate } from "react-native-translate";
 
 export default StyleSheet.create({
   container: {
@@ -31,5 +32,11 @@ headerIcon: {
   alertContentContainer: {
     backgroundColor: Colors.primary,
     padding: 25,
+},
+description:{
+  fontFamily:translate("bodyFont"),
+  textAlign:"justify",
+  color:Colors.primary,
+  fontWeight:"600",
 },
 });

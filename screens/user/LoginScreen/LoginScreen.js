@@ -1,27 +1,27 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect, useCallback } from "react";
 import {
-  Text,
+  
   TouchableOpacity,
   Image,
   TextInput,
   SafeAreaView,
   View,
+  Button
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
-import { Center, Icon, Pressable } from "native-base";
+import { Center, Icon, Pressable,Text } from "native-base";
 import * as Notifications from "expo-notifications";
 import { useDispatch, useSelector } from "react-redux";
 import * as authActions from "../../../store/actions/auth";
 import { Ionicons } from "@expo/vector-icons";
 import styles from "./styles";
 import Colors from "../../../constants/Colors";
-import { translate } from "react-native-translate";
+import { Translate, translate } from "react-native-translate";
 import LogoBanner from "../../../components/LogoBanner";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { getStoreData } from "../../../AsyncStorage/AsyncStorage";
 import AsyncStorageKey from "../../../constants/AsyncStorageKey";
-import Button from "../../../components/Button";
 
 export default LoginScreen = (props) => {
   const dispatch = useDispatch();
@@ -29,24 +29,23 @@ export default LoginScreen = (props) => {
   const [userId, setUserId] = useState(0);
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [expoToken,setExpoToken] = useState("")
-  const [firstTimeUserID,setFirstTimeUserId] = useState("")
+  const [expoToken, setExpoToken] = useState("");
+  const [firstTimeUserID, setFirstTimeUserId] = useState("");
 
-  useEffect(()=>{
-    getStoreData(AsyncStorageKey.EXPO_TOKEN).then((value)=>{
-      setExpoToken(value)
-    })
-  })
+  useEffect(() => {
+    getStoreData(AsyncStorageKey.EXPO_TOKEN).then((value) => {
+      setExpoToken(value);
+    });
+  });
 
-  useEffect(()=>{
-    getStoreData(AsyncStorageKey.USER_ID).then((value)=>{
-      if(value!=null){
-        setFirstTimeUserId(value)
-        setUserId(value)
+  useEffect(() => {
+    getStoreData(AsyncStorageKey.USER_ID).then((value) => {
+      if (value != null) {
+        setFirstTimeUserId(value);
+        setUserId(value);
       }
-    })
-  }, [])
-
+    });
+  }, []);
 
   const onPressCreateNewAccount = () => {
     props.navigation.navigate("SignUp");
@@ -57,7 +56,7 @@ export default LoginScreen = (props) => {
       alert("Data must not empty!!");
     } else {
       try {
-        await dispatch(authActions.login(userId, password,expoToken));
+        await dispatch(authActions.login(userId, password, expoToken));
         props.navigation.navigate("Main");
       } catch (error) {
         console.log("error : " + error.message);
@@ -133,7 +132,7 @@ export default LoginScreen = (props) => {
                 autoCapitalize="none"
               />
             </View>
-            <Pressable style={{opacity: 0}}>
+            <Pressable style={{ opacity: 0 }}>
               <Icon
                 style={{ color: Colors.primary }}
                 as={
@@ -192,7 +191,7 @@ export default LoginScreen = (props) => {
                 color: Colors.primary,
                 alignSelf: "center",
                 marginTop: 60,
-                padding:10
+                padding: 10,
               }}
             >
               {translate("createnewaccount")}
@@ -205,7 +204,10 @@ export default LoginScreen = (props) => {
           >
             <Text style={styles.buttonTitle}>{translate("login")}</Text>
           </TouchableOpacity> */}
-          <Button onPress={() => onSignInPress()}  fontSize="lg" mt={3}>{translate("login")}</Button>
+          {/* <Button bg={Colors.yellow}  role="button" color="primary" onPress={() => onSignInPress()}><Translate value="login" /></Button> */}
+          <TouchableOpacity style={styles.button} onPress={()=>onSignInPress()}>
+            <Text fontSize="lg" color={Colors.primary} fontFamily={translate("headingFont")}>{translate("login")}</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </KeyboardAwareScrollView>
