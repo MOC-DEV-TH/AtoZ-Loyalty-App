@@ -141,7 +141,7 @@ export default HomeScreen = (props) => {
   const loadPromotionData = useCallback(async () => {
     setIsLoading(true);
     try {
-      dispatch(homeActions.getHomePromotions());
+     await dispatch(homeActions.getHomePromotions());
     } catch (error) {
       setError(error.message);
     }
@@ -366,7 +366,7 @@ export default HomeScreen = (props) => {
           </TouchableOpacity>
         </View>
       </SafeAreaView>
-      <ScrollView>
+      {isLoading ? <ActivityIndicator style={{flex:1}} size={"large"} /> :  <ScrollView>
         <View>
           {sliderList.length > 0 ? (
             <Carousel
@@ -467,7 +467,8 @@ export default HomeScreen = (props) => {
             columnWrapperStyle={{ justifyContent: "space-between" }}
           />
         )}
-      </ScrollView>
+      </ScrollView> }
+    
     </View>
   );
 };

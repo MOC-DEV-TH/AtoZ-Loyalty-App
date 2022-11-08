@@ -1,5 +1,12 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View, Alert, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Alert,
+  TouchableOpacity,
+  ImageBackground,
+  Platform
+} from "react-native";
 import styles from "./styles";
 import { MaterialIcons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -207,41 +214,36 @@ export default AccountScreen = (props) => {
                 <Text color="primary" w={"50%"} style={styles.description}>
                   {translate("membertype")}
                 </Text>
-                <HStack w={"50%"}>
-                  <Text color="primary"  style={styles.description}>
+                <HStack alignItems={"center"} w={"50%"}>
+                  <Text color="primary" style={styles.description}>
                     {memberInfo.member_level}
                   </Text>
-               {memberInfo.isVIP === "1" ?
-               <HStack ml={"2"}>
-                    <Box
+                  {memberInfo.isVIP === "1" ? (
+                    <ImageBackground
+                      source={require("../../../assets/vip_bg.png")}
+                      resizeMode="contain"
                       style={{
-                        borderTopWidth: 13,
-                        borderTopColor: "transparent",
-                        borderRightWidth: 13,
-                        borderRightColor: Colors.yellow,
-                        borderBottomWidth: 13,
-                        borderBottomColor: "transparent",
+                        width: 45,
+                        justifyContent: "center",
+                        alignItems: "center",
+                        height: 40,
+                        marginLeft: 10,
                       }}
-                    ></Box>
-                    <Flex
-                      style={{ backgroundColor: Colors.yellow }}
-                      justifyContent="center"
-                      pr={4}
-                      pl={2}
                     >
                       <Text
                         style={{
-                          color:Colors.primary,
-                          paddingTop: 4,
+                          alignSelf: "center",
+                          color: Colors.primary,
                           fontFamily: translate("headingFont"),
                           fontWeight: "bold",
+                          paddingLeft: 5,
+                          paddingTop:Platform.OS=='ios' ? 4 : 0
                         }}
                       >
                         VIP
                       </Text>
-                    </Flex>
-                  </HStack>
-                : undefined}   
+                    </ImageBackground>
+                  ) : undefined}
                 </HStack>
               </HStack>
             </VStack>

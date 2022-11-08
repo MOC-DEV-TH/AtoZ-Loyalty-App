@@ -39,4 +39,16 @@ description:{
   color:Colors.primary,
   fontWeight:"600",
 },
+triangleLeft: {
+  width: 0,
+  height: 0,
+  borderLeftWidth: 60,
+  borderRightWidth: 60,
+  borderBottomWidth: 120,
+  borderStyle: 'solid',
+  backgroundColor: 'transparent',
+  borderLeftColor: 'transparent',
+  borderRightColor: 'transparent',
+  borderBottomColor: '#00BCD4'
+},
 });
