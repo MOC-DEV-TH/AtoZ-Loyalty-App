@@ -30,7 +30,7 @@ const my = {
   accountverifyshortly : 'Account ID ကို မကြာမီ အကြောင်းကြား ပေးပို့ပေးပါမည်',
   userid : 'အကောင့်နံပါတ်',
   password : 'လျှို့ဝှက်နံပါတ်',
-  pointcollected : 'ရရှိပြီးပွိုင့်အရေအတွက်',
+  pointcollected : 'ရရှိပြီးပွိုင့်အရေအတွက်',
   point : 'ပွိုင့်',
   home : 'ပင်မစာမျက်နှာ',
   backtohome : 'ပင်မစာမျက်နှာသို့',

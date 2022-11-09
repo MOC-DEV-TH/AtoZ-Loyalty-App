@@ -62,6 +62,7 @@ export default StyleSheet.create({
     textAlign:"justify",
     color:Colors.primary,
     fontWeight:"600",
+    lineHeight:30
   },
 
 });

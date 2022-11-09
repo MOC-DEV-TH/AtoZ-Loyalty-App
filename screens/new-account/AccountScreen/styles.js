@@ -35,9 +35,9 @@ headerIcon: {
 },
 description:{
   fontFamily:translate("bodyFont"),
-  textAlign:"justify",
   color:Colors.primary,
   fontWeight:"600",
+  lineHeight:30
 },
 triangleLeft: {
   width: 0,
