@@ -27,18 +27,12 @@ import myAccountReducer from "./store/reducers/myAccount";
 import pointHistoryReducer from "./store/reducers/point_history";
 import notificationReducer from "./store/reducers/notification";
 import { extendTheme, NativeBaseProvider } from "native-base";
-import * as TaskManager from "expo-task-manager";
 import Colors from "./constants/Colors";
-import { setLocalization, translate } from "react-native-translate";
-import en from "./locales/en";
-import my from "./locales/my";
-import * as SQLite from "expo-sqlite";
-import { checkDatabaseForFirstTime } from "./persistence/database";
-import { retrieveNotification } from "./persistence/database";
-import { addToDatabase } from "./persistence/database";
 import { useFonts } from "expo-font";
 import navigationRef from "./navigation/RootNavigation";
 import NavigationContainer from "./navigation/NavigationContainer";
+import * as SplashScreen from 'expo-splash-screen';
+import * as authActions from "./store/actions/auth";
 
 console.disableYellowBox = true;
 LogBox.ignoreAllLogs();
@@ -73,7 +67,7 @@ Notifications.setNotificationHandler({
 export default App = (props) => {
   const BACKGROUND_NOTIFICATION_TASK = "BACKGROUND-NOTIFICATION-TASK";
   const [expoPushToken, setExpoPushToken] = useState("");
-
+ 
   const [fontsLoaded] = useFonts({
     "En-Heading-Font": require("./assets/fonts/Helvetica/HelveticaLTStd-Bold.otf"),
     "En-Body-Font": require("./assets/fonts/Helvetica/HelveticaLTStd-Light.otf"),
@@ -93,7 +87,10 @@ export default App = (props) => {
   //     await SplashScreen.hideAsync();
   //   }
   // }, [fontsLoaded]);
-
+  useEffect(() => {
+    setTimeout(() => SplashScreen.hideAsync(), 2000);
+  }, []);
+  
   const handleNewNotification = async (notificationObject) => {
     try {
       const newNotification = {
@@ -139,6 +136,7 @@ export default App = (props) => {
 
   useEffect(()=>{
     storeData(AsyncStorageKey.IS_LOGIN,"0")
+    console.log("Device Type",Device.DeviceType)
   },[])
 
   // is font ready?

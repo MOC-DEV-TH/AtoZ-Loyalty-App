@@ -12,7 +12,8 @@ export default StyleSheet.create({
     borderWidth: 0.5,
     borderRadius: 8,
     paddingHorizontal: 8,
-    textAlign : "center"
+    textAlign : "center",
+    backgroundColor:Colors.white
    
   },
   logo: {

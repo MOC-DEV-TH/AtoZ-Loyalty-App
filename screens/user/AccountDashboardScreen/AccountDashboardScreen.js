@@ -1,56 +1,37 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View, TouchableOpacity } from "react-native";
+import { StyleSheet, View, TouchableOpacity,ActivityIndicator } from "react-native";
 import styles from "./styles";
 import Colors from "../../../constants/Colors";
-import { MaterialIcons } from "@expo/vector-icons";
-import { AntDesign } from "@expo/vector-icons";
 import * as authActions from "../../../store/actions/auth";
-import React, { useState, useEffect } from "react";
-import { storeData } from "../../../AsyncStorage/AsyncStorage";
-import { setLocalization,translate } from 'react-native-translate';
-import en from "../../../locales/en";
-import my from "../../../locales/my";
+import React, { useState, useEffect,useCallback } from "react";
+import { setLocalization, translate } from "react-native-translate";
 import { useDispatch } from "react-redux";
 import LogoBanner from "../../../components/LogoBanner";
-import AsyncStorageKey from "../../../constants/AsyncStorageKey";
-import {
-  Box,
-  HStack,
-  VStack,
-  Input,
-  Stack,
-  FormControl,
-  Pressable,
-  Heading,
-  Image,
-  Icon,
-  KeyboardAvoidingView,
-  ScrollView,
-} from "native-base";
 import Button from "../../../components/Button";
 import Text from "../../../components/Typography";
 
 export default AccountDashboardScreen = (props) => {
   const dispatch = useDispatch();
   let [local, setLocal] = useState("en");
- 
-  const onPressChangeLanguage = () => {
-      if(local=="en"){
-        setLocal("my")
-        setLocalization(my)
-        storeData(AsyncStorageKey.LANGUAGE,"my")
-      }
-      else if(local=="my") {
-        setLocal("en")
-        setLocalization(en)
-        storeData(AsyncStorageKey.LANGUAGE,"en")
-      }
-  };
+  const [isLoading, setIsLoading] = useState(false);
+
+  // useEffect(() => {
+  //   loadAllDDLData();
+  // }, );
+
+  const loadAllDDLData = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      await dispatch(authActions.getAllDDL());
+    } catch (error) {
+      console.log(error);
+    }
+    setIsLoading(false);
+  }, [setIsLoading, dispatch]);
 
   const onLoginPress = () => {
-     props.navigation.navigate("SignIn");
+    props.navigation.navigate("SignIn");
   };
-   
+
   const onRegisterPress = () => {
     props.navigation.navigate("SignUp");
   };
@@ -63,7 +44,7 @@ export default AccountDashboardScreen = (props) => {
     <View style={styles.container}>
       <LogoBanner minHeight={200} statusBarHeight={true}></LogoBanner>
 
-      <View style={{marginTop:40}}>
+      <View style={{ marginTop: 40 }}>
         <Text style={{ color: Colors.primary, alignSelf: "center" }}>
           {translate("alreadyAccount")}
         </Text>
@@ -77,7 +58,9 @@ export default AccountDashboardScreen = (props) => {
         >
           {translate("login")}
         </Button> */}
-        <Button width="250" role="button" mt={2} onPress={() => onLoginPress()}>{translate("login")}</Button>
+        <Button width="250" role="button" mt={2} onPress={() => onLoginPress()}>
+          {translate("login")}
+        </Button>
       </View>
 
       <View style={{ margin: 30 }}>
@@ -88,48 +71,16 @@ export default AccountDashboardScreen = (props) => {
         <Text style={{ color: Colors.primary, alignSelf: "center" }}>
           {translate("createnewaccount")}
         </Text>
-        {/* <Button
-          mt={2}
+        <Button
           width="250"
-          backgroundColor={Colors.yellow}
-          _text={{ color: Colors.primary, fontSize: 18, fontWeight: "bold" }}
+          role="button"
+          mt={2}
           onPress={() => onRegisterPress()}
-          fontWeight="bold"
         >
           {translate("register")}
-        </Button> */}
-        <Button width="250" role="button" mt={2} onPress={() => onRegisterPress()}>{translate("register")}</Button>
+        </Button>
       </View>
 
-      {/* <View
-        style={{
-          position: "absolute",
-          bottom: 20,
-          left: 20,
-          alignItems: "center",
-        }}
-      >
-        <TouchableOpacity onPress={() => onHelpPress()}>
-          <HStack>
-            <AntDesign name="questioncircle" size={24} color={Colors.primary} />
-
-            <Text style={{ marginLeft: 5, color: Colors.primary }}>{translate("help")}</Text>
-          </HStack>
-        </TouchableOpacity>
-      </View>
-
-      <View
-        style={{
-          position: "absolute",
-          bottom: 20,
-          right: 20,
-          alignItems: "center",
-        }}
-      >
-        <TouchableOpacity onPress={() => onPressChangeLanguage()}>
-          <Text style={{fontSize:11}} color={Colors.primary}>မြန်မာ / Eng</Text>
-        </TouchableOpacity>
-      </View> */}
     </View>
   );
 };

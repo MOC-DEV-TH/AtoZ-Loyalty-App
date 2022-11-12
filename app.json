@@ -28,13 +28,16 @@
       "**/*"
     ],
     "ios": {
+      "entitlements": {
+        "com.apple.developer.networking.wifi-info": true
+      },
       "splash": {
         "image": "./assets/atoz-splash.png",
         "resizeMode": "contain",
         "backgroundColor": "#034ea1"
       },
       "bundleIdentifier": "com.atoz.client",
-      "buildNumber": "9",
+      "buildNumber": "13",
       "supportsTablet": false,
       "googleServicesFile": "./GoogleService-Info.plist",
       "infoPlist": {

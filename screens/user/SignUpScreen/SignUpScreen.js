@@ -10,6 +10,7 @@ import {
   TextInput,
   Platform,
   KeyboardAvoidingView,
+  ActivityIndicator,
 } from "react-native";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import Colors from "../../../constants/Colors";
@@ -27,6 +28,7 @@ import styles from "./styles";
 import { translate } from "react-native-translate";
 import LogoBanner from "../../../components/LogoBanner";
 import Button from "../../../components/Button";
+import * as authActions from "../../../store/actions/auth";
 
 export default SignUpScreen = (props) => {
   const [phone, setPhone] = useState(0);
@@ -39,82 +41,80 @@ export default SignUpScreen = (props) => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isFocus, setIsFocus] = useState(false);
-  const [city, setCity] = useState(null);
-  const [cityKey,setCityKey] = useState(0);
-  const [township, setTownship] = useState(null);
+  const [city, setCity] = useState(0);
+  const [cityKey, setCityKey] = useState(1);
+  const [township, setTownship] = useState(0);
   const [isTownshipFocus, setIsTownshipFocus] = useState(false);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [dateValue, setDateValue] = useState(null);
-  const [gender, setGender] = useState(null);
+  const [gender, setGender] = useState("");
   const [isGenderFocus, setIsGenderFocus] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
- 
+
   const genderData = [
-    { label: 'M', value: 'Male' },
-    { label: 'F', value: 'Female' },
+    { label: "M", value: "Male" },
+    { label: "F", value: "Female" },
   ];
   
-  const allDDLData = useSelector(
-    (state) => state.auth.allDropDownData,
-    shallowEqual
-  );
-  if(allDDLData !=null){
-    
-  }
-  const cityDDLData = allDDLData.city;
+  useEffect(() => {
+    loadAllDDLData();
+  },[loadAllDDLData] );
 
-  const townshipDDLData = allDDLData.township.filter(
+  const loadAllDDLData = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      await dispatch(authActions.getAllDDL());
+    } catch (error) {
+      console.log(error);
+    }
+    setIsLoading(false);
+  }, [setIsLoading, dispatch]);
+
+  const cityDDL = useSelector(
+    (state) => state.auth.cityDDL,
+  );
+
+  const townshipDDL = useSelector(
+    (state) => state.auth.townShipDDL,
+  );
+  const townshipDDLData =townshipDDL.filter(
     (item) => item.division == cityKey
   );
-
-  // const response_status = useSelector(
-  //   (state) => state.user.status,
-  //   shallowEqual
-  // );
-  // useEffect(() => {
-  //   if (response_status == "Success") {
-  //     props.navigation.replace("AccountVerification", {
-  //       phoneNo: parseInt(phone),
-  //     });
-  //   }
-  // });
+  console.log(townshipDDL)
   const createUserObj = () => {
     const userObj = {
       name: name,
       dob: dateValue,
       nrc: nrc,
       address: address,
-      city: city.key,
-      township: township.key,
+      city: city.key == undefined ? 0 : city.key,
+      township: township.key == undefined ? 0 : township.key,
       phone: phone,
       password: typePassword,
       confirm_password: confirmPassword,
-      gender : gender.label
+      gender: gender.label == undefined ? "M" : gender.label,
     };
     return userObj;
   };
   const onSignUpPress = async () => {
     if (
       name === "" ||
-      dateValue === null ||
-      city === null ||
-      township === null ||
       phone === "" ||
       typePassword === "" ||
-      confirmPassword === "" ||
-      nrc === "" ||
-      gender == null
+      confirmPassword === ""
     ) {
-      alert("Data must not empty");
-    }
-    else if (confirmPassword!=typePassword){
-      alert("Password does not match!")
-    }
-     else {
+      alert(
+        "Name,Phone number,Type password and Confirm password are must not empty!!"
+      );
+    } else if (confirmPassword != typePassword) {
+      alert("Password does not match!");
+    } else {
       const userObj = createUserObj();
-       props.navigation.replace("AccountVerification", {
+      console.log("CityKey", userObj.city);
+      props.navigation.replace("AccountVerification", {
         userObj: userObj,
-       });
+      });
 
       // try {
       //   const userObj = createUserObj();
@@ -139,21 +139,16 @@ export default SignUpScreen = (props) => {
       moment(dateValue).format("YYYY-MM-DD")
     );
     hideDatePicker();
-    setDateValue(
-      moment(dateValue)
-        .format("YYYY-MM-DD")
-        .toString()
-    );
+    setDateValue(moment(dateValue).format("YYYY-MM-DD").toString());
   };
 
-  const onPressTermAndCondition = () =>{
+  const onPressTermAndCondition = () => {
     props.navigation.navigate("TermAndCondition");
-  }
+  };
 
   return (
     <>
       <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.container}>
           <View>
             <LogoBanner minHeight={200} statusBarHeight={true}></LogoBanner>
 
@@ -171,12 +166,12 @@ export default SignUpScreen = (props) => {
                 fontSize: 20,
                 alignSelf: "center",
                 color: Colors.primary,
-                padding:10
+                padding: 10,
               }}
             >
               {translate("accountregistration")}
             </Text>
-            <View style={{ margin: 30 }}>
+            {isLoading ? <ActivityIndicator/> :  <View style={{ margin: 30 }}>
               <View style={styles.SectionStyle}>
                 <Icon
                   style={{ color: Colors.primary }}
@@ -189,7 +184,7 @@ export default SignUpScreen = (props) => {
                       alignSelf: "center",
                       height: 20,
                       textAlign: "center",
-                      width:"100%"
+                      width: "100%",
                     }}
                     placeholder={translate("name")}
                     placeholderTextColor="#aaaaaa"
@@ -214,29 +209,37 @@ export default SignUpScreen = (props) => {
                     />
                   }
                 ></Icon>
-                <View style={{ flex: 1}}>
-                <TouchableOpacity onPress={() => showDatePicker()} style={{ width:"100%", height:40,position:"absolute", zIndex:2 }}></TouchableOpacity>
-                    <TextInput
-                      style={{
-                        alignSelf: "center",
-                        height: 20,
-                        color: "black",
-                        textAlign: "center",
-                      }}
-                      editable={false}
-                      placeholder={translate("dob")}
-                      placeholderTextColor="#aaaaaa"
-                      value={dateValue}
-                      underlineColorAndroid="transparent"
-                      autoCapitalize="none"
-                    />
+                <View style={{ flex: 1 }}>
+                  <TouchableOpacity
+                    onPress={() => showDatePicker()}
+                    style={{
+                      width: "100%",
+                      height: 40,
+                      position: "absolute",
+                      zIndex: 2,
+                    }}
+                  ></TouchableOpacity>
+                  <TextInput
+                    style={{
+                      alignSelf: "center",
+                      height: 20,
+                      color: "black",
+                      textAlign: "center",
+                    }}
+                    editable={false}
+                    placeholder={translate("dob")}
+                    placeholderTextColor="#aaaaaa"
+                    value={dateValue}
+                    underlineColorAndroid="transparent"
+                    autoCapitalize="none"
+                  />
                 </View>
               </View>
 
               <View style={{ height: 10 }}></View>
 
               <View style={styles.SectionStyle}>
-              <AntDesign name="idcard" color={Colors.primary} size={15} />
+                <AntDesign name="idcard" color={Colors.primary} size={15} />
 
                 <View style={{ flex: 1 }}>
                   <TextInput
@@ -244,7 +247,7 @@ export default SignUpScreen = (props) => {
                       alignSelf: "center",
                       height: 20,
                       textAlign: "center",
-                      width:"100%"
+                      width: "100%",
                     }}
                     placeholder={translate("nrc")}
                     placeholderTextColor="#aaaaaa"
@@ -270,7 +273,7 @@ export default SignUpScreen = (props) => {
                 maxHeight={300}
                 labelField="value"
                 valueField="value"
-                placeholder={!isGenderFocus ? translate('gender') : "..."}
+                placeholder={!isGenderFocus ? translate("gender") : "..."}
                 value={gender}
                 onFocus={() => setIsGenderFocus(true)}
                 onBlur={() => setIsGenderFocus(false)}
@@ -280,11 +283,11 @@ export default SignUpScreen = (props) => {
                 }}
                 renderLeftIcon={() => (
                   <Ionicons
-                  style={{marginLeft:4}}
-            name="transgender"
-            size={15}
-            color={Colors.primary}
-          />
+                    style={{ marginLeft: 4 }}
+                    name="transgender"
+                    size={15}
+                    color={Colors.primary}
+                  />
                 )}
               />
 
@@ -302,7 +305,7 @@ export default SignUpScreen = (props) => {
                       alignSelf: "center",
                       height: 20,
                       textAlign: "center",
-                      width:"100%"
+                      width: "100%",
                     }}
                     placeholder={translate("address")}
                     placeholderTextColor="#aaaaaa"
@@ -324,7 +327,7 @@ export default SignUpScreen = (props) => {
                 placeholderStyle={styles.placeholderStyle}
                 selectedTextStyle={styles.selectedTextStyle}
                 iconStyle={styles.iconStyle}
-                data={cityDDLData}
+                data={cityDDL}
                 maxHeight={300}
                 labelField="value"
                 valueField="value"
@@ -339,9 +342,9 @@ export default SignUpScreen = (props) => {
                 }}
                 renderLeftIcon={() => (
                   <Icon
-                  style={{ color: Colors.primary,marginLeft:4 }}
-                  as={<MaterialIcons name={"home"} size={24} color="black" />}
-                ></Icon>
+                    style={{ color: Colors.primary, marginLeft: 4 }}
+                    as={<MaterialIcons name={"home"} size={24} color="black" />}
+                  ></Icon>
                 )}
               />
               <View style={{ height: 10 }}></View>
@@ -354,7 +357,7 @@ export default SignUpScreen = (props) => {
                 placeholderStyle={styles.placeholderStyle}
                 selectedTextStyle={styles.selectedTextStyle}
                 iconStyle={styles.iconStyle}
-                data={townshipDDLData!=null ? townshipDDLData : undefined}
+                data={townshipDDLData}
                 maxHeight={300}
                 labelField="value"
                 valueField="value"
@@ -368,9 +371,9 @@ export default SignUpScreen = (props) => {
                 }}
                 renderLeftIcon={() => (
                   <Icon
-                  style={{ color: Colors.primary,marginLeft:4 }}
-                  as={<MaterialIcons  name={"home"} size={24} color="black" />}
-                ></Icon>
+                    style={{ color: Colors.primary, marginLeft: 4 }}
+                    as={<MaterialIcons name={"home"} size={24} color="black" />}
+                  ></Icon>
                 )}
               />
 
@@ -388,7 +391,7 @@ export default SignUpScreen = (props) => {
                       alignSelf: "center",
                       height: 20,
                       textAlign: "center",
-                      width:"100%"
+                      width: "100%",
                     }}
                     placeholder={translate("ph")}
                     placeholderTextColor="#aaaaaa"
@@ -408,13 +411,13 @@ export default SignUpScreen = (props) => {
                   mr={3}
                 ></Icon>
 
-                <View style={{flex:1}}>
+                <View style={{ flex: 1 }}>
                   <TextInput
                     style={{
                       alignSelf: "flex-start",
                       height: 20,
                       textAlign: "center",
-                      width:"100%"
+                      width: "100%",
                     }}
                     placeholder={translate("typepwd")}
                     placeholderTextColor="#aaaaaa"
@@ -452,13 +455,13 @@ export default SignUpScreen = (props) => {
                   mr={3}
                 ></Icon>
 
-                <View style={{flex:1}}>
+                <View style={{ flex: 1 }}>
                   <TextInput
                     style={{
                       alignSelf: "center",
                       height: 20,
                       textAlign: "center",
-                      width:"100%"
+                      width: "100%",
                     }}
                     placeholder={translate("confirmpwd")}
                     placeholderTextColor="#aaaaaa"
@@ -515,12 +518,18 @@ export default SignUpScreen = (props) => {
                 </TouchableOpacity>
               </View>
 
-              <Button role="button" justifyContent="center" onPress={() => onSignUpPress()} mt={30} isDisabled={(isChecked) ? false : true} >{translate("register")}</Button>
-              
-
-            </View>
+              <Button
+                role="button"
+                justifyContent="center"
+                onPress={() => onSignUpPress()}
+                mt={30}
+                isDisabled={isChecked ? false : true}
+              >
+                {translate("register")}
+              </Button>
+            </View>}
+           
           </View>
-        </View>
       </KeyboardAwareScrollView>
     </>
   );

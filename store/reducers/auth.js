@@ -1,9 +1,11 @@
-import { AUTHENTICATE,SET_ALL_DROP_DOWN } from "../actions/auth";
+import { AUTHENTICATE,SET_ALL_DROP_DOWN,SET_TOWNSHIP } from "../actions/auth";
 
 const initialState = {
     token: null,
     userId : null,
     createDate : null,
+    townShipDDL : [],
+    cityDDL : [],
     allDropDownData : {}
   };
   
@@ -17,7 +19,8 @@ const initialState = {
           };
           case SET_ALL_DROP_DOWN:
           return {
-            allDropDownData: action.allDropDownData,
+            townShipDDL: action.townShipDDL,
+            cityDDL : action.cityDDL
           };
         default:
           return state;

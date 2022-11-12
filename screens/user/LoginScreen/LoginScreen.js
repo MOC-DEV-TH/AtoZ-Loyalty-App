@@ -22,6 +22,8 @@ import LogoBanner from "../../../components/LogoBanner";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { getStoreData } from "../../../AsyncStorage/AsyncStorage";
 import AsyncStorageKey from "../../../constants/AsyncStorageKey";
+import NoInternetConnectionAlert from "../../../components/NoInternetConnectionAlert";
+import NetInfo from "@react-native-community/netinfo";
 
 export default LoginScreen = (props) => {
   const dispatch = useDispatch();
@@ -31,6 +33,7 @@ export default LoginScreen = (props) => {
   const [showPassword, setShowPassword] = useState(false);
   const [expoToken, setExpoToken] = useState("");
   const [firstTimeUserID, setFirstTimeUserId] = useState("");
+  const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
     getStoreData(AsyncStorageKey.EXPO_TOKEN).then((value) => {
@@ -51,61 +54,47 @@ export default LoginScreen = (props) => {
     props.navigation.navigate("SignUp");
   };
 
+  const onConfirm = () => {
+    setIsConnected(false);
+  };
+
+
   const onSignInPress = async () => {
     if (userId == "" || password == "") {
       alert("Data must not empty!!");
     } else {
-      try {
-        await dispatch(authActions.login(userId, password, expoToken));
-        props.navigation.navigate("Main");
-      } catch (error) {
-        console.log("error : " + error.message);
-      }
+      NetInfo.fetch().then( async(state) =>  {
+        if (state.isConnected === true)  {
+          try {
+            if(expoToken==null){
+              await dispatch(authActions.login(userId, password, "ExponentPushToken[IqB2CwC9AjsigcT_iqc78N]"));
+            }
+            else{
+              await dispatch(authActions.login(userId, password, expoToken));
+            }
+            
+            props.navigation.navigate("Main");
+          } catch (error) {
+            console.log("error : " + error.message);
+          }
+          setIsConnected(false);
+        } else {
+          setIsConnected(true);
+        }
+      });
+
+
     }
-    //schedulePushNotification()
-    //sendPushNotification()
   };
 
-  async function schedulePushNotification() {
-    await Notifications.scheduleNotificationAsync({
-      content: {
-        title: "You've got mail! 📬",
-        body: "Here is the notification body",
-        data: { data: "goes here" },
-      },
-      trigger: { seconds: 2 },
-    });
-  }
-
-  async function sendPushNotification() {
-    const message = [
-      {
-        to: "ExponentPushToken[IqB2CwC9AjsigcT_iqc78N]",
-        sound: "default",
-        title: "This is notification title",
-        body: "Hello world!",
-      },
-      {
-        to: "ExponentPushToken[rp6YS_IVTeJOd9jQf0hs0i]",
-        badge: 1,
-        body: "You've got mail",
-      },
-    ];
-
-    await fetch("https://exp.host/--/api/v2/push/send", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Accept-encoding": "gzip, deflate",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(message),
-    });
-  }
 
   return (
     <KeyboardAwareScrollView style={styles.container}>
       <View>
+      <NoInternetConnectionAlert
+        showAlert={isConnected}
+        onConfirmPressed={onConfirm}
+      />
         <LogoBanner minHeight={200} statusBarHeight={true}></LogoBanner>
         <View style={{ margin: 30 }}>
           <View style={styles.SectionStyle}>

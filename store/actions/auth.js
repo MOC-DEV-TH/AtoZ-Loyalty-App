@@ -7,10 +7,13 @@ import getEnvVars from "../../environment";
 import { debug } from "react-native-reanimated";
 import * as notificationActions from "../actions/notification";
 import { useDispatch } from "react-redux";
+import TownshipVO from "../../model/township";
+import CityVO from "../../model/city";
 
 const { apiUrl, aut } = getEnvVars();
 export const AUTHENTICATE = "AUTHENTICATE";
 export const SET_ALL_DROP_DOWN = "SET_DROP_DOWN";
+export const SET_TOWNSHIP = "SET_TOWNSHIP";
 
 export const authenticate = (token, userID, createDate) => {
   return (dispatch) => {
@@ -91,7 +94,8 @@ export const getAllDDL = () => {
       throw new Error(message);
     }
     const respData = await response.json();
-
+    const townshipList = [];
+    const cityList = [];
     const ddlData = new DropDownVO(
       respData.details.member_level,
       respData.details.member_type,
@@ -99,12 +103,33 @@ export const getAllDDL = () => {
       respData.details.township,
       respData.details.city
     );
+    for (const item of respData.details.city) {
+      townshipList.push(
+        new CityVO(
+          item.key,
+          item.value,
+        )
+      );
+    }
+    for (const item of respData.details.township) {
+      townshipList.push(
+        new TownshipVO(
+          item.key,
+          item.value,
+          item.division
+        )
+      );
+    }
+
+    dispatch({
+      type: SET_ALL_DROP_DOWN,
+      cityDDL : ddlData.city,
+      townShipDDL: townshipList,
+    });
+
     // ddlData.city.map((data) => {
     //   console.log("MemberLevel" + data.value);
     // });
-    dispatch({
-      type: SET_ALL_DROP_DOWN,
-      allDropDownData: ddlData,
-    });
+    
   };
 };

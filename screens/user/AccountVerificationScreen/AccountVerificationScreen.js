@@ -6,6 +6,7 @@ import {
   Keyboard,
   SafeAreaView,
   TouchableOpacity,
+  ActivityIndicator
 } from "react-native";
 import { useState } from "react";
 import { useDispatch,useSelector,shallowEqual } from "react-redux";
@@ -25,6 +26,7 @@ import {
 import { Box, Center } from "native-base";
 import { translate } from "react-native-translate";
 
+
 const RESEND_OTP_TIME_LIMIT = 60;
 let resendOtpTimerInterval;
 
@@ -33,6 +35,7 @@ export default AccountVerificationScreen = (navData) => {
   const [otpCode, setOTPCode] = useState("");
   const [otpFailStatus, setOtpFailStatus] = useState(false);
   const [value, setValue] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({
     value,
@@ -79,12 +82,13 @@ export default AccountVerificationScreen = (navData) => {
   }
 
   const OTPVerification = async () => {
+    setIsLoading(true)
     let formData = new FormData();
     let base64 = require("base-64");
 
     formData.append("otp", value);
     formData.append("otpId", otpCode);
-
+    
     const response = await fetch("https://api.smsbrix.com/v1/otp/verify", {
       method: "POST",
       headers: {
@@ -101,9 +105,11 @@ export default AccountVerificationScreen = (navData) => {
     const respData = await response.json();
     console.log("OTP Verification" + respData.status);
     if (respData.status == "Success") {
-      dispatch(userActions.registerUser(navData.navigation.getParam("userObj")));
+     await dispatch(userActions.registerUser(navData.navigation.getParam("userObj")));
+      setIsLoading(false)
     } else {
       setOtpFailStatus(true)
+      setIsLoading(false)
     }
   };
 
@@ -208,7 +214,7 @@ export default AccountVerificationScreen = (navData) => {
             )}
           />
 
-          <ButtonContainer
+        {isLoading ? <ActivityIndicator style={{marginTop:22}}/> :<ButtonContainer
             onPress={() => OTPVerification()}
             disabled={submitButtonState == "false" ? true : false}
             style={{
@@ -225,7 +231,7 @@ export default AccountVerificationScreen = (navData) => {
             >
               {translate("submit")}
             </ButtonText>
-          </ButtonContainer>
+          </ButtonContainer> }  
           <View style={{ marginTop: 30 }} />
           {resendButtonDisabledTime > 0 ? (
             <Text style={{marginRight:5,padding:5}}>
