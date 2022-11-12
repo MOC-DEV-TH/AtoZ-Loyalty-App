@@ -14,19 +14,10 @@ export default AccountDashboardScreen = (props) => {
   let [local, setLocal] = useState("en");
   const [isLoading, setIsLoading] = useState(false);
 
-  // useEffect(() => {
-  //   loadAllDDLData();
-  // }, );
+  useEffect(() => {
+    dispatch(authActions.getAllDDL());
+  }, );
 
-  const loadAllDDLData = useCallback(async () => {
-    setIsLoading(true);
-    try {
-      await dispatch(authActions.getAllDDL());
-    } catch (error) {
-      console.log(error);
-    }
-    setIsLoading(false);
-  }, [setIsLoading, dispatch]);
 
   const onLoginPress = () => {
     props.navigation.navigate("SignIn");

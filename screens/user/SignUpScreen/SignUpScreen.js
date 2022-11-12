@@ -81,7 +81,7 @@ export default SignUpScreen = (props) => {
   const townshipDDLData =townshipDDL.filter(
     (item) => item.division == cityKey
   );
-  console.log(townshipDDL)
+
   const createUserObj = () => {
     const userObj = {
       name: name,
