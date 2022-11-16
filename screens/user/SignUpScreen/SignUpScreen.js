@@ -56,10 +56,10 @@ export default SignUpScreen = (props) => {
     { label: "M", value: "Male" },
     { label: "F", value: "Female" },
   ];
-  
+
   useEffect(() => {
     loadAllDDLData();
-  },[loadAllDDLData] );
+  }, [loadAllDDLData]);
 
   const loadAllDDLData = useCallback(async () => {
     setIsLoading(true);
@@ -71,14 +71,10 @@ export default SignUpScreen = (props) => {
     setIsLoading(false);
   }, [setIsLoading, dispatch]);
 
-  const cityDDL = useSelector(
-    (state) => state.auth.cityDDL,
-  );
+  const cityDDL = useSelector((state) => state.auth.cityDDL);
 
-  const townshipDDL = useSelector(
-    (state) => state.auth.townShipDDL,
-  );
-  const townshipDDLData =townshipDDL.filter(
+  const townshipDDL = useSelector((state) => state.auth.townShipDDL);
+  const townshipDDLData = townshipDDL.filter(
     (item) => item.division == cityKey
   );
 
@@ -98,16 +94,19 @@ export default SignUpScreen = (props) => {
     return userObj;
   };
   const onSignUpPress = async () => {
-    if (
-      name === "" ||
-      phone === "" ||
-      typePassword === "" ||
-      confirmPassword === ""
-    ) {
-      alert(
-        "Name,Phone number,Type password and Confirm password are must not empty!!"
-      );
-    } else if (confirmPassword != typePassword) {
+    if (name === "") {
+      alert("Please Enter Name");
+    }
+    else if(phone === 0){
+      alert("Please Enter Phone Number");
+    }
+    else if(typePassword===""){
+      alert("Please Enter Type Password");
+    }
+    else if(confirmPassword===""){
+      alert("Please Enter Confirm Password");
+    }
+    else if (confirmPassword != typePassword) {
       alert("Password does not match!");
     } else {
       const userObj = createUserObj();
@@ -115,13 +114,6 @@ export default SignUpScreen = (props) => {
       props.navigation.replace("AccountVerification", {
         userObj: userObj,
       });
-
-      // try {
-      //   const userObj = createUserObj();
-      //   await dispatch(userActions.registerUser(userObj));
-      // } catch (error) {
-      //   console.log("error : " + error.message);
-      // }
     }
   };
 
@@ -149,35 +141,38 @@ export default SignUpScreen = (props) => {
   return (
     <>
       <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
-          <View>
-            <LogoBanner minHeight={200} statusBarHeight={true}></LogoBanner>
+        <View>
+          <LogoBanner minHeight={200} statusBarHeight={true}></LogoBanner>
 
-            <DateTimePickerModal
-              isVisible={isDatePickerVisible}
-              mode="date"
-              onConfirm={handleConfirm}
-              onCancel={hideDatePicker}
-              display={Platform.OS === "ios" ? "inline" : "default"}
-            />
-            <View style={{ height: 20 }} />
-            <Text
-              style={{
-                fontWeight: "bold",
-                fontSize: 20,
-                alignSelf: "center",
-                color: Colors.primary,
-                padding: 10,
-              }}
-            >
-              {translate("accountregistration")}
-            </Text>
-            {isLoading ? <ActivityIndicator/> :  <View style={{ margin: 30 }}>
+          <DateTimePickerModal
+            isVisible={isDatePickerVisible}
+            mode="date"
+            onConfirm={handleConfirm}
+            onCancel={hideDatePicker}
+            display={Platform.OS === "ios" ? "inline" : "default"}
+          />
+          <View style={{ height: 20 }} />
+          <Text
+            style={{
+              fontWeight: "bold",
+              fontSize: 20,
+              alignSelf: "center",
+              color: Colors.primary,
+              padding: 10,
+            }}
+          >
+            {translate("accountregistration")}
+          </Text>
+          {isLoading ? (
+            <ActivityIndicator />
+          ) : (
+            <View style={{ margin: 30 }}>
               <View style={styles.SectionStyle}>
                 <Icon
                   style={{ color: Colors.primary }}
                   as={<MaterialIcons name={"person"} size={24} color="black" />}
                 ></Icon>
-
+                <Text style={{ color: Colors.primary }}>*</Text>
                 <View style={{ flex: 1 }}>
                   <TextInput
                     style={{
@@ -259,7 +254,7 @@ export default SignUpScreen = (props) => {
                 </View>
               </View>
 
-              <View style={{ height: 10 }}></View>
+              {/* <View style={{ height: 10 }}></View>
 
               <Dropdown
                 style={[
@@ -289,9 +284,9 @@ export default SignUpScreen = (props) => {
                     color={Colors.primary}
                   />
                 )}
-              />
+              /> */}
 
-              <View style={{ height: 10 }}></View>
+              {/* <View style={{ height: 10 }}></View>
 
               <View style={styles.SectionStyle}>
                 <Icon
@@ -315,7 +310,7 @@ export default SignUpScreen = (props) => {
                     autoCapitalize="none"
                   />
                 </View>
-              </View>
+              </View> */}
 
               <View style={{ height: 10 }}></View>
 
@@ -384,6 +379,7 @@ export default SignUpScreen = (props) => {
                   style={{ color: Colors.primary }}
                   as={<MaterialIcons name={"phone"} size={24} color="black" />}
                 ></Icon>
+                <Text style={{ color: Colors.primary }}>*</Text>
 
                 <View style={{ flex: 1 }}>
                   <TextInput
@@ -397,6 +393,7 @@ export default SignUpScreen = (props) => {
                     placeholderTextColor="#aaaaaa"
                     onChangeText={(text) => setPhone(text)}
                     value={phone}
+                    keyboardType="numeric"
                     underlineColorAndroid="transparent"
                     autoCapitalize="none"
                   />
@@ -408,9 +405,8 @@ export default SignUpScreen = (props) => {
                 <Icon
                   style={{ color: Colors.primary }}
                   as={<MaterialIcons name={"lock"} size={24} color="black" />}
-                  mr={3}
                 ></Icon>
-
+                <Text style={{ color: Colors.primary }}>*</Text>
                 <View style={{ flex: 1 }}>
                   <TextInput
                     style={{
@@ -452,9 +448,8 @@ export default SignUpScreen = (props) => {
                 <Icon
                   style={{ color: Colors.primary }}
                   as={<MaterialIcons name={"lock"} size={24} color="black" />}
-                  mr={3}
                 ></Icon>
-
+                <Text style={{ color: Colors.primary }}>*</Text>
                 <View style={{ flex: 1 }}>
                   <TextInput
                     style={{
@@ -527,9 +522,9 @@ export default SignUpScreen = (props) => {
               >
                 {translate("register")}
               </Button>
-            </View>}
-           
-          </View>
+            </View>
+          )}
+        </View>
       </KeyboardAwareScrollView>
     </>
   );

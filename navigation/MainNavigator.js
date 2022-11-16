@@ -26,11 +26,8 @@ import SettingScreen from "../screens/user/SettingScreen/SettingScreen";
 import OutletLocationsScreen from "../screens/user/OutletLocationsScreen/OutletLocationsScreen";
 import { translate } from "react-native-translate";
 import LanguageScreen from "../screens/user/LanguageScreen/LanguageScreen";
-import { Box } from "native-base";
-import { MaterialIcons } from '@expo/vector-icons'; 
-import NotificationService from "../service/NotificationService";
-
-
+import DeactivateScreen from "../screens/user/DeactivateScreen/DeactivateScreen";
+import { MaterialIcons } from "@expo/vector-icons";
 
 const defaultNavOptions = {
   headerStyle: {
@@ -82,22 +79,39 @@ const SettingNavigator = createStackNavigator(
     defaultNavigationOptions: defaultNavOptions,
   }
 );
-const LanguageNavigator = createStackNavigator({
-  Language: LanguageScreen,
-},{
-  defaultNavigationOptions: defaultNavOptions,
-});
+const LanguageNavigator = createStackNavigator(
+  {
+    Language: LanguageScreen,
+  },
+  {
+    defaultNavigationOptions: defaultNavOptions,
+  }
+);
+const DeactivateNavigator = createStackNavigator(
+  {
+    Deactivate: DeactivateScreen,
+  },
+  {
+    defaultNavigationOptions: defaultNavOptions,
+  }
+);
 
-const MyAccountNavigator = createStackNavigator({
-  MyAccount: AccountScreen,
-},{
-  defaultNavigationOptions: defaultNavOptions,
-});
-const OutLetNavigator = createStackNavigator({
-  OutLetLocation: OutletLocationsScreen,
-},{
-  defaultNavigationOptions: defaultNavOptions,
-});
+const MyAccountNavigator = createStackNavigator(
+  {
+    MyAccount: AccountScreen,
+  },
+  {
+    defaultNavigationOptions: defaultNavOptions,
+  }
+);
+const OutLetNavigator = createStackNavigator(
+  {
+    OutLetLocation: OutletLocationsScreen,
+  },
+  {
+    defaultNavigationOptions: defaultNavOptions,
+  }
+);
 
 const AboutNavigator = createStackNavigator(
   {
@@ -119,7 +133,7 @@ const TermAndConditionNavigator = createStackNavigator(
 
 const PromotionNavigator = createStackNavigator(
   {
-    Promotion: PromotionScreen
+    Promotion: PromotionScreen,
   },
   {
     defaultNavigationOptions: defaultNavOptions,
@@ -174,7 +188,7 @@ const tabScreenConfig = {
               color: Colors.white,
               alignItems: "center",
               justifyContent: "center",
-              alignSelf:"center",
+              alignSelf: "center",
               fontSize: 10,
             }}
           >
@@ -183,8 +197,14 @@ const tabScreenConfig = {
         );
       },
       tabBarIcon: (tabInfo) => {
-        return <Ionicons name="home-sharp" size={20} color={tabInfo.tintColor} style={{marginBottom:-8}} />;
-        
+        return (
+          <Ionicons
+            name="home-sharp"
+            size={20}
+            color={tabInfo.tintColor}
+            style={{ marginBottom: -8 }}
+          />
+        );
       },
     },
   },
@@ -198,7 +218,7 @@ const tabScreenConfig = {
               color: Colors.white,
               alignItems: "center",
               justifyContent: "center",
-              alignSelf:"center",
+              alignSelf: "center",
               fontSize: 10,
             }}
           >
@@ -210,8 +230,12 @@ const tabScreenConfig = {
       inactiveColor: Colors.white,
       tabBarIcon: (tabInfo) => {
         return (
-          <MaterialIcons name="campaign" size={26} color={tabInfo.tintColor}
-          style={{marginBottom:-8}} />
+          <MaterialIcons
+            name="campaign"
+            size={26}
+            color={tabInfo.tintColor}
+            style={{ marginBottom: -8 }}
+          />
         );
       },
     },
@@ -226,7 +250,7 @@ const tabScreenConfig = {
               color: Colors.white,
               alignItems: "center",
               justifyContent: "center",
-              alignSelf:"center",
+              alignSelf: "center",
               fontSize: 10,
             }}
           >
@@ -238,8 +262,12 @@ const tabScreenConfig = {
       inactiveColor: Colors.white,
       tabBarIcon: (tabInfo) => {
         return (
-          <Ionicons name="md-help-circle" size={22} color={tabInfo.tintColor}
-          style={{marginBottom:-8}} />
+          <Ionicons
+            name="md-help-circle"
+            size={22}
+            color={tabInfo.tintColor}
+            style={{ marginBottom: -8 }}
+          />
         );
       },
     },
@@ -254,7 +282,7 @@ const tabScreenConfig = {
               color: Colors.white,
               alignItems: "center",
               justifyContent: "center",
-              alignSelf:"center",
+              alignSelf: "center",
               fontSize: 10,
             }}
           >
@@ -266,28 +294,32 @@ const tabScreenConfig = {
       inactiveColor: Colors.white,
       tabBarIcon: (tabInfo) => {
         return (
-          <Ionicons name="settings-sharp" size={20} color={tabInfo.tintColor}  style={{marginBottom:-8}}/>
+          <Ionicons
+            name="settings-sharp"
+            size={20}
+            color={tabInfo.tintColor}
+            style={{ marginBottom: -8 }}
+          />
         );
       },
     },
   },
 };
 
-const MainTabNavigator =
-  createBottomTabNavigator(tabScreenConfig, {
-        tabBarOptions: {
-          activeTintColor: Colors.yellow,
-          inactiveTintColor: Colors.white,
-          labeled: true,
-          style: {
-            backgroundColor: Colors.primary,
-            justifyContent:"center",
-            alignItems:"center",
-            paddingBottom:10,
-            height:Platform.OS === "android" ? 55 :30
-          },
-        },
-      });
+const MainTabNavigator = createBottomTabNavigator(tabScreenConfig, {
+  tabBarOptions: {
+    activeTintColor: Colors.yellow,
+    inactiveTintColor: Colors.white,
+    labeled: true,
+    style: {
+      backgroundColor: Colors.primary,
+      justifyContent: "center",
+      alignItems: "center",
+      paddingBottom: 10,
+      height: Platform.OS === "android" ? 55 : 30,
+    },
+  },
+});
 
 const Navigator = createSwitchNavigator(
   {
@@ -296,14 +328,14 @@ const Navigator = createSwitchNavigator(
     Main: MainTabNavigator,
     MyAccount: AccountNavigator,
     Language: LanguageNavigator,
-    PointHistory : PointHistoryNavigator,
-    Notification : NotificationNavigator,
-    MyAccount : MyAccountNavigator,
-    OutLetLocation : OutLetNavigator
+    Deactivate : DeactivateNavigator,
+    PointHistory: PointHistoryNavigator,
+    Notification: NotificationNavigator,
+    MyAccount: MyAccountNavigator,
+    OutLetLocation: OutLetNavigator,
   },
   {
     initialRouteName: "Auth",
   }
 );
 export default createAppContainer(Navigator);
-

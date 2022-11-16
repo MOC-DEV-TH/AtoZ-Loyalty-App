@@ -21,6 +21,8 @@ export const setEmptyResponseCode = () => {
 };
 
 
+
+
 export const getMemberInfo = () => {
   return async (dispatch, getState) => {
     const token = getState().auth.token;
@@ -68,6 +70,43 @@ export const getMemberInfo = () => {
       type: SET_MEMBER_INFO,
       member_info: memberInfoObj,
     });
+  };
+};
+
+export const deactivateAccount = (navigation) => {
+  return async (dispatch, getState) => {
+    const token = getState().auth.token;
+    try {
+      const response = await fetch(apiUrl + "/deactivate", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-type": "application/json; charset=utf-8",
+          Authorization: token,
+        },
+        body: JSON.stringify({
+          app_version: AppVersion.app_version,
+        }),
+      });
+
+      if (!response.ok) {
+        let message = "Something went wrong!";
+        console.log(response);
+        throw new Error(message);
+      }
+
+      const respData = await response.json();
+      console.log("Deactivate Account");
+      console.log(respData);
+      if(respData.status==="Success"){
+          navigation.navigate("AccountDashboard")
+      }
+      else {
+        alert(respData.description);
+      }
+    } catch (err) {
+      throw err;
+    }
   };
 };
 

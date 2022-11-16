@@ -11,6 +11,8 @@ const en = {
   createnewaccount: "Create New Account",
   help: "Help",
   setting: "Settings",
+  deactivate: "Deactivate",
+  deactivateAccount: "Deactivate Account",
   accountregistration: "Account Registration",
   name: "Name",
   dob: "Date of Birth",
@@ -42,6 +44,7 @@ const en = {
   myaccount: "My Account",
   termandcondition : "Terms And Conditions",
   faq : "FAQs",
+  ok : "OK",
   hotline: "Hotline",
   vibermsg : "Viber Message",
   aboutus: "About Us",
@@ -264,6 +267,7 @@ const en = {
     invalid_otp : "Invalid OTP\nPlease try again",
     verification_fail : "Verification Failed",
     resend_otp : "Resend OTP",
-    resend_otp_in : "Resend OTP in:"
+    resend_otp_in : "Resend OTP in:",
+    deactivate_body_text : "Are you sure you want to deactivate your loyalty account?\n\nIf you deactivate your loyalty account,\n\n- Points accumulated will be lost permanently \n\n- Need to create new account again if you want to collect points in the future \n\nAfter considering the facts above mentioned,"
 };
 export default en;

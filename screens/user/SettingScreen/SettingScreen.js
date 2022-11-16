@@ -2,8 +2,8 @@ import { useDispatch } from "react-redux";
 import { translate } from "react-native-translate";
 import { Heading, View, Box, HStack, Link, VStack, Stack } from "native-base";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { TouchableOpacity, Image } from "react-native";
-import { FontAwesome } from "@expo/vector-icons";
+import { TouchableOpacity, Image,ActivityIndicator } from "react-native";
+import { FontAwesome,FontAwesome5 } from "@expo/vector-icons";
 import { StyleSheet } from "react-native";
 import Colors from "../../../constants/Colors";
 import Text from "../../../components/Typography";
@@ -16,9 +16,14 @@ import { useState } from "react";
 import styles from "./styles";
 import { storeData } from "../../../AsyncStorage/AsyncStorage";
 import AsyncStorageKey from "../../../constants/AsyncStorageKey";
+import DeactivateAccountAlert from "../../../components/DeactivateAccountAlert";
+import * as myAccountActions from "../../../store/actions/myAccount";
 
 export default SettingScreen = ({ navigation }) => {
+  const dispatch = useDispatch();
   let [showAlert, setShowAlert] = useState(false);
+  let [showDeactivateAlert, setShowDeactivateAlert] = useState(false);
+  const [showLoading, setShowLoading] = useState(false);
 
   function onPressConfirm() {
     setShowAlert(false);
@@ -29,8 +34,18 @@ export default SettingScreen = ({ navigation }) => {
   function onPressCancel() {
     setShowAlert(false);
   }
-  
 
+  function onPressDeactivateCancel(){
+   setShowDeactivateAlert(false)
+  }
+
+  const onPressDeactivateNow = async () =>{
+    setShowDeactivateAlert(false);
+    setShowLoading(true);
+    await dispatch(myAccountActions.deactivateAccount(navigation));
+    setShowLoading(false);
+  }
+  
   return (
     <>
       {/* Logout box */}
@@ -51,6 +66,11 @@ export default SettingScreen = ({ navigation }) => {
         contentContainerStyle={styles.alertContentContainer}
         onCancelPressed={onPressCancel}
         onConfirmPressed={onPressConfirm}
+      />
+      <DeactivateAccountAlert
+        showAlert={showDeactivateAlert}
+        onConfirmPressed={onPressDeactivateNow}
+        onCancelPressed={onPressDeactivateCancel}
       />
 
       <ContainerFluid standardTop={true}>
@@ -98,6 +118,15 @@ export default SettingScreen = ({ navigation }) => {
             </Button>
             <Button
               px={10}
+              Icon={<FontAwesome5 name="user-minus" size={24} color="white" />}
+              bg="primary"
+              color="white"
+              onPress = {()=>setShowDeactivateAlert(true)}
+            >
+              {translate("deactivate")}
+            </Button>
+            <Button
+              px={10}
               Icon={
                 <MaterialCommunityIcons name="logout" size={24} color="white" />
               }
@@ -109,6 +138,7 @@ export default SettingScreen = ({ navigation }) => {
             </Button>
           </VStack>
         </ContainerFluid>
+        {showLoading ? <View style={styles.loading}><ActivityIndicator size={"large"} color={Colors.primary}/></View>  : undefined}
       </ContainerFluid>
     </>
   );
@@ -133,14 +163,5 @@ SettingScreen.navigationOptions = (props) => {
         </TouchableOpacity>
       </View>
     ),
-
-    // headerRight: () => (
-    //   <TouchableOpacity onPress={()=>props.navigation.navigate("Notification")}>
-    //       <Image
-    //         style={{height:20,width:20,marginRight:18}}
-    //         source={require("../../../assets/notification_icon.png")}
-    //       />
-    //     </TouchableOpacity>
-    // ),
   };
 };
