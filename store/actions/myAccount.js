@@ -73,7 +73,7 @@ export const getMemberInfo = () => {
   };
 };
 
-export const deactivateAccount = (navigation) => {
+export const deactivateAccount = (props) => {
   return async (dispatch, getState) => {
     const token = getState().auth.token;
     try {
@@ -99,7 +99,7 @@ export const deactivateAccount = (navigation) => {
       console.log("Deactivate Account");
       console.log(respData);
       if(respData.status==="Success"){
-          navigation.navigate("AccountDashboard")
+        props.navigation.navigate("AccountDashboard")
       }
       else {
         alert(respData.description);

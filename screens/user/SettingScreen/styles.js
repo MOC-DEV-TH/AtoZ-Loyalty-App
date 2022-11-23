@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import Colors from "../../../constants/Colors";
 import {Dimensions} from 'react-native';
-
+import { translate } from "react-native-translate";
 const windowWidth = Dimensions.get('window').width;
 
 export default StyleSheet.create({
@@ -83,7 +83,12 @@ loading: {
   alignItems: 'center',
   justifyContent: 'center',
   backgroundColor:"#F5FCFF88"
-}
+},
+textButton:{
+  fontFamily:translate("headingFont"),
+  color:"red",
+  fontWeight:"bold"
+},
 
 
 });

@@ -7,11 +7,11 @@ export default function DeactivateAccountAlert(props) {
   return (
     <AwesomeAlert
       show={props.showAlert}
-      title="Account Deactivation"
+      title={translate("account_deactivation")}
       showConfirmButton={true}
       showCancelButton={true}
-      confirmText="Deactivate Now"
-      cancelText="Cancel"
+      confirmText={translate("deactivate_now")}
+      cancelText={translate("deactivate_cancel")}
       message={translate("deactivate_body_text")}
       closeOnHardwareBackPress={false}
       confirmButtonColor={"red"}

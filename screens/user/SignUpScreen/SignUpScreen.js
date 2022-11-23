@@ -33,6 +33,7 @@ import * as authActions from "../../../store/actions/auth";
 export default SignUpScreen = (props) => {
   const [phone, setPhone] = useState(0);
   const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [nrc, setNrc] = useState("");
   const [address, setAddress] = useState("");
   const [isChecked, setChecked] = useState(false);
@@ -81,6 +82,7 @@ export default SignUpScreen = (props) => {
   const createUserObj = () => {
     const userObj = {
       name: name,
+      email: email,
       dob: dateValue,
       nrc: nrc,
       address: address,
@@ -96,17 +98,13 @@ export default SignUpScreen = (props) => {
   const onSignUpPress = async () => {
     if (name === "") {
       alert("Please Enter Name");
-    }
-    else if(phone === 0){
+    } else if (phone === 0) {
       alert("Please Enter Phone Number");
-    }
-    else if(typePassword===""){
+    } else if (typePassword === "") {
       alert("Please Enter Type Password");
-    }
-    else if(confirmPassword===""){
+    } else if (confirmPassword === "") {
       alert("Please Enter Confirm Password");
-    }
-    else if (confirmPassword != typePassword) {
+    } else if (confirmPassword != typePassword) {
       alert("Password does not match!");
     } else {
       const userObj = createUserObj();
@@ -371,6 +369,31 @@ export default SignUpScreen = (props) => {
                   ></Icon>
                 )}
               />
+
+              <View style={{ height: 10 }}></View>
+
+              <View style={styles.SectionStyle}>
+                <Icon
+                  style={{ color: Colors.primary }}
+                  as={<MaterialIcons name={"email"} size={24} color="black" />}
+                ></Icon>
+                <View style={{ flex: 1 }}>
+                  <TextInput
+                    style={{
+                      alignSelf: "center",
+                      height: 20,
+                      textAlign: "center",
+                      width: "100%",
+                    }}
+                    placeholder={translate("email")}
+                    placeholderTextColor="#aaaaaa"
+                    onChangeText={(text) => setEmail(text)}
+                    value={email}
+                    underlineColorAndroid="transparent"
+                    autoCapitalize="none"
+                  />
+                </View>
+              </View>
 
               <View style={{ height: 10 }}></View>
 

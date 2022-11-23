@@ -14,6 +14,16 @@ export default StyleSheet.create({
     textAlign: "center",
     justifyContent: "center",
 },
+loading: {
+  position: 'absolute',
+  left: 0,
+  right: 0,
+  top: 0,
+  bottom: 0,
+  alignItems: 'center',
+  justifyContent: 'center',
+  backgroundColor:"#F5FCFF88"
+},
 headerIcon: {
   width: 30,
   height: 30,

@@ -5,7 +5,8 @@ import {
   Alert,
   TouchableOpacity,
   ImageBackground,
-  Platform
+  Platform,
+  ActivityIndicator
 } from "react-native";
 import styles from "./styles";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -24,7 +25,6 @@ import {
   ScrollView,
   Link,
   Spacer,
-  Button,
   Flex,
 } from "native-base";
 import Img from "../../../components/Img";
@@ -35,6 +35,7 @@ import ContainerFluid from "../../../components/ContainerFluid";
 import { useState, useEffect, useCallback } from "react";
 import Colors from "../../../constants/Colors";
 import i18n from "../../../I18n/i18n";
+import Button from "../../../components/Button";
 import { storeData, getStoreData } from "../../../AsyncStorage/AsyncStorage";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import * as myAccountActions from "../../../store/actions/myAccount";
@@ -45,6 +46,7 @@ import AwesomeAlert from "react-native-awesome-alerts";
 import SessionExpireAlert from "../../../components/SessionExpireAlert";
 import AsyncStorageKey from "../../../constants/AsyncStorageKey";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import DeactivateAccountAlert from "../../../components/DeactivateAccountAlert";
 import {
   Collapse,
   CollapseHeader,
@@ -87,6 +89,7 @@ export default AccountScreen = (props) => {
   const [currentPwshow, setcurrentPwShow] = useState(false);
   const [confirmPwshow, setconfirmPwShow] = useState(false);
   const [newPwshow, setNewPwShow] = useState(false);
+  let [showDeactivateAlert, setShowDeactivateAlert] = useState(false);
 
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -94,6 +97,7 @@ export default AccountScreen = (props) => {
   let [locale, setLocale] = useState("");
   let [showAlert, setShowAlert] = useState(false);
   let [sessionAlert, setSessionAlert] = useState(false);
+  const [showLoading, setShowLoading] = useState(false);
   const dispatch = useDispatch();
 
   //state
@@ -107,6 +111,17 @@ export default AccountScreen = (props) => {
   function onPressCancel() {
     setShowAlert(false);
   }
+  function onPressDeactivateCancel() {
+    setShowDeactivateAlert(false);
+  }
+
+  const onPressDeactivateNow = async () => {
+    setShowDeactivateAlert(false);
+    setShowLoading(true);
+    await dispatch(myAccountActions.deactivateAccount(props));
+    setShowLoading(false);
+  };
+
   function handleBackButtonClick() {
     props.navigation.navigate("Setting");
     return true;
@@ -528,7 +543,31 @@ export default AccountScreen = (props) => {
                 </VStack>
               </CollapseBody>
             </Collapse>
+           
+           <TouchableOpacity onPress={()=> setShowDeactivateAlert(true)}>
+            <CollapseHeaderInner
+                  title= {translate("deactivate")}
+                  icon={
+                    <Image
+                    style={{ height: 30, width: 30, resizeMode: "contain" }}
+                    source={require("../../../assets/deactivate_icon.png")}
+                  />
+                  }
+           />
+           </TouchableOpacity>
+
+           <DeactivateAccountAlert
+        showAlert={showDeactivateAlert}
+        onConfirmPressed={onPressDeactivateNow}
+        onCancelPressed={onPressDeactivateCancel}
+      />
+
           </VStack>
+          {showLoading ? (
+          <View style={styles.loading}>
+            <ActivityIndicator size={"large"} color={Colors.primary} />
+          </View>
+        ) : undefined}
         </ContainerFluid>
       </KeyboardAwareScrollView>
     </SafeAreaView>

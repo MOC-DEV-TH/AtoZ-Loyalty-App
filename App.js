@@ -87,9 +87,9 @@ export default App = (props) => {
   //     await SplashScreen.hideAsync();
   //   }
   // }, [fontsLoaded]);
-  useEffect(() => {
-    setTimeout(() => SplashScreen.hideAsync(), 2000);
-  }, []);
+  // useEffect(() => {
+  //   setTimeout(() => SplashScreen.hideAsync(), 2000);
+  // }, []);
   
   const handleNewNotification = async (notificationObject) => {
     try {
