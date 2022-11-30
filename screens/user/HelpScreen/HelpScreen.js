@@ -4,7 +4,7 @@ import ContainerFluid from "../../../components/ContainerFluid";
 import Img from "../../../components/Img";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Colors from "../../../constants/Colors";
-import { TouchableOpacity, Image } from "react-native";
+import { TouchableOpacity, Image,Platform } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import Button from "../../../components/Button";
 import { FontAwesome5 } from "@expo/vector-icons";
@@ -55,7 +55,10 @@ export default HelpScreen = ({navigation}) => {
           Hotline 2
         </Button>
         <Button
-          onPress={()=>{Linking.openURL("viber://contact?number=959448999995")}}
+          onPress={()=>{
+            Platform.OS=="android" ? Linking.openURL("viber://contact?number=959448999995") :
+            Linking.openURL("viber://contact?number=+959448999995")
+            }}
           px={10}
           Icon={<FontAwesome5 name="viber" size={24} color="white" />}
           bg="primary"

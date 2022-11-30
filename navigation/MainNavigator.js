@@ -316,7 +316,7 @@ const MainTabNavigator = createBottomTabNavigator(tabScreenConfig, {
       justifyContent: "center",
       alignItems: "center",
       paddingBottom: 10,
-      height: Platform.OS === "android" ? 55 : 30,
+      // height: Platform.OS === "android" ? 55 : 30,
     },
   },
 });
