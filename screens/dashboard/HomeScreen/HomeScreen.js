@@ -306,7 +306,6 @@ export default HomeScreen = (props) => {
           justifyContent: "space-between",
           backgroundColor:
             Platform.OS === "android" ? Colors.primary : Colors.primary,
-          height: Platform.OS === "android" ? 80 : 120,
         }}
       >
         <View>
