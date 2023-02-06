@@ -25,11 +25,9 @@ import SeeMore from "react-native-see-more-inline";
 import ReadMore from "@fawazahmed/react-native-read-more";
 import Text from "../../../components/Typography";
 import ContainerFluid from "../../../components/ContainerFluid";
-import getEnvVars from "../../../environment";
 import { Heading } from "native-base";
 
 export default PromotionScreen = (props) => {
-  const { imageApiUrl } = getEnvVars();
   const dispatch = useDispatch();
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [language, setLanguage] = useState("");
@@ -107,11 +105,13 @@ export default PromotionScreen = (props) => {
         <Image
           resizeMode="contain"
           style={styles.image}
-          source={{ uri: imageApiUrl + item.image_en }}
+          source={{ uri: Global.baseImageUrl + item.image_en }}
           alt="promotion image"
         />
         <VStack style={styles.vContainer}>
-        <Heading lineHeight={30} color={Colors.primary} fontSize={18}>{item.name}</Heading>
+          <Heading lineHeight={30} color={Colors.primary} fontSize={18}>
+            {item.name}
+          </Heading>
           <SeeMore numberOfLines={4} style={styles.description}>
             {item.description}
           </SeeMore>
@@ -126,11 +126,13 @@ export default PromotionScreen = (props) => {
         <Image
           resizeMode="contain"
           style={styles.image}
-          source={{ uri: imageApiUrl + item.image_mm }}
+          source={{ uri: Global.baseImageUrl + item.image_mm }}
           alt="promotion image"
         />
         <VStack style={styles.vContainer}>
-        <Heading lineHeight={30} color={Colors.primary} fontSize={18}>{item.namemm}</Heading>
+          <Heading lineHeight={30} color={Colors.primary} fontSize={18}>
+            {item.namemm}
+          </Heading>
           <SeeMore numberOfLines={4} style={styles.description}>
             {item.descriptionmm}
           </SeeMore>
@@ -145,15 +147,15 @@ export default PromotionScreen = (props) => {
 
   return (
     <ContainerFluid standardTop={true}>
-        <View style={styles.button}>
-          <Text style={styles.text}>{translate("hotdeal")}</Text>
-        </View>
-        <SessionExpireAlert showAlert={alert} onConfirmPressed={onConfirm} />
-        {language == "my" ? (
-          isRefreshing ? (
-            <ActivityIndicator size="large" />
-          ) : (
-            <View style={{flex:1}}>
+      <View style={styles.button}>
+        <Text style={styles.text}>{translate("hotdeal")}</Text>
+      </View>
+      <SessionExpireAlert showAlert={alert} onConfirmPressed={onConfirm} />
+      {language == "my" ? (
+        isRefreshing ? (
+          <ActivityIndicator size="large" />
+        ) : (
+          <View style={{ flex: 1 }}>
             <FlatList
               onRefresh={loadPromotionData}
               refreshing={isRefreshing}
@@ -163,12 +165,12 @@ export default PromotionScreen = (props) => {
               ListEmptyComponent={renderListEmptyComponent}
               keyExtractor={(item) => item.id}
             />
-            </View>
-          )
-        ) : isRefreshing ? (
-          <ActivityIndicator size="large" />
-        ) : (
-          <View style={{flex:1}}>
+          </View>
+        )
+      ) : isRefreshing ? (
+        <ActivityIndicator size="large" />
+      ) : (
+        <View style={{ flex: 1 }}>
           <FlatList
             onRefresh={loadPromotionData}
             refreshing={isRefreshing}
@@ -178,8 +180,8 @@ export default PromotionScreen = (props) => {
             ListEmptyComponent={renderListEmptyComponent}
             keyExtractor={(item) => item.id}
           />
-          </View>
-        )}
+        </View>
+      )}
     </ContainerFluid>
   );
 };

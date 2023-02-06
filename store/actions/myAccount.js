@@ -7,10 +7,6 @@ export const SET_EMPTY_RESPONSE_CODE = "SET_EMPTY_RESPONSE_CODE";
 export const SET_OUTLET_LOCATIONS_INFO = "SET_OUTLET_LOCATIONS_INFO";
 import { translate } from "react-native-translate";
 import { Alert } from "react-native";
-import getEnvVars from "../../environment";
-
-const { apiUrl } = getEnvVars();
-const { authorization } = getEnvVars();
 
 export const setEmptyResponseCode = () => {
   return (dispatch) => {
@@ -28,7 +24,7 @@ export const getMemberInfo = () => {
     const token = getState().auth.token;
     console.log("token", token);
     const response = await fetch(
-      apiUrl + "/get_member_info?app_version=" + AppVersion.app_version,
+      Global.baseUrl + "/get_member_info?app_version=" + AppVersion.app_version,
       {
         method: "GET",
         headers: {
@@ -77,7 +73,7 @@ export const deactivateAccount = (props) => {
   return async (dispatch, getState) => {
     const token = getState().auth.token;
     try {
-      const response = await fetch(apiUrl + "/deactivate", {
+      const response = await fetch(Global.baseUrl + "/deactivate", {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -115,7 +111,7 @@ export const updateAccount = (oldPassword, newPassword,props) => {
     const token = getState().auth.token;
     const userId = getState().auth.userId;
     try {
-      const response = await fetch(apiUrl + "/change_password", {
+      const response = await fetch(Global.baseUrl + "/change_password", {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -156,7 +152,7 @@ export function getOutletLocationsInfo(language){
   return async (dispatch, getState) => {
     const token = getState().auth.token;
     const response = await fetch(
-      apiUrl + "/get_outlet_locations?app_version=" + AppVersion.app_version,
+      Global.baseUrl + "/get_outlet_locations?app_version=" + AppVersion.app_version,
       {
         method: "GET",
         headers: {

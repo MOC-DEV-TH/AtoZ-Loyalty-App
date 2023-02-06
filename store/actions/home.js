@@ -5,9 +5,7 @@ export const SET_HOME_PROMOTION = "SET_HOME_PROMOTION";
 export const SET_RESPONSE_CODE = "SET_RESPONSE_CODE"
 export const SET_EMPTY_RESPONSE_CODE = "SET_EMPTY_RESPONSE_CODE"
 export const SET_AVAILABLE_POINT = "SET_AVAILABLE_POINT"
-import getEnvVars from "../../environment";
 
-const { apiUrl,authorization } = getEnvVars();
 export const setEmptyResponseCode = () => {
   return (dispatch) => {
     dispatch({
@@ -19,7 +17,7 @@ export const getHomePromotions = () => {
   return async (dispatch, getState) => {
     const token = getState().auth.token;
     const response = await  fetch(
-      apiUrl + "/get_home?app_version=" + AppVersion.app_version,
+      Global.baseUrl + "/get_home?app_version=" + AppVersion.app_version,
       {
         method: "GET",
         headers: {

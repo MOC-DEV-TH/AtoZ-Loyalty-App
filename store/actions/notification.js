@@ -2,9 +2,7 @@ import { storeData } from "../../AsyncStorage/AsyncStorage";
 import AppVersion from "../../constants/AppVersion";
 import AsyncStorageKey from "../../constants/AsyncStorageKey";
 import Global from "../../constants/Global";
-import getEnvVars from "../../environment";
 
-const { apiUrl } = getEnvVars();
 export const SET_NOTIFICATION_DATA = "SET_NOTIFICATION_DATA"
 export const NOTIFICATION_RECEIVE = "NOTIFICATION_RECEIVE"
 export const SET_EMPTY_NOTIFICATION = "SET_EMPTY_NOTIFICATION"
@@ -34,7 +32,7 @@ export const getAllNotifications = () => {
     const token = getState().auth.token;
     const createDate = getState().auth.createDate;
     const response = await fetch(
-      apiUrl +
+      Global.baseUrl +
         "/get_notifications?app_version=" +
         AppVersion.app_version +"&created_date="+createDate,
       {

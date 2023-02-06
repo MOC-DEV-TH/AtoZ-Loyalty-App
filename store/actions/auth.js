@@ -3,14 +3,12 @@ import AppVersion from "../../constants/AppVersion";
 import DropDownVO from "../../model/dropDown";
 import { getStoreData, storeData } from "../../AsyncStorage/AsyncStorage";
 import AsyncStorageKey from "../../constants/AsyncStorageKey";
-import getEnvVars from "../../environment";
 import { debug } from "react-native-reanimated";
 import * as notificationActions from "../actions/notification";
 import { useDispatch } from "react-redux";
 import TownshipVO from "../../model/township";
 import CityVO from "../../model/city";
 
-const { apiUrl, aut } = getEnvVars();
 export const AUTHENTICATE = "AUTHENTICATE";
 export const SET_ALL_DROP_DOWN = "SET_DROP_DOWN";
 export const SET_TOWNSHIP = "SET_TOWNSHIP";
@@ -27,10 +25,9 @@ export const authenticate = (token, userID, createDate) => {
 };
 
 export const login = (userID, password, expoToken) => {
-  console.log(apiUrl);
   return async (dispatch, getState) => {
     const notificationData = getState().notification.notificationCount;
-    const response = await fetch(apiUrl + "/login", {
+    const response = await fetch(Global.baseUrl + "/login", {
       method: "POST",
       headers: {
         "Content-type": "application/json",
@@ -80,7 +77,7 @@ export const login = (userID, password, expoToken) => {
 
 export const getAllDDL = () => {
   return async (dispatch) => {
-    const response = await fetch(apiUrl + "/get_ddl_data", {
+    const response = await fetch(Global.baseUrl + "/get_ddl_data", {
       method: "GET",
       headers: {
         "Content-type": "application/json",

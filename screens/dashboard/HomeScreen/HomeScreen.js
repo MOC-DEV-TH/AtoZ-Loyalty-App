@@ -33,12 +33,11 @@ import { translate } from "react-native-translate";
 import SessionExpireAlert from "../../../components/SessionExpireAlert";
 import Text from "../../../components/Typography";
 import Carousel from "react-native-banner-carousel";
-import getEnvVars from "../../../environment";
 import AsyncStorageKey from "../../../constants/AsyncStorageKey";
 import { getStoreData, storeData } from "../../../AsyncStorage/AsyncStorage";
+import Global from "../../../constants/Global";
 
 export default HomeScreen = (props) => {
-  const { imageApiUrl } = getEnvVars();
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [language, setLanguage] = useState("");
@@ -67,7 +66,9 @@ export default HomeScreen = (props) => {
         (lastNotificationValue) => {
           if (lastNotificationValue != null) {
             console.log("Last Notification Length", lastNotificationValue);
-            if (parseInt(notificationValue) >= parseInt(lastNotificationValue)) {
+            if (
+              parseInt(notificationValue) >= parseInt(lastNotificationValue)
+            ) {
               setNotiCount(
                 parseInt(notificationValue) - parseInt(lastNotificationValue)
               );
@@ -141,7 +142,7 @@ export default HomeScreen = (props) => {
   const loadPromotionData = useCallback(async () => {
     setIsLoading(true);
     try {
-     await dispatch(homeActions.getHomePromotions());
+      await dispatch(homeActions.getHomePromotions());
     } catch (error) {
       setError(error.message);
     }
@@ -192,11 +193,11 @@ export default HomeScreen = (props) => {
 
   if (language == "my") {
     for (const item of promotionSlider) {
-      sliderList.push({ img: imageApiUrl + item.image_mm });
+      sliderList.push({ img: Global.baseImageUrl + item.image_mm });
     }
   } else {
     for (const item of promotionSlider) {
-      sliderList.push({ img: imageApiUrl + item.image_en });
+      sliderList.push({ img: Global.baseImageUrl + item.image_en });
     }
   }
 
@@ -223,7 +224,7 @@ export default HomeScreen = (props) => {
             <Image
               resizeMode="stretch"
               style={{ height: 120 }}
-              source={{ uri: imageApiUrl + item.image_en }}
+              source={{ uri: Global.baseImageUrl + item.image_en }}
               alt="ads image"
             />
             <HStack
@@ -259,7 +260,7 @@ export default HomeScreen = (props) => {
             <Image
               resizeMode="stretch"
               style={{ height: 120 }}
-              source={{ uri: imageApiUrl + item.image_mm }}
+              source={{ uri: Global.baseImageUrl + item.image_mm }}
               alt="ads image"
             />
             <HStack
@@ -365,109 +366,116 @@ export default HomeScreen = (props) => {
           </TouchableOpacity>
         </View>
       </SafeAreaView>
-      {isLoading ? <ActivityIndicator style={{flex:1}} size={"large"} /> :  <ScrollView>
-        <View>
-          {sliderList.length > 0 ? (
-            <Carousel
-              autoplay={true}
-              autoplayTimeout={4000}
-              loop={true}
-              index={0}
-              pageSize={BannerWidth}
-              pageIndicatorStyle={{
-                backgroundColor: Colors.white,
-                height: 8,
-                width: 8,
-              }}
-              activePageIndicatorStyle={{ backgroundColor: Colors.yellow }}
-              pageIndicatorContainerStyle={{ marginBottom: 10 }}
-              pageIndicatorOffset={18}
-            >
-              {sliderList.map((image, index) => renderPage(image, index))}
-            </Carousel>
-          ) : undefined}
-        </View>
-        <SessionExpireAlert showAlert={alert} onConfirmPressed={onConfirm} />
-        <View
-          style={{
-            backgroundColor: Colors.primary,
-            fontWeight: "bold",
-            padding: 10,
-            paddingBottom: 20,
-          }}
-        >
-          <VStack>
-            <HStack justifyContent={"space-between"} alignItems="center" mb={2}>
-              <Text
-                style={{
-                  color: Colors.white,
+      {isLoading ? (
+        <ActivityIndicator style={{ flex: 1 }} size={"large"} />
+      ) : (
+        <ScrollView>
+          <View>
+            {sliderList.length > 0 ? (
+              <Carousel
+                autoplay={true}
+                autoplayTimeout={4000}
+                loop={true}
+                index={0}
+                pageSize={BannerWidth}
+                pageIndicatorStyle={{
+                  backgroundColor: Colors.white,
+                  height: 8,
+                  width: 8,
+                }}
+                activePageIndicatorStyle={{ backgroundColor: Colors.yellow }}
+                pageIndicatorContainerStyle={{ marginBottom: 10 }}
+                pageIndicatorOffset={18}
+              >
+                {sliderList.map((image, index) => renderPage(image, index))}
+              </Carousel>
+            ) : undefined}
+          </View>
+          <SessionExpireAlert showAlert={alert} onConfirmPressed={onConfirm} />
+          <View
+            style={{
+              backgroundColor: Colors.primary,
+              fontWeight: "bold",
+              padding: 10,
+              paddingBottom: 20,
+            }}
+          >
+            <VStack>
+              <HStack
+                justifyContent={"space-between"}
+                alignItems="center"
+                mb={2}
+              >
+                <Text
+                  style={{
+                    color: Colors.white,
+                    fontWeight: "bold",
+                    fontSize: 18,
+                    padding: 10,
+                  }}
+                >
+                  {translate("availablePoint")}
+                </Text>
+                <TouchableOpacity onPress={() => onPressAvailablePoint()}>
+                  <Image
+                    style={{ height: 20, width: 20 }}
+                    resizeMode="contain"
+                    source={require("../../../assets/right_arrow_circle.png")}
+                  />
+                </TouchableOpacity>
+              </HStack>
+              <Box
+                alignSelf="center"
+                alignItems="center"
+                bg="primary.500"
+                p={3}
+                borderColor="white"
+                borderWidth="3"
+                borderRadius={12}
+                width="100%"
+                _text={{
+                  fontSize: "lg",
                   fontWeight: "bold",
-                  fontSize: 18,
-                  padding: 10,
+                  color: "warmGray.50",
+                  letterSpacing: "lg",
+                  fontSize: 22,
                 }}
               >
-                {translate("availablePoint")}
-              </Text>
-              <TouchableOpacity onPress={() => onPressAvailablePoint()}>
-                <Image
-                  style={{ height: 20, width: 20 }}
-                  resizeMode="contain"
-                  source={require("../../../assets/right_arrow_circle.png")}
-                />
-              </TouchableOpacity>
-            </HStack>
-            <Box
-              alignSelf="center"
-              alignItems="center"
-              bg="primary.500"
-              p={3}
-              borderColor="white"
-              borderWidth="3"
-              borderRadius={12}
-              width="100%"
-              _text={{
-                fontSize: "lg",
-                fontWeight: "bold",
-                color: "warmGray.50",
-                letterSpacing: "lg",
-                fontSize: 22,
+                {availablePoints + " " + translate("point")}
+              </Box>
+            </VStack>
+          </View>
+          {language == "my" ? (
+            <FlatList
+              data={ads_data}
+              numColumns={2}
+              renderItem={renderItemMM}
+              keyExtractor={(item) => item.id}
+              scrollEnabled={false}
+              contentContainerStyle={{
+                paddingLeft: 10,
+                paddingRight: 10,
+                paddingBottom: 15,
               }}
-            >
-              {availablePoints + " " + translate("point")}
-            </Box>
-          </VStack>
-        </View>
-        {language == "my" ? (
-          <FlatList
-            data={ads_data}
-            numColumns={2}
-            renderItem={renderItemMM}
-            keyExtractor={(item) => item.id}
-            scrollEnabled={false}
-            contentContainerStyle={{
-              paddingLeft: 10,
-              paddingRight: 10,
-              paddingBottom: 15,
-            }}
-            columnWrapperStyle={{ justifyContent: "space-between" }}
-          />
-        ) : (
-          <FlatList
-            data={ads_data}
-            numColumns={2}
-            renderItem={renderItem}
-            keyExtractor={(item) => item.id}
-            scrollEnabled={false}
-            contentContainerStyle={{
-              paddingLeft: 10,
-              paddingRight: 10,
-              paddingBottom: 15,
-            }}
-            columnWrapperStyle={{ justifyContent: "space-between" }}
-          />
-        )}
-      </ScrollView> }
-    
+              columnWrapperStyle={{ justifyContent: "space-between" }}
+            />
+          ) : (
+            <FlatList
+              data={ads_data}
+              numColumns={2}
+              renderItem={renderItem}
+              keyExtractor={(item) => item.id}
+              scrollEnabled={false}
+              contentContainerStyle={{
+                paddingLeft: 10,
+                paddingRight: 10,
+                paddingBottom: 15,
+              }}
+              columnWrapperStyle={{ justifyContent: "space-between" }}
+            />
+          )}
+        </ScrollView>
+      )}
     </View>
   );
 };

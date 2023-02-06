@@ -1,22 +1,35 @@
 {
   "cli": {
-    "version": ">= 2.4.0"
+    "version": ">= 3.5.1"
   },
   "build": {
     "development": {
-      "developmentClient": true,
+      "extends": "production",
       "distribution": "internal",
-      "env": {
-        "APP_VARIANT": "development"
+      "android": {
+        "gradleCommand": ":app:assembleDebug"
+      },
+      "ios": {
+        "buildConfiguration": "Debug",
+        "resourceClass": "m1-medium"
       }
     },
     "preview": {
+      "extends": "production",
       "distribution": "internal",
       "android": {
         "buildType": "apk"
+      },
+      "ios": {
+        "resourceClass": "m1-medium"
       }
     },
-    "production": {}
+    "production": {
+      "node" : "16.1.0",
+      "ios": {
+        "resourceClass": "m1-medium"
+      }
+    }
   },
   "submit": {
     "production": {

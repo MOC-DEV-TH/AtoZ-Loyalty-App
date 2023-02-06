@@ -2,7 +2,7 @@
   "expo": {
     "name": "AtoZ",
     "slug": "AtoZ",
-    "version": "1.0.1",
+    "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/new_app_logo.png",
     "userInterfaceStyle": "automatic",
@@ -37,7 +37,7 @@
         "backgroundColor": "#034ea1"
       },
       "bundleIdentifier": "com.atoz.client",
-      "buildNumber": "3",
+      "buildNumber": "17",
       "supportsTablet": false,
       "googleServicesFile": "./GoogleService-Info.plist",
       "infoPlist": {
@@ -59,7 +59,7 @@
       },
       "package": "com.atoz.client",
       "googleServicesFile": "./google-services.json",
-      "versionCode": 2,
+      "versionCode": 3,
       "adaptiveIcon": {
         "foregroundImage": "./assets/new_app_logo.png",
         
