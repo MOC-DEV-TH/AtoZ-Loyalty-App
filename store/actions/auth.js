@@ -40,7 +40,7 @@ export const login = (userID, password, expoToken) => {
         expo_token: expoToken,
       }),
     });
-
+    
     if (!response.ok) {
       const errorResData = await response.text();
       console.log(errorResData);

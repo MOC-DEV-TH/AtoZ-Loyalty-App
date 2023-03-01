@@ -146,7 +146,7 @@ export default PromotionScreen = (props) => {
   };
 
   return (
-    <ContainerFluid standardTop={true}>
+    <View style={{flex:1,paddingLeft:12}}>
       <View style={styles.button}>
         <Text style={styles.text}>{translate("hotdeal")}</Text>
       </View>
@@ -182,7 +182,7 @@ export default PromotionScreen = (props) => {
           />
         </View>
       )}
-    </ContainerFluid>
+    </View>
   );
 };
 
