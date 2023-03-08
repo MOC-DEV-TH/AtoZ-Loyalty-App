@@ -237,7 +237,13 @@ export default HomeScreen = (props) => {
                 paddingRight: 10,
               }}
             >
-              <Text style={{ color: Colors.primary }}>{item.name}</Text>
+              <Text
+                adjustsFontSizeToFit={true}
+                numberOfLines={2}
+                style={{ color: Colors.primary, adjustsFontSizeToFit: "true" }}
+              >
+                {item.name}
+              </Text>
               <Text style={{ color: Colors.white, fontWeight: "bold" }}></Text>
             </HStack>
           </VStack>
@@ -273,7 +279,13 @@ export default HomeScreen = (props) => {
                 paddingRight: 10,
               }}
             >
-              <Text style={{ color: Colors.primary }}>{item.namemm}</Text>
+              <Text
+                adjustsFontSizeToFit={true}
+                numberOfLines={2}
+                style={{ color: Colors.primary }}
+              >
+                {item.namemm}
+              </Text>
               <Text style={{ color: Colors.white, fontWeight: "bold" }}></Text>
             </HStack>
           </VStack>

@@ -109,10 +109,14 @@ export default PromotionScreen = (props) => {
           alt="promotion image"
         />
         <VStack style={styles.vContainer}>
-          <Heading lineHeight={30} color={Colors.primary} fontSize={18}>
+          <Heading lineHeight={25} color={Colors.primary} fontSize={18}>
             {item.name}
           </Heading>
-          <SeeMore numberOfLines={4} style={styles.description}>
+          <SeeMore
+            linkStyle={{ fontWeight: "800" }}
+            numberOfLines={4}
+            style={styles.description}
+          >
             {item.description}
           </SeeMore>
         </VStack>
@@ -130,10 +134,14 @@ export default PromotionScreen = (props) => {
           alt="promotion image"
         />
         <VStack style={styles.vContainer}>
-          <Heading lineHeight={30} color={Colors.primary} fontSize={18}>
+          <Heading lineHeight={25} color={Colors.primary} fontSize={18}>
             {item.namemm}
           </Heading>
-          <SeeMore numberOfLines={4} style={styles.description}>
+          <SeeMore
+            linkStyle={{ fontWeight: "800" }}
+            numberOfLines={4}
+            style={styles.description}
+          >
             {item.descriptionmm}
           </SeeMore>
         </VStack>
@@ -146,7 +154,7 @@ export default PromotionScreen = (props) => {
   };
 
   return (
-    <View style={{flex:1,paddingLeft:12}}>
+    <View style={{ flex: 1, paddingLeft: 12 }}>
       <View style={styles.button}>
         <Text style={styles.text}>{translate("hotdeal")}</Text>
       </View>
