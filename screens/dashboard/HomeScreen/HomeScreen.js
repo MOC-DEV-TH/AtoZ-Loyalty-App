@@ -1,12 +1,9 @@
-import { StatusBar } from "expo-status-bar";
 import {
   FlatList,
-  StyleSheet,
   View,
   Image,
   TouchableOpacity,
   SafeAreaView,
-  TouchableHighlight,
   ActivityIndicator,
   Dimensions,
   Animated,
@@ -15,19 +12,8 @@ import {
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import * as homeActions from "../../../store/actions/home";
 import React, { useState, useCallback, useEffect } from "react";
-import * as notificationActions from "../../../store/actions/notification";
-import { Ionicons } from "@expo/vector-icons";
 import styles from "./styles";
-import {
-  HStack,
-  VStack,
-  Pressable,
-  Menu,
-  Box,
-  ScrollView,
-  Badge,
-  Center,
-} from "native-base";
+import { HStack, VStack, Box, ScrollView } from "native-base";
 import Colors from "../../../constants/Colors";
 import { translate } from "react-native-translate";
 import SessionExpireAlert from "../../../components/SessionExpireAlert";

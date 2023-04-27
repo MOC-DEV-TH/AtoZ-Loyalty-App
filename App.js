@@ -1,14 +1,9 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import {
-  StyleSheet,
-  Text,
   View,
-  Image,
-  SafeAreaView,
-  StatusBar,
   Platform,
   LogBox,
-  YellowBox
+  YellowBox,
 } from "react-native";
 import "react-native-gesture-handler";
 import { Provider } from "react-redux";
@@ -31,17 +26,17 @@ import Colors from "./constants/Colors";
 import { useFonts } from "expo-font";
 import navigationRef from "./navigation/RootNavigation";
 import NavigationContainer from "./navigation/NavigationContainer";
-import * as SplashScreen from 'expo-splash-screen';
-import * as authActions from "./store/actions/auth";
-
+import { StatusBar } from "react-native";
 console.disableYellowBox = true;
 LogBox.ignoreAllLogs();
-YellowBox.ignoreWarnings(['Animated: `useNativeDriver` was not specified. This is a required option and must be explicitly set to `true` or `false`']);
+YellowBox.ignoreWarnings([
+  "Animated: `useNativeDriver` was not specified. This is a required option and must be explicitly set to `true` or `false`",
+]);
 LogBox.ignoreLogs([
-    'ViewPropTypes will be removed from React Native. Migrate to ViewPropTypes exported from \'deprecated-react-native-prop-types\'.',
-    'NativeBase: The contrast ratio of',
-    "[react-native-gesture-handler] Seems like you\'re using an old API with gesture components, check out new Gestures system!",
-])
+  "ViewPropTypes will be removed from React Native. Migrate to ViewPropTypes exported from 'deprecated-react-native-prop-types'.",
+  "NativeBase: The contrast ratio of",
+  "[react-native-gesture-handler] Seems like you're using an old API with gesture components, check out new Gestures system!",
+]);
 //open database
 //const db = SQLite.openDatabase("db.aToz");
 
@@ -67,7 +62,7 @@ Notifications.setNotificationHandler({
 export default App = (props) => {
   const BACKGROUND_NOTIFICATION_TASK = "BACKGROUND-NOTIFICATION-TASK";
   const [expoPushToken, setExpoPushToken] = useState("");
- 
+
   const [fontsLoaded] = useFonts({
     "En-Heading-Font": require("./assets/fonts/Helvetica/HelveticaLTStd-Bold.otf"),
     "En-Body-Font": require("./assets/fonts/Helvetica/HelveticaLTStd-Light.otf"),
@@ -90,7 +85,7 @@ export default App = (props) => {
   // useEffect(() => {
   //   setTimeout(() => SplashScreen.hideAsync(), 2000);
   // }, []);
-  
+
   const handleNewNotification = async (notificationObject) => {
     try {
       const newNotification = {
@@ -109,11 +104,11 @@ export default App = (props) => {
     }
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     registerForPushNotificationsAsync().then((token) => {
-          setExpoPushToken(token);
-        });
-  })
+      setExpoPushToken(token);
+    });
+  });
   //request permission
   useEffect(() => {
     const requestPermissionsAsync = async () => {
@@ -134,10 +129,10 @@ export default App = (props) => {
     return;
   }, []);
 
-  useEffect(()=>{
-    storeData(AsyncStorageKey.IS_LOGIN,"0")
-    console.log("Device Type",Device.DeviceType)
-  },[])
+  useEffect(() => {
+    storeData(AsyncStorageKey.IS_LOGIN, "0");
+    console.log("Device Type", Device.DeviceType);
+  }, []);
 
   // is font ready?
   if (!fontsLoaded) {
@@ -183,7 +178,11 @@ export default App = (props) => {
       <Provider store={store}>
         <NativeBaseProvider theme={theme}>
           <View style={{ flex: 1 }}>
-            <NavigationContainer/>
+            <StatusBar
+              backgroundColor={Colors.primary}
+              barStyle={"light-content"}
+            />
+            <NavigationContainer />
           </View>
         </NativeBaseProvider>
       </Provider>
@@ -214,9 +213,8 @@ async function sendPushNotification(expoPushToken) {
 async function registerForPushNotificationsAsync() {
   let token;
   if (Device.isDevice) {
-    const {
-      status: existingStatus,
-    } = await Notifications.getPermissionsAsync();
+    const { status: existingStatus } =
+      await Notifications.getPermissionsAsync();
     let finalStatus = existingStatus;
     if (existingStatus !== "granted") {
       const { status } = await Notifications.requestPermissionsAsync();

@@ -2,7 +2,7 @@
   "expo": {
     "name": "AtoZ",
     "slug": "AtoZ",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/new_app_logo.png",
     "userInterfaceStyle": "automatic",
@@ -22,7 +22,7 @@
     "splash": {
       "image": "./assets/atoz-splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#034ea1"
+      "backgroundColor": "#0030B7"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -34,10 +34,10 @@
       "splash": {
         "image": "./assets/atoz-splash.png",
         "resizeMode": "contain",
-        "backgroundColor": "#034ea1"
+        "backgroundColor": "#0030B7"
       },
       "bundleIdentifier": "com.atoz.client",
-      "buildNumber": "5",
+      "buildNumber": "2",
       "supportsTablet": false,
       "googleServicesFile": "./GoogleService-Info.plist",
       "infoPlist": {
@@ -55,11 +55,11 @@
       "splash": {
         "image": "./assets/atoz-splash.png",
         "resizeMode": "contain",
-        "backgroundColor": "#034ea1"
+        "backgroundColor": "#0030B7"
       },
       "package": "com.atoz.client",
       "googleServicesFile": "./google-services.json",
-      "versionCode": 3,
+      "versionCode": 4,
       "adaptiveIcon": {
         "foregroundImage": "./assets/new_app_logo.png",
         
