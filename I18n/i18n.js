@@ -1,14 +1,19 @@
-// import my from "../locales/my";
-// import en from "../locales/en";
-// import chn from "../locales/chn";
-// import { I18n } from 'i18n-js';
+import en from "../locales/en";
+import my from "../locales/my";
 
-// const i18n = new I18n()
-// i18n.fallbacks = true;
-// i18n.translations = {  
-//   en: en,
-//   my: my,
-//   chn: chn
-// };
+const translations = {
+  en: en,
+  my: my,
+};
 
-// export default i18n;  
+const currentLanguage = "en"; // change to "my" for test
+
+const i18n = {
+  locale: currentLanguage,
+  t: (key) => {
+    const langData = translations[currentLanguage] || translations.en;
+    return langData[key] || key;
+  },
+};
+
+export default i18n;

@@ -1,69 +1,43 @@
 import { useDispatch } from "react-redux";
-import {
-  Heading,
-  View,
-  Box,
-  HStack,
-  Link,
-  VStack,
-  Stack,
-  Text,
-} from "native-base";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { TouchableOpacity, Image, ActivityIndicator } from "react-native";
-import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
-import { StyleSheet } from "react-native";
+import { View, VStack, Text } from "native-base";
+import { TouchableOpacity } from "react-native";
+import { FontAwesome } from "@expo/vector-icons";
+import { Entypo } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Colors from "../../../constants/Colors";
 import Button from "../../../components/Button";
 import ContainerFluid from "../../../components/ContainerFluid";
-import { Entypo } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import AwesomeAlert from "react-native-awesome-alerts";
 import { useState } from "react";
 import styles from "./styles";
 import { storeData } from "../../../AsyncStorage/AsyncStorage";
 import AsyncStorageKey from "../../../constants/AsyncStorageKey";
-import DeactivateAccountAlert from "../../../components/DeactivateAccountAlert";
-import * as myAccountActions from "../../../store/actions/myAccount";
-import { translate } from "react-native-translate";
+import i18n from "../../../I18n/i18n";
 
-export default SettingScreen = ({ navigation }) => {
+const SettingScreen = ({ navigation }) => {
   const dispatch = useDispatch();
-  let [showAlert, setShowAlert] = useState(false);
-  let [showDeactivateAlert, setShowDeactivateAlert] = useState(false);
-  const [showLoading, setShowLoading] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
 
-  function onPressConfirm() {
+  const onPressConfirm = () => {
     setShowAlert(false);
     storeData(AsyncStorageKey.IS_LOGIN, "0");
     navigation.navigate("AccountDashboard");
-  }
+  };
 
-  function onPressCancel() {
+  const onPressCancel = () => {
     setShowAlert(false);
-  }
-
-  // function onPressDeactivateCancel() {
-  //   setShowDeactivateAlert(false);
-  // }
-
-  // const onPressDeactivateNow = async () => {
-  //   setShowDeactivateAlert(false);
-  //   setShowLoading(true);
-  //   await dispatch(myAccountActions.deactivateAccount(navigation));
-  //   setShowLoading(false);
-  // };
+  };
 
   return (
     <>
-      {/* Logout box */}
+      {/* Logout Alert */}
       <AwesomeAlert
         show={showAlert}
-        title={translate("surewanttologout")}
+        title={i18n.t("surewanttologout")}
         showCancelButton={true}
         showConfirmButton={true}
-        cancelText={translate("cancel")}
-        confirmText={translate("yes")}
+        cancelText={i18n.t("cancel")}
+        confirmText={i18n.t("yes")}
         confirmButtonColor={Colors.yellow}
         confirmButtonStyle={styles.alertButton}
         confirmButtonTextStyle={styles.alertButtonText}
@@ -75,13 +49,9 @@ export default SettingScreen = ({ navigation }) => {
         onCancelPressed={onPressCancel}
         onConfirmPressed={onPressConfirm}
       />
-      {/* <DeactivateAccountAlert
-        showAlert={showDeactivateAlert}
-        onConfirmPressed={onPressDeactivateNow}
-        onCancelPressed={onPressDeactivateCancel}
-      /> */}
 
       <ContainerFluid standardTop={true}>
+        {/* Title */}
         <View style={styles.button}>
           <Text
             style={styles.text}
@@ -89,23 +59,25 @@ export default SettingScreen = ({ navigation }) => {
             color="primary"
             fontSize="xl"
           >
-            {translate("setting")}
+            {i18n.t("setting")}
           </Text>
         </View>
 
+        {/* Menu */}
         <ContainerFluid mt={8}>
           <VStack space={4}>
             <Button
               px={10}
               Icon={
-                <FontAwesome name="user-circle-o" size={24} color={"white"} />
+                <FontAwesome name="user-circle-o" size={24} color="white" />
               }
               bg="primary"
               color="white"
               onPress={() => navigation.navigate("MyAccount")}
             >
-              {translate("myaccount")}
+              {i18n.t("myaccount")}
             </Button>
+
             <Button
               px={10}
               Icon={<Entypo name="location" size={24} color="white" />}
@@ -113,8 +85,9 @@ export default SettingScreen = ({ navigation }) => {
               color="white"
               onPress={() => navigation.navigate("OutLetLocation")}
             >
-              {translate("outletlocation")}
+              {i18n.t("outletlocation")}
             </Button>
+
             <Button
               px={10}
               Icon={<FontAwesome name="language" size={24} color="white" />}
@@ -122,68 +95,29 @@ export default SettingScreen = ({ navigation }) => {
               color="white"
               onPress={() => navigation.navigate("Language")}
             >
-              {translate("language")}
+              {i18n.t("language")}
             </Button>
+
             <Button
               px={10}
               Icon={
-                <MaterialCommunityIcons name="logout" size={24} color="white" />
+                <MaterialCommunityIcons
+                  name="logout"
+                  size={24}
+                  color="white"
+                />
               }
               bg="primary"
               color="white"
               onPress={() => setShowAlert(true)}
             >
-              {translate("logout")}
+              {i18n.t("logout")}
             </Button>
-
-            {/* <Button
-              px={10}
-              Icon={
-                <Image
-                    style={{ height: 30, width: 30, resizeMode: "contain" }}
-                    source={require("../../../assets/deactivate_icon.png")}
-                  />
-              }
-              bg="primary"
-              color="white"
-              onPress={() => setShowDeactivateAlert(true)}
-            >
-              {translate("deactivate")}
-            </Button> */}
           </VStack>
         </ContainerFluid>
-        {/* {showLoading ? (
-          <View style={styles.loading}>
-            <ActivityIndicator size={"large"} color={Colors.primary} />
-          </View>
-        ) : undefined} */}
       </ContainerFluid>
     </>
   );
 };
 
-SettingScreen.navigationOptions = (props) => {
-  return {
-    headerTitle: "",
-    headerLeft: () => (
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <TouchableOpacity
-          onPress={() => {
-            props.navigation.navigate("Home", { screen: "DashboardNavigator" });
-          }}
-        >
-          <Image
-            style={styles.headerIcon}
-            source={require("../../../assets/logo.png")}
-          />
-        </TouchableOpacity>
-      </View>
-    ),
-  };
-};
+export default SettingScreen;

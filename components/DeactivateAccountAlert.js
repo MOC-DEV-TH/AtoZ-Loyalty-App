@@ -1,5 +1,5 @@
 import AwesomeAlert from "react-native-awesome-alerts";
-import { translate } from "react-native-translate";
+import i18n from "../I18n/i18n";
 import Colors from "../constants/Colors";
 import styles from "../screens/account/AccountScreen/styles";
 
@@ -7,12 +7,12 @@ export default function DeactivateAccountAlert(props) {
   return (
     <AwesomeAlert
       show={props.showAlert}
-      title={translate("account_deactivation")}
+      title={i18n.t("account_deactivation")}
       showConfirmButton={true}
       showCancelButton={true}
-      confirmText={translate("deactivate_now")}
-      cancelText={translate("deactivate_cancel")}
-      message={translate("deactivate_body_text")}
+      confirmText={i18n.t("deactivate_now")}
+      cancelText={i18n.t("deactivate_cancel")}
+      message={i18n.t("deactivate_body_text")}
       closeOnHardwareBackPress={false}
       confirmButtonColor={"red"}
       confirmButtonStyle={{}}

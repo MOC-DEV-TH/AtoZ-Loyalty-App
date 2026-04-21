@@ -1,7 +1,7 @@
 import { Heading, Box} from "native-base"
 import ContainerFluid from "./ContainerFluid"
 
-export default EntryBanner = ({title}) => {
+const EntryBanner = ({title}) => {
     return (
         <>
         <Box bg={"primary"} alignItems="center" justifyContent="center" minH={200} pt={15} pb={45} w={"100%"}>
@@ -12,3 +12,5 @@ export default EntryBanner = ({title}) => {
         </>
     )   
 }
+
+export default EntryBanner;

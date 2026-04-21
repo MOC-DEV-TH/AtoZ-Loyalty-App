@@ -1,25 +1,17 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  Pressable,
-  Keyboard,
-  SafeAreaView,
-  TouchableOpacity,
-} from "react-native";
-import React, { useEffect, useRef, useCallback } from "react";
+import { Text, View, Keyboard, TouchableOpacity } from "react-native";
+import React from "react";
 import Img from "../../../components/Img";
 import Colors from "../../../constants/Colors";
 import styles from "./styles";
-import { translate } from "react-native-translate";
+import i18n from "../../../I18n/i18n";
 
-export default SuccessScreen = (navData) => {
+const SuccessScreen = ({ navigation }) => {
   const login = () => {
-    navData.navigation.replace("SignIn");
+    navigation.replace("SignIn");
   };
 
   return (
-    <View style={styles.container} onPress={Keyboard.dismiss}>
+    <View style={styles.container} onTouchStart={Keyboard.dismiss}>
       <View style={{ position: "absolute", top: 80 }}>
         <Img
           source={require("../../../assets/atoz_blue.png")}
@@ -27,15 +19,17 @@ export default SuccessScreen = (navData) => {
           intWidth={512}
           intHeight={212}
           mx={"auto"}
-        ></Img>
+        />
       </View>
+
       <Img
         source={require("../../../assets/mark_icon.png")}
         width={150}
         intWidth={512}
         intHeight={212}
         mx={"auto"}
-      ></Img>
+      />
+
       <Text
         style={{
           color: Colors.primary,
@@ -45,8 +39,9 @@ export default SuccessScreen = (navData) => {
           padding: 5,
         }}
       >
-        {translate("thankyou")}
+        {i18n.t("thankyou")}
       </Text>
+
       <Text
         style={{
           color: Colors.primary,
@@ -57,7 +52,7 @@ export default SuccessScreen = (navData) => {
           marginTop: 40,
         }}
       >
-        {translate("loyalty_program_submit_success")}
+        {i18n.t("loyalty_program_submit_success")}
       </Text>
 
       <Text
@@ -70,22 +65,14 @@ export default SuccessScreen = (navData) => {
           marginTop: 25,
         }}
       >
-        {translate("account_verification_process")}
+        {i18n.t("account_verification_process")}
       </Text>
 
-      <TouchableOpacity style={styles.button} onPress={() => login()}>
-        <Text style={styles.buttonTitle}>{translate("login")}</Text>
+      <TouchableOpacity style={styles.button} onPress={login}>
+        <Text style={styles.buttonTitle}>{i18n.t("login")}</Text>
       </TouchableOpacity>
     </View>
   );
 };
-SuccessScreen.navigationOptions = (props) => {
-  return {
-    headerTitle: "",
-    headerTitleAlign: "center",
-    headerStyle: {
-      backgroundColor: "white",
-      height: 0,
-    },
-  };
-};
+
+export default SuccessScreen;

@@ -1,23 +1,20 @@
-import { StyleSheet, View, TouchableOpacity,ActivityIndicator } from "react-native";
+import { View } from "react-native";
 import styles from "./styles";
 import Colors from "../../../constants/Colors";
 import * as authActions from "../../../store/actions/auth";
-import React, { useState, useEffect,useCallback } from "react";
-import { setLocalization, translate } from "react-native-translate";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import LogoBanner from "../../../components/LogoBanner";
 import Button from "../../../components/Button";
 import Text from "../../../components/Typography";
+import i18n from "../../../I18n/i18n";
 
-export default AccountDashboardScreen = (props) => {
+const AccountDashboardScreen = (props) => {
   const dispatch = useDispatch();
-  let [local, setLocal] = useState("en");
-  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     dispatch(authActions.getAllDDL());
-  }, );
-
+  }, [dispatch]);
 
   const onLoginPress = () => {
     props.navigation.navigate("SignIn");
@@ -27,57 +24,35 @@ export default AccountDashboardScreen = (props) => {
     props.navigation.navigate("SignUp");
   };
 
-  const onHelpPress = () => {
-    props.navigation.navigate("Help");
-  };
-
   return (
     <View style={styles.container}>
-      <LogoBanner minHeight={200} statusBarHeight={true}></LogoBanner>
+      <LogoBanner minHeight={200} statusBarHeight={true} />
 
       <View style={{ marginTop: 40 }}>
         <Text style={{ color: Colors.primary, alignSelf: "center" }}>
-          {translate("alreadyAccount")}
+          {i18n.t("alreadyAccount")}
         </Text>
-        {/* <Button
-          mt={2}
-          width="250"
-          backgroundColor={Colors.yellow}
-          _text={{ color: Colors.primary, fontSize: 18, fontWeight: "bold" }}
-          onPress={() => onLoginPress()}
-          fontWeight="bold"
-        >
-          {translate("login")}
-        </Button> */}
-        <Button width="250" role="button" mt={2} onPress={() => onLoginPress()}>
-          {translate("login")}
+
+        <Button width="250" role="button" mt={2} onPress={onLoginPress}>
+          {i18n.t("login")}
         </Button>
       </View>
 
       <View style={{ margin: 30 }}>
-        <Text style={{ color: Colors.primary }}>{translate("or")}</Text>
+        <Text style={{ color: Colors.primary }}>{i18n.t("or")}</Text>
       </View>
 
       <View>
         <Text style={{ color: Colors.primary, alignSelf: "center" }}>
-          {translate("createnewaccount")}
+          {i18n.t("createnewaccount")}
         </Text>
-        <Button
-          width="250"
-          role="button"
-          mt={2}
-          onPress={() => onRegisterPress()}
-        >
-          {translate("register")}
+
+        <Button width="250" role="button" mt={2} onPress={onRegisterPress}>
+          {i18n.t("register")}
         </Button>
       </View>
-
     </View>
   );
 };
 
-AccountDashboardScreen.navigationOptions = (props) => {
-  return {
-    headerShown: false,
-  };
-};
+export default AccountDashboardScreen;

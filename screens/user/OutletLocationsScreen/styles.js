@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import Colors from "../../../constants/Colors";
 import {Dimensions} from 'react-native';
-import { translate } from "react-native-translate";
+import i18n from "../../../I18n/i18n";
 const windowWidth = Dimensions.get('window').width;
 
 export default StyleSheet.create({
@@ -58,7 +58,7 @@ export default StyleSheet.create({
     alignItems:'flex-start',
   },
   description:{
-    fontFamily:translate("bodyFont"),
+    fontFamily:i18n.t("bodyFont"),
     textAlign:"justify",
     color:Colors.primary,
     fontWeight:"600",

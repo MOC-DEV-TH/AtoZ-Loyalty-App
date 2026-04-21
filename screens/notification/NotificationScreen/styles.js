@@ -1,8 +1,7 @@
 import { Center } from "native-base";
 import { StyleSheet } from "react-native";
 import Colors from "../../../constants/Colors";
-import { translate } from "react-native-translate";
-
+import i18n from "../../../I18n/i18n";
 export default StyleSheet.create({
   container: {
     flex: 1,
@@ -36,7 +35,7 @@ export default StyleSheet.create({
     padding:10
   },
   description:{
-    fontFamily:translate("bodyFont"),
+    fontFamily:i18n.t("bodyFont"),
     textAlign:"justify",
     color:Colors.primary,
     fontWeight:"600",

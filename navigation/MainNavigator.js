@@ -1,11 +1,11 @@
 import React from "react";
-import { createAppContainer, createSwitchNavigator } from "react-navigation";
-import { createStackNavigator } from "react-navigation-stack";
-import { createMaterialBottomTabNavigator } from "react-navigation-material-bottom-tabs";
-import { createBottomTabNavigator } from "react-navigation-tabs";
-import { Ionicons } from "@expo/vector-icons";
-import { Platform, Text, View } from "react-native";
+import { Platform, Text } from "react-native";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { createStackNavigator } from "@react-navigation/stack";
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+
 import Colors from "../constants/Colors";
+
 import GetStartScreen from "../screens/user/GetStartScreen/GetStartScreen";
 import LoginScreen from "../screens/user/LoginScreen/LoginScreen";
 import SignUpScreen from "../screens/user/SignUpScreen/SignUpScreen";
@@ -24,318 +24,280 @@ import TermsAndConditionsScreen from "../screens/dashboard/TermsAndConditionsScr
 import SuccessScreen from "../screens/user/SuccessScreen/SuccessScreen";
 import SettingScreen from "../screens/user/SettingScreen/SettingScreen";
 import OutletLocationsScreen from "../screens/user/OutletLocationsScreen/OutletLocationsScreen";
-import { translate } from "react-native-translate";
 import LanguageScreen from "../screens/user/LanguageScreen/LanguageScreen";
 import DeactivateScreen from "../screens/user/DeactivateScreen/DeactivateScreen";
-import { MaterialIcons } from "@expo/vector-icons";
 
-const defaultNavOptions = {
+// Temporary translate helper.
+// Replace with your own i18n function later if needed.
+const translate = (key) => {
+  const labels = {
+    home: "Home",
+    promotions: "Promotions",
+    help: "Help",
+    setting: "Setting",
+  };
+
+  return labels[key] || key;
+};
+
+const defaultScreenOptions = {
   headerStyle: {
-    backgroundColor:
-      Platform.OS === "android" ? Colors.primary : Colors.primary,
+    backgroundColor: Colors.primary,
     height: Platform.OS === "android" ? 80 : 120,
-    shadowColor: "transparent", // this covers iOS
+    shadowColor: "transparent",
     elevation: 0,
   },
-  headerBackTitleStyle: {},
-  headerTitleAlign: "left | center",
-  titleStyle: {},
-  labelStyle: {},
-  headerTintColor: Platform.OS === "android" ? "transparent" : "transparent",
+  headerTintColor: "transparent",
+  headerTitleAlign: "center",
 };
 
-const DashboardNavigator = createStackNavigator(
-  {
-    Home: HomeScreen,
-  },
-  {
-    defaultNavigationOptions: defaultNavOptions,
-  }
-);
+const Stack = createStackNavigator();
+const Tab = createMaterialBottomTabNavigator();
 
-const PointHistoryNavigator = createStackNavigator(
-  {
-    PointHistory: PointHistoryScreen,
-  },
-  {
-    defaultNavigationOptions: defaultNavOptions,
-  }
-);
+function DashboardNavigator() {
+  return (
+    <Stack.Navigator screenOptions={defaultScreenOptions}>
+      <Stack.Screen name="Home" component={HomeScreen} />
+    </Stack.Navigator>
+  );
+}
 
-const AccountNavigator = createStackNavigator(
-  {
-    MyAccount: AccountScreen,
-  },
-  {
-    defaultNavigationOptions: defaultNavOptions,
-  }
-);
+function PointHistoryNavigator() {
+  return (
+    <Stack.Navigator screenOptions={defaultScreenOptions}>
+      <Stack.Screen name="PointHistory" component={PointHistoryScreen} />
+    </Stack.Navigator>
+  );
+}
 
-const SettingNavigator = createStackNavigator(
-  {
-    Setting: SettingScreen,
-  },
-  {
-    defaultNavigationOptions: defaultNavOptions,
-  }
-);
-const LanguageNavigator = createStackNavigator(
-  {
-    Language: LanguageScreen,
-  },
-  {
-    defaultNavigationOptions: defaultNavOptions,
-  }
-);
-const DeactivateNavigator = createStackNavigator(
-  {
-    Deactivate: DeactivateScreen,
-  },
-  {
-    defaultNavigationOptions: defaultNavOptions,
-  }
-);
+function AccountNavigator() {
+  return (
+    <Stack.Navigator screenOptions={defaultScreenOptions}>
+      <Stack.Screen name="MyAccount" component={AccountScreen} />
+    </Stack.Navigator>
+  );
+}
 
-const MyAccountNavigator = createStackNavigator(
-  {
-    MyAccount: AccountScreen,
-  },
-  {
-    defaultNavigationOptions: defaultNavOptions,
-  }
-);
-const OutLetNavigator = createStackNavigator(
-  {
-    OutLetLocation: OutletLocationsScreen,
-  },
-  {
-    defaultNavigationOptions: defaultNavOptions,
-  }
-);
+function SettingNavigator() {
+  return (
+    <Stack.Navigator screenOptions={defaultScreenOptions}>
+      <Stack.Screen name="Setting" component={SettingScreen} />
+    </Stack.Navigator>
+  );
+}
 
-const AboutNavigator = createStackNavigator(
-  {
-    AboutUs: AboutScreen,
-  },
-  {
-    defaultNavigationOptions: defaultNavOptions,
-  }
-);
+function LanguageNavigator() {
+  return (
+    <Stack.Navigator screenOptions={defaultScreenOptions}>
+      <Stack.Screen name="Language" component={LanguageScreen} />
+    </Stack.Navigator>
+  );
+}
 
-const TermAndConditionNavigator = createStackNavigator(
-  {
-    TermAndCondition: TermsAndConditionsScreen,
-  },
-  {
-    defaultNavigationOptions: defaultNavOptions,
-  }
-);
+function DeactivateNavigator() {
+  return (
+    <Stack.Navigator screenOptions={defaultScreenOptions}>
+      <Stack.Screen name="Deactivate" component={DeactivateScreen} />
+    </Stack.Navigator>
+  );
+}
 
-const PromotionNavigator = createStackNavigator(
-  {
-    Promotion: PromotionScreen,
-  },
-  {
-    defaultNavigationOptions: defaultNavOptions,
-  }
-);
-const HelpNavigator = createStackNavigator(
-  {
-    Help: HelpScreen,
-    Faq: FaqScreen,
-  },
-  {
-    defaultNavigationOptions: defaultNavOptions,
-  }
-);
+function OutletNavigator() {
+  return (
+    <Stack.Navigator screenOptions={defaultScreenOptions}>
+      <Stack.Screen name="OutLetLocation" component={OutletLocationsScreen} />
+    </Stack.Navigator>
+  );
+}
 
-const AuthNavigator = createStackNavigator(
-  {
-    GetStart: GetStartScreen,
-    SignIn: LoginScreen,
-    SignUp: SignUpScreen,
-    ForgotPassword: ForgotPasswordScreen,
-    AccountDashboard: AccountDashboardScreen,
-    AccountVerification: AccountVerificationScreen,
-    Success: SuccessScreen,
-    TermAndCondition: TermsAndConditionsScreen,
-  },
-  {
-    defaultNavigationOptions: defaultNavOptions,
-  }
-);
+function AboutNavigator() {
+  return (
+    <Stack.Navigator screenOptions={defaultScreenOptions}>
+      <Stack.Screen name="AboutUs" component={AboutScreen} />
+    </Stack.Navigator>
+  );
+}
 
-const NotificationNavigator = createStackNavigator(
-  {
-    Notification: NotificationScreen,
-  },
-  {
-    defaultNavigationOptions: defaultNavOptions,
-  }
-);
+function TermAndConditionNavigator() {
+  return (
+    <Stack.Navigator screenOptions={defaultScreenOptions}>
+      <Stack.Screen
+        name="TermAndCondition"
+        component={TermsAndConditionsScreen}
+      />
+    </Stack.Navigator>
+  );
+}
 
-const tabScreenConfig = {
-  Dashboard: {
-    screen: DashboardNavigator,
-    navigationOptions: {
-      tabBarColor: { color: Colors.yellow },
-      activeColor: Colors.white,
-      inactiveColor: Colors.white,
-      tabBarLabel: (tabInfo) => {
-        return (
-          <Text
-            style={{
-              color: Colors.white,
-              alignItems: "center",
-              justifyContent: "center",
-              alignSelf: "center",
-              fontSize: 10,
-            }}
-          >
-            {translate("home")}
-          </Text>
-        );
-      },
-      tabBarIcon: (tabInfo) => {
-        return (
-          <Ionicons
-            name="home-sharp"
-            size={20}
-            color={tabInfo.tintColor}
-            style={{ marginBottom: -8 }}
-          />
-        );
-      },
-    },
-  },
-  Promotion: {
-    screen: PromotionNavigator,
-    navigationOptions: {
-      tabBarLabel: (tabInfo) => {
-        return (
-          <Text
-            style={{
-              color: Colors.white,
-              alignItems: "center",
-              justifyContent: "center",
-              alignSelf: "center",
-              fontSize: 10,
-            }}
-          >
-            {translate("promotions")}
-          </Text>
-        );
-      },
-      activeColor: Colors.yellow,
-      inactiveColor: Colors.white,
-      tabBarIcon: (tabInfo) => {
-        return (
-          <MaterialIcons
-            name="campaign"
-            size={26}
-            color={tabInfo.tintColor}
-            style={{ marginBottom: -8 }}
-          />
-        );
-      },
-    },
-  },
-  Help: {
-    screen: HelpNavigator,
-    navigationOptions: {
-      tabBarLabel: (tabInfo) => {
-        return (
-          <Text
-            style={{
-              color: Colors.white,
-              alignItems: "center",
-              justifyContent: "center",
-              alignSelf: "center",
-              fontSize: 10,
-            }}
-          >
-            {translate("help")}
-          </Text>
-        );
-      },
-      activeColor: Colors.yellow,
-      inactiveColor: Colors.white,
-      tabBarIcon: (tabInfo) => {
-        return (
-          <Ionicons
-            name="md-help-circle"
-            size={22}
-            color={tabInfo.tintColor}
-            style={{ marginBottom: -8 }}
-          />
-        );
-      },
-    },
-  },
-  Setting: {
-    screen: SettingNavigator,
-    navigationOptions: {
-      tabBarLabel: (tabInfo) => {
-        return (
-          <Text
-            style={{
-              color: Colors.white,
-              alignItems: "center",
-              justifyContent: "center",
-              alignSelf: "center",
-              fontSize: 10,
-            }}
-          >
-            {translate("setting")}
-          </Text>
-        );
-      },
-      activeColor: Colors.yellow,
-      inactiveColor: Colors.white,
-      tabBarIcon: (tabInfo) => {
-        return (
-          <Ionicons
-            name="settings-sharp"
-            size={20}
-            color={tabInfo.tintColor}
-            style={{ marginBottom: -8 }}
-          />
-        );
-      },
-    },
-  },
-};
+function PromotionNavigator() {
+  return (
+    <Stack.Navigator screenOptions={defaultScreenOptions}>
+      <Stack.Screen name="Promotion" component={PromotionScreen} />
+    </Stack.Navigator>
+  );
+}
 
-const MainTabNavigator = createBottomTabNavigator(tabScreenConfig, {
-  tabBarOptions: {
-    activeTintColor: Colors.yellow,
-    inactiveTintColor: Colors.white,
-    labeled: true,
-    style: {
-      backgroundColor: Colors.primary,
-      justifyContent: "center",
-      alignItems: "center",
-      paddingBottom: 10,
-      // height: Platform.OS === "android" ? 55 : 30,
-    },
-  },
-});
+function HelpNavigator() {
+  return (
+    <Stack.Navigator screenOptions={defaultScreenOptions}>
+      <Stack.Screen name="Help" component={HelpScreen} />
+      <Stack.Screen name="Faq" component={FaqScreen} />
+    </Stack.Navigator>
+  );
+}
 
-const Navigator = createSwitchNavigator(
-  {
-    Startup: SignUpScreen,
-    Auth: AuthNavigator,
-    Main: MainTabNavigator,
-    MyAccount: AccountNavigator,
-    Language: LanguageNavigator,
-    Deactivate : DeactivateNavigator,
-    PointHistory: PointHistoryNavigator,
-    Notification: NotificationNavigator,
-    MyAccount: MyAccountNavigator,
-    OutLetLocation: OutLetNavigator,
-  },
-  {
-    initialRouteName: "Auth",
-  }
-);
-export default createAppContainer(Navigator);
+function AuthNavigator() {
+  return (
+    <Stack.Navigator
+      initialRouteName="GetStart"
+      screenOptions={defaultScreenOptions}
+    >
+      <Stack.Screen name="GetStart" component={GetStartScreen} />
+      <Stack.Screen name="SignIn" component={LoginScreen} />
+      <Stack.Screen name="SignUp" component={SignUpScreen} />
+      <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
+      <Stack.Screen
+        name="AccountDashboard"
+        component={AccountDashboardScreen}
+      />
+      <Stack.Screen
+        name="AccountVerification"
+        component={AccountVerificationScreen}
+      />
+      <Stack.Screen name="Success" component={SuccessScreen} />
+      <Stack.Screen
+        name="TermAndCondition"
+        component={TermsAndConditionsScreen}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function NotificationNavigator() {
+  return (
+    <Stack.Navigator screenOptions={defaultScreenOptions}>
+      <Stack.Screen name="Notification" component={NotificationScreen} />
+    </Stack.Navigator>
+  );
+}
+
+function MainTabNavigator() {
+  return (
+    <Tab.Navigator
+      initialRouteName="Dashboard"
+      activeColor={Colors.yellow}
+      inactiveColor={Colors.white}
+      barStyle={{
+        backgroundColor: Colors.primary,
+      }}
+      labeled={true}
+    >
+      <Tab.Screen
+        name="Dashboard"
+        component={DashboardNavigator}
+        options={{
+          tabBarLabel: (
+            <Text
+              style={{
+                color: Colors.white,
+                alignSelf: "center",
+                fontSize: 10,
+              }}
+            >
+              {translate("home")}
+            </Text>
+          ),
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="home-sharp" size={20} color={color} />
+          ),
+        }}
+      />
+
+      <Tab.Screen
+        name="Promotion"
+        component={PromotionNavigator}
+        options={{
+          tabBarLabel: (
+            <Text
+              style={{
+                color: Colors.white,
+                alignSelf: "center",
+                fontSize: 10,
+              }}
+            >
+              {translate("promotions")}
+            </Text>
+          ),
+          tabBarIcon: ({ color }) => (
+            <MaterialIcons name="campaign" size={26} color={color} />
+          ),
+        }}
+      />
+
+      <Tab.Screen
+        name="Help"
+        component={HelpNavigator}
+        options={{
+          tabBarLabel: (
+            <Text
+              style={{
+                color: Colors.white,
+                alignSelf: "center",
+                fontSize: 10,
+              }}
+            >
+              {translate("help")}
+            </Text>
+          ),
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="help-circle" size={22} color={color} />
+          ),
+        }}
+      />
+
+      <Tab.Screen
+        name="Setting"
+        component={SettingNavigator}
+        options={{
+          tabBarLabel: (
+            <Text
+              style={{
+                color: Colors.white,
+                alignSelf: "center",
+                fontSize: 10,
+              }}
+            >
+              {translate("setting")}
+            </Text>
+          ),
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="settings-sharp" size={20} color={color} />
+          ),
+        }}
+      />
+    </Tab.Navigator>
+  );
+}
+
+export default function MainNavigator() {
+  return (
+    <Stack.Navigator
+      initialRouteName="Auth"
+      screenOptions={{ headerShown: false }}
+    >
+      <Stack.Screen name="Auth" component={AuthNavigator} />
+      <Stack.Screen name="Main" component={MainTabNavigator} />
+      <Stack.Screen name="MyAccount" component={AccountNavigator} />
+      <Stack.Screen name="Language" component={LanguageNavigator} />
+      <Stack.Screen name="Deactivate" component={DeactivateNavigator} />
+      <Stack.Screen name="PointHistory" component={PointHistoryNavigator} />
+      <Stack.Screen name="Notification" component={NotificationNavigator} />
+      <Stack.Screen name="OutLetLocation" component={OutletNavigator} />
+      <Stack.Screen name="AboutUs" component={AboutNavigator} />
+      <Stack.Screen
+        name="TermAndCondition"
+        component={TermAndConditionNavigator}
+      />
+    </Stack.Navigator>
+  );
+}

@@ -1,14 +1,53 @@
+# dependencies
 node_modules/
+
+# Expo
 .expo/
+.expo-shared/
+web-build/
 dist/
+
+# build / cache
+*.log
 npm-debug.*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# environment variables
+.env
+.env.*
+
+# Android / iOS
+android/.gradle/
+android/app/build/
+android/build/
+android/.idea/
+android/local.properties
+
+ios/build/
+ios/Pods/
+
+# keystore / certificates (IMPORTANT 🔥)
 *.jks
+*.keystore
 *.p8
 *.p12
 *.key
 *.mobileprovision
-*.orig.*
-web-build/
 
-# macOS
-.DS_Store
+# expo generated
+.expo-settings.json
+
+# metro
+.metro-cache/
+
+# typescript (if used)
+*.tsbuildinfo
+
+# misc
+*.orig.*

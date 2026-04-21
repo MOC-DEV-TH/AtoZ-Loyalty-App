@@ -62,10 +62,8 @@
       "versionCode": 4,
       "adaptiveIcon": {
         "foregroundImage": "./assets/new_app_logo.png",
-        
-        "backgroundColor": "#fff"
+        "backgroundColor": "#ffffff"
       },
-      "useNextNotificationsApi": true,
       "permissions": [
         "ACCESS_FINE_LOCATION",
         "ACCESS_COARSE_LOCATION",

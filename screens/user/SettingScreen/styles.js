@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import Colors from "../../../constants/Colors";
 import {Dimensions} from 'react-native';
-import { translate } from "react-native-translate";
+import i18n from "../../../I18n/i18n";
 const windowWidth = Dimensions.get('window').width;
 
 export default StyleSheet.create({
@@ -85,7 +85,7 @@ loading: {
   backgroundColor:"#F5FCFF88"
 },
 textButton:{
-  fontFamily:translate("headingFont"),
+  fontFamily:i18n.t("headingFont"),
   color:"red",
   fontWeight:"bold"
 },

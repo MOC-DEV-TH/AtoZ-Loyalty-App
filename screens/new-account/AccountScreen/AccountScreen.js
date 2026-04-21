@@ -1,12 +1,11 @@
-import { StatusBar } from "expo-status-bar";
 import {
-  StyleSheet,
   View,
-  Alert,
   TouchableOpacity,
   ImageBackground,
   Platform,
-  ActivityIndicator
+  ActivityIndicator,
+  Image,
+  BackHandler,
 } from "react-native";
 import styles from "./styles";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -17,32 +16,18 @@ import {
   VStack,
   Input,
   Stack,
-  FormControl,
   Pressable,
-  Image,
   Icon,
-  KeyboardAvoidingView,
-  ScrollView,
-  Link,
-  Spacer,
-  Flex,
 } from "native-base";
-import Img from "../../../components/Img";
 import { FontAwesome } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Ionicons } from "@expo/vector-icons";
 import ContainerFluid from "../../../components/ContainerFluid";
 import { useState, useEffect, useCallback } from "react";
 import Colors from "../../../constants/Colors";
 import i18n from "../../../I18n/i18n";
-import Button from "../../../components/Button";
 import { storeData, getStoreData } from "../../../AsyncStorage/AsyncStorage";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import * as myAccountActions from "../../../store/actions/myAccount";
-import { setLocalization, translate } from "react-native-translate";
-import my from "../../../locales/my";
-import en from "../../../locales/en";
-import AwesomeAlert from "react-native-awesome-alerts";
 import SessionExpireAlert from "../../../components/SessionExpireAlert";
 import AsyncStorageKey from "../../../constants/AsyncStorageKey";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -51,66 +36,66 @@ import {
   Collapse,
   CollapseHeader,
   CollapseBody,
-  AccordionList,
 } from "accordion-collapse-react-native";
 import Text, { Heading } from "../../../components/Typography";
-import { BackHandler } from "react-native";
+
+const getFontFamily = () => {
+  return i18n.locale === "my" ? "myFont" : "enFont";
+};
 
 const CollapseHeaderInner = ({ title, icon }) => {
   return (
-    <>
-      <Stack
-        py={3}
-        direction={"row"}
-        alignContent={"center"}
-        alignItems={"center"}
-        justifyContent="center"
-        bg={"primary"}
-        borderRadius={30}
+    <Stack
+      py={3}
+      direction={"row"}
+      alignContent={"center"}
+      alignItems={"center"}
+      justifyContent="center"
+      bg={"primary"}
+      borderRadius={30}
+    >
+      <Box w={"40%"} alignItems={"flex-end"} pr={10}>
+        {icon}
+      </Box>
+      <Heading
+        size="sm"
+        w={"60%"}
+        fontWeight={"bold"}
+        color="white"
+        fontFamily={getFontFamily()}
       >
-        <Box w={"40%"} alignItems={"flex-end"} pr={10}>
-          {icon}
-        </Box>
-        <Heading
-          size="sm"
-          w={"60%"}
-          fontWeight={"bold"}
-          color="white"
-          fontFamily={translate("nativebaseFont")}
-        >
-          {title}
-        </Heading>
-      </Stack>
-    </>
+        {title}
+      </Heading>
+    </Stack>
   );
 };
 
-export default AccountScreen = (props) => {
+const AccountScreen = (props) => {
   const [currentPwshow, setcurrentPwShow] = useState(false);
-  const [confirmPwshow, setconfirmPwShow] = useState(false);
   const [newPwshow, setNewPwShow] = useState(false);
-  let [showDeactivateAlert, setShowDeactivateAlert] = useState(false);
+  const [showDeactivateAlert, setShowDeactivateAlert] = useState(false);
 
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  let [locale, setLocale] = useState("");
-  let [showAlert, setShowAlert] = useState(false);
-  let [sessionAlert, setSessionAlert] = useState(false);
+  const [locale, setLocale] = useState(i18n.locale || "en");
+  const [sessionAlert, setSessionAlert] = useState(false);
   const [showLoading, setShowLoading] = useState(false);
-  const dispatch = useDispatch();
 
-  //state
   const [showAccTab, setShowAccTab] = useState(false);
   const [showPwTab, setShowPwTab] = useState(false);
 
-  function onPressConfirm() {
-    setShowAlert(false);
-    props.navigation.navigate("AccountDashboard");
-  }
-  function onPressCancel() {
-    setShowAlert(false);
-  }
+  const dispatch = useDispatch();
+
+  const memberInfo = useSelector(
+    (state) => state.myAccount.memberInfo,
+    shallowEqual
+  );
+
+  const responseCode = useSelector(
+    (state) => state.myAccount.response_code,
+    shallowEqual
+  );
+
   function onPressDeactivateCancel() {
     setShowDeactivateAlert(false);
   }
@@ -139,20 +124,25 @@ export default AccountScreen = (props) => {
 
   useEffect(() => {
     getStoreData(AsyncStorageKey.LANGUAGE).then((value) => {
-      setLocale(value);
+      if (value === "my") {
+        i18n.locale = "my";
+        setLocale("my");
+      } else {
+        i18n.locale = "en";
+        setLocale("en");
+      }
     });
   }, []);
 
-  const onPressChangeLanguage = () => {
-    console.log("LanguageValue" + locale);
-    if (locale == "en") {
+  const onPressChangeLanguage = async () => {
+    if (locale === "en") {
+      i18n.locale = "my";
       setLocale("my");
-      setLocalization(my);
-      storeData(AsyncStorageKey.LANGUAGE, "my");
-    } else if (locale == "my") {
+      await storeData(AsyncStorageKey.LANGUAGE, "my");
+    } else {
+      i18n.locale = "en";
       setLocale("en");
-      setLocalization(en);
-      storeData(AsyncStorageKey.LANGUAGE, "en");
+      await storeData(AsyncStorageKey.LANGUAGE, "en");
     }
   };
 
@@ -160,47 +150,33 @@ export default AccountScreen = (props) => {
     try {
       await dispatch(myAccountActions.getMemberInfo());
     } catch (error) {
-      setError(error.message);
+      console.log(error?.message);
     }
-  });
+  }, [dispatch]);
+
   useEffect(() => {
     loadMemberInfo();
+  }, [loadMemberInfo]);
 
-    if (responseCode == "005") {
-      showSessionDialog();
+  useEffect(() => {
+    if (responseCode === "005") {
+      setSessionAlert(true);
     }
-  });
-  const memberInfo = useSelector(
-    (state) => state.myAccount.memberInfo,
-    shallowEqual
-  );
-  console.log("UserName" + memberInfo.name);
+  }, [responseCode]);
 
   const onPressSave = () => {
-    if (currentPassword != "" || newPassword != "") {
+    if (currentPassword !== "" || newPassword !== "") {
       dispatch(
         myAccountActions.updateAccount(currentPassword, newPassword, props)
       );
     }
   };
+
   const onConfirm = () => {
     dispatch(myAccountActions.setEmptyResponseCode());
     props.navigation.navigate("AccountDashboard");
     setSessionAlert(false);
   };
-
-  const navigateToAccountDashboard = () => {
-    props.navigation.navigate("AccountDashboard");
-  };
-
-  const responseCode = useSelector(
-    (state) => state.myAccount.response_code,
-    shallowEqual
-  );
-
-  const showSessionDialog = useCallback(() => {
-    setSessionAlert(true);
-  });
 
   return (
     <SafeAreaView>
@@ -211,28 +187,32 @@ export default AccountScreen = (props) => {
             <VStack space={3}>
               <HStack alignItems="center">
                 <Text color="primary" w={"50%"} style={styles.description}>
-                  {translate("userid")}
+                  {i18n.t("userid")}
                 </Text>
                 <Text color="primary" w={"50%"} style={styles.description}>
                   {memberInfo.user_id}
                 </Text>
               </HStack>
+
               <HStack alignItems="center">
                 <Text color="primary" w={"50%"} style={styles.description}>
-                  {translate("pointcollected")}
+                  {i18n.t("pointcollected")}
                 </Text>
                 <Text color="primary" w={"50%"} style={styles.description}>
                   {memberInfo.current_point}
                 </Text>
               </HStack>
+
               <HStack alignItems="center">
                 <Text color="primary" w={"50%"} style={styles.description}>
-                  {translate("membertype")}
+                  {i18n.t("membertype")}
                 </Text>
+
                 <HStack alignItems={"center"} w={"50%"}>
                   <Text color="primary" style={styles.description}>
                     {memberInfo.member_level}
                   </Text>
+
                   {memberInfo.isVIP === "1" ? (
                     <ImageBackground
                       source={require("../../../assets/vip_bg.png")}
@@ -249,16 +229,16 @@ export default AccountScreen = (props) => {
                         style={{
                           alignSelf: "center",
                           color: Colors.primary,
-                          fontFamily: translate("headingFont"),
+                          fontFamily: getFontFamily(),
                           fontWeight: "bold",
                           paddingLeft: 5,
-                          paddingTop:Platform.OS=='ios' ? 4 : 0
+                          paddingTop: Platform.OS == "ios" ? 4 : 0,
                         }}
                       >
                         VIP
                       </Text>
                     </ImageBackground>
-                  ) : undefined}
+                  ) : null}
                 </HStack>
               </HStack>
             </VStack>
@@ -267,18 +247,16 @@ export default AccountScreen = (props) => {
 
         <ContainerFluid px={5}>
           <VStack space={25}>
-            {/* Account Information */}
             <Collapse
               isExpanded={showAccTab}
               onToggle={() => {
                 setShowAccTab(true);
                 setShowPwTab(false);
-                console.log("Acc tab clicked");
               }}
             >
               <CollapseHeader>
                 <CollapseHeaderInner
-                  title={translate("accountInformation")}
+                  title={i18n.t("accountInformation")}
                   icon={
                     <FontAwesome
                       name="user-circle-o"
@@ -288,6 +266,7 @@ export default AccountScreen = (props) => {
                   }
                 />
               </CollapseHeader>
+
               <CollapseBody>
                 <VStack space={2} mt={5} px={2}>
                   <HStack alignItems={"center"}>
@@ -297,7 +276,7 @@ export default AccountScreen = (props) => {
                       color="primary"
                       fontFamily={"enFont"}
                     >
-                      {translate("name")}
+                      {i18n.t("name")}
                     </Text>
                     <Text
                       style={styles.description}
@@ -316,7 +295,7 @@ export default AccountScreen = (props) => {
                       color="primary"
                       fontFamily={"enFont"}
                     >
-                      {translate("dob")}
+                      {i18n.t("dob")}
                     </Text>
                     <Text
                       style={styles.description}
@@ -335,7 +314,7 @@ export default AccountScreen = (props) => {
                       color="primary"
                       fontFamily={"enFont"}
                     >
-                      {translate("nrc")}
+                      {i18n.t("nrc")}
                     </Text>
                     <Text
                       style={styles.description}
@@ -354,7 +333,7 @@ export default AccountScreen = (props) => {
                       color="primary"
                       fontFamily={"enFont"}
                     >
-                      {translate("address")}
+                      {i18n.t("address")}
                     </Text>
                     <Text
                       style={styles.description}
@@ -373,7 +352,7 @@ export default AccountScreen = (props) => {
                       color="primary"
                       fontFamily={"enFont"}
                     >
-                      {translate("city")}
+                      {i18n.t("city")}
                     </Text>
                     <Text
                       style={styles.description}
@@ -392,7 +371,7 @@ export default AccountScreen = (props) => {
                       color="primary"
                       fontFamily={"enFont"}
                     >
-                      {translate("membersince")}
+                      {i18n.t("membersince")}
                     </Text>
                     <Text
                       style={styles.description}
@@ -407,18 +386,16 @@ export default AccountScreen = (props) => {
               </CollapseBody>
             </Collapse>
 
-            {/* Change Password */}
             <Collapse
               isExpanded={showPwTab}
               onToggle={() => {
                 setShowPwTab(true);
                 setShowAccTab(false);
-                console.log("Password tab clicked");
               }}
             >
               <CollapseHeader>
                 <CollapseHeaderInner
-                  title={translate("changepwd")}
+                  title={i18n.t("changepwd")}
                   icon={
                     <MaterialCommunityIcons
                       name="onepassword"
@@ -428,6 +405,7 @@ export default AccountScreen = (props) => {
                   }
                 />
               </CollapseHeader>
+
               <CollapseBody>
                 <VStack space={2} mt={5} px={2}>
                   <Box>
@@ -436,10 +414,11 @@ export default AccountScreen = (props) => {
                       color="primary"
                       mb={2}
                       fontWeight={"bold"}
-                      fontFamily={translate("nativebaseFont")}
+                      fontFamily={getFontFamily()}
                     >
-                      {translate("currentpwd")}
+                      {i18n.t("currentpwd")}
                     </Text>
+
                     <Box color="primary">
                       <Input
                         size="md"
@@ -449,7 +428,7 @@ export default AccountScreen = (props) => {
                         borderRadius={30}
                         borderColor={"primary"}
                         px={4}
-                        fontFamily={translate("nativebaseFont")}
+                        fontFamily={getFontFamily()}
                         InputRightElement={
                           <Pressable
                             onPress={() => setcurrentPwShow(!currentPwshow)}
@@ -467,7 +446,7 @@ export default AccountScreen = (props) => {
                                 />
                               }
                               mr={3}
-                            ></Icon>
+                            />
                           </Pressable>
                         }
                       />
@@ -480,10 +459,11 @@ export default AccountScreen = (props) => {
                       color="primary"
                       mb={2}
                       fontWeight={"bold"}
-                      fontFamily={translate("nativebaseFont")}
+                      fontFamily={getFontFamily()}
                     >
-                      {translate("newpwd")}
+                      {i18n.t("newpwd")}
                     </Text>
+
                     <Box color="primary">
                       <Input
                         size="md"
@@ -493,7 +473,7 @@ export default AccountScreen = (props) => {
                         borderRadius={30}
                         borderColor={"primary"}
                         px={4}
-                        fontFamily={translate("nativebaseFont")}
+                        fontFamily={getFontFamily()}
                         InputRightElement={
                           <Pressable onPress={() => setNewPwShow(!newPwshow)}>
                             <Icon
@@ -507,7 +487,7 @@ export default AccountScreen = (props) => {
                                 />
                               }
                               mr={3}
-                            ></Icon>
+                            />
                           </Pressable>
                         }
                       />
@@ -515,9 +495,7 @@ export default AccountScreen = (props) => {
                   </Box>
 
                   <HStack justifyContent={"flex-end"} mt={5}>
-                    <TouchableOpacity
-                      onPress={() => onPressSave(props.navigation)}
-                    >
+                    <TouchableOpacity onPress={onPressSave}>
                       <View
                         style={{
                           backgroundColor: Colors.yellow,
@@ -532,10 +510,10 @@ export default AccountScreen = (props) => {
                           style={{
                             color: Colors.primary,
                             textTransform: "uppercase",
-                            fontFamily: translate("headingFont"),
+                            fontFamily: getFontFamily(),
                           }}
                         >
-                          {translate("save")}
+                          {i18n.t("save")}
                         </Text>
                       </View>
                     </TouchableOpacity>
@@ -543,67 +521,40 @@ export default AccountScreen = (props) => {
                 </VStack>
               </CollapseBody>
             </Collapse>
-           
-           <TouchableOpacity onPress={()=> setShowDeactivateAlert(true)}>
-            <CollapseHeaderInner
-                  title= {translate("deactivate")}
-                  icon={
-                    <Image
+
+            <TouchableOpacity onPress={() => setShowDeactivateAlert(true)}>
+              <CollapseHeaderInner
+                title={i18n.t("deactivate")}
+                icon={
+                  <Image
                     style={{ height: 30, width: 30, resizeMode: "contain" }}
                     source={require("../../../assets/deactivate_icon.png")}
                   />
-                  }
-           />
-           </TouchableOpacity>
+                }
+              />
+            </TouchableOpacity>
 
-           <DeactivateAccountAlert
-        showAlert={showDeactivateAlert}
-        onConfirmPressed={onPressDeactivateNow}
-        onCancelPressed={onPressDeactivateCancel}
-      />
-
+            <DeactivateAccountAlert
+              showAlert={showDeactivateAlert}
+              onConfirmPressed={onPressDeactivateNow}
+              onCancelPressed={onPressDeactivateCancel}
+            />
           </VStack>
+
           {showLoading ? (
-          <View style={styles.loading}>
-            <ActivityIndicator size={"large"} color={Colors.primary} />
-          </View>
-        ) : undefined}
+            <View style={styles.loading}>
+              <ActivityIndicator size={"large"} color={Colors.primary} />
+            </View>
+          ) : null}
         </ContainerFluid>
+
+        <SessionExpireAlert
+          showAlert={sessionAlert}
+          onConfirmPressed={onConfirm}
+        />
       </KeyboardAwareScrollView>
     </SafeAreaView>
   );
 };
 
-AccountScreen.navigationOptions = (props) => {
-  return {
-    headerTitle: () => (
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Text style={{ fontSize: 22, color: Colors.white, padding: 10 }}>
-          {translate("myaccount")}
-        </Text>
-      </View>
-    ),
-    headerLeft: () => (
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <TouchableOpacity onPress={() => props.navigation.navigate("Setting")}>
-          <Image
-            style={styles.headerIcon}
-            source={require("../../../assets/left_arrow_circle.png")}
-          />
-        </TouchableOpacity>
-      </View>
-    ),
-  };
-};
+export default AccountScreen;

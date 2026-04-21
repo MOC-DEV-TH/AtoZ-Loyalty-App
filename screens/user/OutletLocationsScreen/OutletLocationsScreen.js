@@ -1,140 +1,118 @@
 import {
-  AspectRatio,
-  Image,
-  Button,
   FlatList,
-  Skeleton,
   HStack,
-  VStack,
   Box,
+  Heading,
 } from "native-base";
-import { View, TouchableOpacity, ActivityIndicator,SafeAreaView } from "react-native";
+import { View, ActivityIndicator, BackHandler } from "react-native";
 import ContainerFluid from "../../../components/ContainerFluid";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState, useCallback } from "react";
 import * as myAccountActions from "../../../store/actions/myAccount";
-import { useState } from "react";
 import { getStoreData } from "../../../AsyncStorage/AsyncStorage";
 import AsyncStorageKey from "../../../constants/AsyncStorageKey";
-import { useCallback } from "react";
-import { MaterialIcons } from '@expo/vector-icons'; 
+import { MaterialIcons } from "@expo/vector-icons";
 import Text from "../../../components/Typography";
 import Colors from "../../../constants/Colors";
 import styles from "./styles";
-import { translate } from "react-native-translate";
-import { BackHandler } from 'react-native';
-import { Heading } from "native-base";
+import i18n from "../../../I18n/i18n";
 
-export default OutletLocationsScreen = (props) => {
+const OutletLocationsScreen = (props) => {
   const dispatch = useDispatch();
+
   const getLocations = useSelector(
     (state) => state.myAccount.outletLocationsInfo
   );
 
-  const [language, setLanguage] = useState("");
+  const [language, setLanguage] = useState("en");
   const [isRefreshing, setIsRefreshing] = useState(false);
 
-  function handleBackButtonClick() {
-    props.navigation.navigate("Setting")
+  const handleBackButtonClick = () => {
+    props.navigation.navigate("Setting");
     return true;
-  }
-  
+  };
+
   useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    BackHandler.addEventListener("hardwareBackPress", handleBackButtonClick);
+
     return () => {
-      BackHandler.removeEventListener('hardwareBackPress', handleBackButtonClick);
+      BackHandler.removeEventListener(
+        "hardwareBackPress",
+        handleBackButtonClick
+      );
     };
   }, []);
 
   useEffect(() => {
-    getStoreData(AsyncStorageKey.LANGUAGE).then((value) => {
-      if (value == AsyncStorageKey.LANGUAGE_MM) {
-        setLanguage(value);
-      } else if (value == AsyncStorageKey.LANGUAGE_ENG) {
-        setLanguage(value);
+    const loadLanguage = async () => {
+      const value = await getStoreData(AsyncStorageKey.LANGUAGE);
+
+      if (value === AsyncStorageKey.LANGUAGE_MM) {
+        setLanguage("my");
+        i18n.locale = "my";
       } else {
         setLanguage("en");
+        i18n.locale = "en";
       }
-    });
-  });
+    };
+
+    loadLanguage();
+  }, []);
 
   const loadLocationData = useCallback(async () => {
+    if (!language) return;
+
     setIsRefreshing(true);
     try {
       await dispatch(myAccountActions.getOutletLocationsInfo(language));
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
     setIsRefreshing(false);
-  }, [dispatch, setIsRefreshing, language]);
+  }, [dispatch, language]);
 
   useEffect(() => {
     loadLocationData();
-    console.log("lan", getLocations);
   }, [loadLocationData]);
 
   const renderItem = ({ item }) => {
     return (
-      <>
-        <HStack mb={10} pr={10}>
-          <MaterialIcons name="location-pin" size={20} color={Colors.primary} />
-          <Box pl={2}>
-          <Heading lineHeight={30} color={Colors.primary} fontSize={18}>{item.location}</Heading>
-            
-            <Text style={styles.description}>{item.address}</Text>
-            <Text style={styles.description}>Phone Number : {item.phnumber}</Text>
-          </Box>
-        </HStack>
-      </>
+      <HStack mb={10} pr={10}>
+        <MaterialIcons name="location-pin" size={20} color={Colors.primary} />
+        <Box pl={2}>
+          <Heading lineHeight={30} color={Colors.primary} fontSize={18}>
+            {item.location}
+          </Heading>
+
+          <Text style={styles.description}>{item.address}</Text>
+          <Text style={styles.description}>
+            Phone Number : {item.phnumber}
+          </Text>
+        </Box>
+      </HStack>
     );
   };
 
   return (
-    <>
-  
-        <ContainerFluid>
-          {isRefreshing ? (
-            <ActivityIndicator size="large" />
-          ) : (
-            <View style={{flex:1}}>
-            <FlatList
-            style={{paddingTop:20,paddingBottom:20}}
-             data={getLocations} renderItem={renderItem}  showsVerticalScrollIndicator={false}
-            showsHorizontalScrollIndicator={false}/>
-            </View>
-          )}
-        </ContainerFluid>
-    
-    </>
+    <ContainerFluid>
+      {isRefreshing ? (
+        <ActivityIndicator size="large" />
+      ) : (
+        <View style={{ flex: 1 }}>
+          <FlatList
+            style={{ paddingTop: 20, paddingBottom: 20 }}
+            data={getLocations}
+            renderItem={renderItem}
+            keyExtractor={(item, index) =>
+              item.id ? item.id.toString() : index.toString()
+            }
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
+          />
+        </View>
+      )}
+    </ContainerFluid>
   );
 };
 
-OutletLocationsScreen.navigationOptions = (props) => {
-  return {
-    headerTitle: () => (
-      <SafeAreaView
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Text style={{fontSize:20,color:Colors.white,padding:10}}>{translate("outletlocation")}</Text>
-      </SafeAreaView>
-    ),
-    headerLeft: () => (
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <TouchableOpacity onPress={()=>props.navigation.navigate("Setting")}>
-          <Image
-            style={styles.headerIcon}
-            source={require("../../../assets/left_arrow_circle.png")}
-          />
-        </TouchableOpacity>
-      </View>
-    ),
-  };
-};
+export default OutletLocationsScreen;

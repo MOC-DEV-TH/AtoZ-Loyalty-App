@@ -7,9 +7,14 @@ module.exports = function(api) {
         "module-resolver",
         {
           extensions: [".tsx", ".ts", ".js", ".json"],
+          alias: {
+            "@": "./", 
+          },
         },
       ],
-      "react-native-reanimated/plugin",
+      // REMOVE "react-native-worklets/plugin"
+      // Reanimated's plugin handles workletization for both libraries
+      "react-native-reanimated/plugin", 
     ],
   };
 };

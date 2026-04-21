@@ -1,6 +1,7 @@
 import { StyleSheet } from "react-native";
 import Colors from "../../../constants/Colors";
-import { translate } from "react-native-translate";
+import i18n from "../../../I18n/i18n"; // ✅ correct
+
 export default StyleSheet.create({
   container: {
     backgroundColor: "white",
@@ -61,7 +62,7 @@ PasswordSectionStyle: {
     color: Colors.primary,
     fontSize: "lg",
     fontWeight:"bold",
-    fontFamily:translate("headingFont"),
+    fontFamily:i18n.t("headingFont"),
     
   },
 

@@ -1,7 +1,6 @@
 import { StyleSheet } from "react-native";
 import Colors from "../../../constants/Colors";
-import { translate } from "react-native-translate";
-
+import i18n from "../../../I18n/i18n";
 export default StyleSheet.create({
   container: {
     flex: 1,
@@ -44,7 +43,7 @@ headerIcon: {
     padding: 25,
 },
 description:{
-  fontFamily:translate("bodyFont"),
+  fontFamily:i18n.t("bodyFont"),
   color:Colors.primary,
   fontWeight:"600",
   lineHeight:30
