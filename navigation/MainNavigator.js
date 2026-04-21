@@ -47,6 +47,7 @@ const defaultScreenOptions = {
     shadowColor: "transparent",
     elevation: 0,
   },
+  headerShown: false,
   headerTintColor: "transparent",
   headerTitleAlign: "center",
 };
