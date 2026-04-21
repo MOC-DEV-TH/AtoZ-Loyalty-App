@@ -27,12 +27,13 @@ const LanguageScreen = (props) => {
   };
 
   useEffect(() => {
-    BackHandler.addEventListener("hardwareBackPress", handleBackButtonClick);
+    const subscription = BackHandler.addEventListener(
+      "hardwareBackPress",
+      handleBackButtonClick
+    );
+
     return () => {
-      BackHandler.removeEventListener(
-        "hardwareBackPress",
-        handleBackButtonClick
-      );
+      subscription.remove();
     };
   }, []);
 
@@ -90,7 +91,6 @@ const LanguageScreen = (props) => {
     <SafeAreaView style={styles.container}>
       <ContainerFluid mt={8} px={18} style={{ flex: 1 }}>
         <VStack space={4}>
-          {/* English */}
           <TouchableOpacity
             onPress={() => {
               setTouchEng(true);
@@ -102,7 +102,6 @@ const LanguageScreen = (props) => {
             </View>
           </TouchableOpacity>
 
-          {/* Myanmar */}
           <TouchableOpacity
             onPress={() => {
               setTouchMy(true);
@@ -114,7 +113,6 @@ const LanguageScreen = (props) => {
             </View>
           </TouchableOpacity>
 
-          {/* Save */}
           <HStack justifyContent={"flex-end"} mt={5}>
             <Button onPress={onPressSave} role="button" justifyContent="center">
               {i18n.t("save")}

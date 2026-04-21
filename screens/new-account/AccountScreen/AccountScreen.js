@@ -113,12 +113,13 @@ const AccountScreen = (props) => {
   }
 
   useEffect(() => {
-    BackHandler.addEventListener("hardwareBackPress", handleBackButtonClick);
+    const subscription = BackHandler.addEventListener(
+      "hardwareBackPress",
+      handleBackButtonClick
+    );
+
     return () => {
-      BackHandler.removeEventListener(
-        "hardwareBackPress",
-        handleBackButtonClick
-      );
+      subscription.remove();
     };
   }, []);
 

@@ -63,11 +63,8 @@ const NavigationContainer = () => {
       });
 
     return () => {
-      foregroundReceivedNotificationSubscription.remove();
-
-      if (responseListener.current) {
-        Notifications.removeNotificationSubscription(responseListener.current);
-      }
+      foregroundReceivedNotificationSubscription?.remove?.();
+      responseListener.current?.remove?.();
     };
   }, [dispatch]);
 
