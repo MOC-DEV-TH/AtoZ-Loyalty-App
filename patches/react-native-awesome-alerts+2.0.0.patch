@@ -1,0 +1,127 @@
+diff --git a/node_modules/react-native-awesome-alerts/src/AwesomeAlert.js b/node_modules/react-native-awesome-alerts/src/AwesomeAlert.js
+index 9977d01..6c72b87 100644
+--- a/node_modules/react-native-awesome-alerts/src/AwesomeAlert.js
++++ b/node_modules/react-native-awesome-alerts/src/AwesomeAlert.js
+@@ -25,6 +25,7 @@ export default class AwesomeAlert extends Component {
+     super(props);
+     const { show } = this.props;
+     this.springValue = new Animated.Value(props.animatedValue);
++    this._backHandlerSubscription = null;
+ 
+     this.state = {
+       showSelf: false,
+@@ -34,7 +35,10 @@ export default class AwesomeAlert extends Component {
+   }
+ 
+   componentDidMount() {
+-    HwBackHandler.addEventListener(HW_BACK_EVENT, this._handleHwBackEvent);
++    this._backHandlerSubscription = HwBackHandler.addEventListener(
++      HW_BACK_EVENT,
++      this._handleHwBackEvent
++    );
+   }
+ 
+   _springShow = (fromConstructor) => {
+@@ -103,8 +107,12 @@ export default class AwesomeAlert extends Component {
+     } = data;
+ 
+     return (
+-      <TouchableOpacity  style={[styles.button, { backgroundColor }, buttonStyle]} testID={testID} onPress={onPress}>
+-          <Text style={[styles.buttonText, buttonTextStyle]}>{text}</Text>
++      <TouchableOpacity
++        style={[styles.button, { backgroundColor }, buttonStyle]}
++        testID={testID}
++        onPress={onPress}
++      >
++        <Text style={[styles.buttonText, buttonTextStyle]}>{text}</Text>
+       </TouchableOpacity>
+     );
+   };
+@@ -122,7 +130,7 @@ export default class AwesomeAlert extends Component {
+       cancelButtonStyle,
+       cancelButtonTextStyle,
+       onCancelPressed,
+-      cancelButtonTestID
++      cancelButtonTestID,
+     } = this.props;
+ 
+     const {
+@@ -132,7 +140,7 @@ export default class AwesomeAlert extends Component {
+       confirmButtonStyle,
+       confirmButtonTextStyle,
+       onConfirmPressed,
+-      confirmButtonTestID
++      confirmButtonTestID,
+     } = this.props;
+ 
+     const {
+@@ -200,23 +208,25 @@ export default class AwesomeAlert extends Component {
+ 
+     const wrapInModal = OS === 'android' || OS === 'ios';
+ 
+-    return showSelf ?
+-      wrapInModal ? (
+-        <Modal
+-          animationType="none"
+-          transparent={true}
+-          visible={show}
+-          onRequestClose={() => {
+-            if (showSelf && closeOnHardwareBackPress) {
+-              this._springHide();
+-            }
+-          }}
+-          {...modalProps}
+-        >
+-          {this._renderAlert()}
+-        </Modal>
+-      ) : this._renderAlert()
+-    : null;
++    return showSelf
++      ? wrapInModal
++        ? (
++          <Modal
++            animationType="none"
++            transparent={true}
++            visible={show}
++            onRequestClose={() => {
++              if (showSelf && closeOnHardwareBackPress) {
++                this._springHide();
++              }
++            }}
++            {...modalProps}
++          >
++            {this._renderAlert()}
++          </Modal>
++        )
++        : this._renderAlert()
++      : null;
+   }
+ 
+   UNSAFE_componentWillReceiveProps(nextProps) {
+@@ -228,7 +238,8 @@ export default class AwesomeAlert extends Component {
+   }
+ 
+   componentWillUnmount() {
+-    HwBackHandler.removeEventListener(HW_BACK_EVENT, this._handleHwBackEvent);
++    this._backHandlerSubscription?.remove?.();
++    this._backHandlerSubscription = null;
+   }
+ }
+ 
+@@ -256,7 +267,7 @@ AwesomeAlert.propTypes = {
+   ]),
+   modalProps: PropTypes.object,
+   cancelButtonTestID: PropTypes.string,
+-  confirmButtonTestID: PropTypes.string
++  confirmButtonTestID: PropTypes.string,
+ };
+ 
+ AwesomeAlert.defaultProps = {
+@@ -275,5 +286,5 @@ AwesomeAlert.defaultProps = {
+   customView: null,
+   modalProps: {},
+   cancelButtonTestID: 'awesome-alert-cancel-btn',
+-  confirmButtonTestID: 'awesome-alert-confirm-btn'
++  confirmButtonTestID: 'awesome-alert-confirm-btn',
+ };
+\ No newline at end of file
