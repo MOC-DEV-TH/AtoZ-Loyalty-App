@@ -6,6 +6,7 @@
     "development": {
       "extends": "production",
       "distribution": "internal",
+      "developmentClient": true,
       "android": {
         "gradleCommand": ":app:assembleDebug"
       },
@@ -25,7 +26,7 @@
       }
     },
     "production": {
-      "node" : "16.1.0",
+      "node": "20.19.4",
       "ios": {
         "resourceClass": "m1-medium"
       }
